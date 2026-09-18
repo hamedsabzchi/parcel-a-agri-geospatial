@@ -47,7 +47,7 @@ class TestValidation(unittest.TestCase):
                 load_aoi(path)
 
     def test_nodata_only_sample(self) -> None:
-        status, _ = validate_values([None, -999, float("nan")], nodata=-999)
+        status, _ = validate_values([None, -999, float("nan"), float("inf"), "metadata"], nodata=-999)
         self.assertEqual(status, "NO_VALID_DATA")
 
     def test_timeout_is_recorded_without_stopping(self) -> None:

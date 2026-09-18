@@ -207,6 +207,9 @@ class BaseSourceAdapter(ABC):
         earliest, latest = self.get_temporal_extent()
         record = {
             **self.dataset,
+            "sample_kind": self.metadata.get("sample_kind", "NONE"),
+            "sample_verified": self.valid_data_status == "VALID_DATA" and self.metadata.get("sample_kind") in {"PIXEL_VALUES", "POINT_VALUES", "FEATURE_VALUES"},
+            "evidence_json": self.metadata,
             "access_status": self.access_status,
             "authentication_required": self.dataset.get("authentication_requirement", "UNKNOWN"),
             "AOI_coverage_status": self.coverage.status,

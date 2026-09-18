@@ -15,5 +15,5 @@ maximum_vector_features: 1000
 maximum_download_mb: 10
 user_agent: parcel-a-stage02/1.0
 log_level: INFO
-notebook_version: "1.0"
+notebook_version: "2.0"
 repository_url: https://github.com/hamedsabzchi/parcel-a-agri-geospatial

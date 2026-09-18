@@ -1,17 +1,10 @@
-# ============================================================================
-# STAGE 02 ADDITION: GAEZ v5 SOURCE VERIFICATION FOR THE MAIZE PROTOTYPE
-# Manifest: config/sources/gaez_v5_source_manifest.yml
-# Scope: current/historical maize prototype only; other crops and CMIP6 deferred.
-# ============================================================================
-
+"""Verify the 16 selected GAEZ v5 assets using native-grid AOI windows only."""
 from __future__ import annotations
 
+import copy
 import json
-import math
-import os
-import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import geopandas as gpd
 import numpy as np
@@ -19,418 +12,194 @@ import pandas as pd
 import rasterio
 import requests
 import yaml
-from rasterio.features import geometry_mask
+from rasterio.features import geometry_mask, geometry_window
 from rasterio.mask import mask as rio_mask
-from rasterio.warp import transform_geom
+from rasterio.errors import WindowError
 
 GAEZ_MANIFEST_PATH = Path("config/sources/gaez_v5_source_manifest.yml")
 GAEZ_OUTPUT_DIR = Path("outputs/stage02/gaez")
-GAEZ_CLIP_DIR = GAEZ_OUTPUT_DIR / "clips"
-GAEZ_REPORT_CSV = GAEZ_OUTPUT_DIR / "gaez_verification_report.csv"
-GAEZ_REPORT_JSON = GAEZ_OUTPUT_DIR / "gaez_verification_report.json"
-GAEZ_UPDATED_MANIFEST = GAEZ_OUTPUT_DIR / "gaez_v5_source_manifest_verified.yml"
-
-# Set to False if Stage 02 should verify sources without retaining AOI GeoTIFFs.
-GAEZ_SAVE_AOI_CLIPS = True
 GAEZ_ALL_TOUCHED = True
-GAEZ_HTTP_TIMEOUT = 120
+GAEZ_SAVE_AOI_CLIPS = True
+GAEZ_HTTP_TIMEOUT = 30
+MAX_WINDOW_BYTES = 10 * 1024 * 1024
+EXPECTED_ASSET_KEYS = frozenset(
+    ["GAEZ_V5_AEZ57", "GAEZ_V5_LR_IRR"]
+    + [f"GAEZ_V5_RES01_LGP__{x}" for x in ("HP0120", "HP8100")]
+    + [f"GAEZ_V5_{code}__{x}" for code in ("SQX", "SQ_IDX") for x in ("HIM", "LIM")]
+    + [f"GAEZ_V5_RES05_{code}__{x}" for code in ("SIX", "YXX")
+       for x in ("HRLM", "LRLM", "HILM", "LILM")]
+)
 
 
-def _load_yaml(path: Path) -> Dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+def _asset_records(manifest):
+    for source in manifest.get("sources", []):
+        base = {k: source.get(k) for k in ("dataset_id", "map_code", "title", "period", "metadata_url", "scale_factor")}
+        base.update(declared_resolution=source.get("resolution"),
+                    declared_nodata=source.get("nodata"), declared_unit=source.get("unit"))
+        if source.get("url"):
+            yield {**base, "asset_key": source["dataset_id"], "url": source["url"],
+                   "json_url": source.get("json_url"), "asset_ref": source}
+        for name in ("historical_assets", "primary_assets", "assets", "selected_assets"):
+            for i, asset in enumerate(source.get(name, [])):
+                suffix = next((asset[k] for k in ("input_code", "management", "code", "dimension") if asset.get(k)), str(i + 1))
+                yield {**base, **asset, "asset_key": f"{source['dataset_id']}__{suffix}",
+                       "url": asset.get("geotiff_url", asset.get("url")), "asset_ref": asset}
 
 
-def _write_yaml(data: Dict[str, Any], path: Path) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as f:
-        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)
+def gaez_complete(frame):
+    """Missing, duplicated or partially successful selections never pass."""
+    if "asset_key" not in frame or "verification_status" not in frame:
+        return False
+    return (len(frame) == 16 and not frame.asset_key.duplicated().any()
+            and set(frame.asset_key) == EXPECTED_ASSET_KEYS
+            and frame.verification_status.eq("VERIFIED_INSIDE_AOI").all())
 
 
-def _head_ok(url: str) -> Tuple[bool, Optional[int], str]:
-    """Check that an official object is reachable without downloading it."""
-    try:
-        r = requests.head(url, allow_redirects=True, timeout=GAEZ_HTTP_TIMEOUT)
-        if r.status_code == 405:
-            r = requests.get(
-                url,
-                headers={"Range": "bytes=0-0"},
-                stream=True,
-                timeout=GAEZ_HTTP_TIMEOUT,
-            )
-        size = r.headers.get("Content-Length")
-        return r.ok, int(size) if size and size.isdigit() else None, str(r.status_code)
-    except Exception as exc:
-        return False, None, f"ERROR: {exc}"
+def _remote_probe(url):
+    # Refuse servers that ignore Range; never fall back to a full global download.
+    with requests.get(url, headers={"Range": "bytes=0-0"}, stream=True,
+                      timeout=GAEZ_HTTP_TIMEOUT) as response:
+        response.raise_for_status()
+        if response.status_code != 206 or not response.headers.get("Content-Range", "").startswith("bytes 0-0/"):
+            raise ValueError("HTTP byte ranges unavailable; global download refused")
+        return {"http_status": 206, "range_supported": True,
+                "content_length_bytes": int(response.headers["Content-Range"].split("/")[-1])}
 
 
-def _fetch_json(url: Optional[str]) -> Optional[Dict[str, Any]]:
+def _sidecar(url):
     if not url:
         return None
+    with requests.get(url, stream=True, timeout=GAEZ_HTTP_TIMEOUT) as response:
+        response.raise_for_status()
+        chunks, size = [], 0
+        for chunk in response.iter_content(65536):
+            size += len(chunk)
+            if size > 2 * 1024 * 1024:
+                raise ValueError("GAEZ JSON exceeds metadata size limit")
+            chunks.append(chunk)
+        return json.loads(b"".join(chunks))
+
+
+def verify_gaez_asset(asset, aoi_wgs84, output_dir=None):
+    output_dir = Path(output_dir or GAEZ_OUTPUT_DIR)
+    result = {k: v for k, v in asset.items() if k != "asset_ref"}
+    result.update(verification_status="FAILED_ACCESS", valid_pixel_count=0,
+                  checked_at_utc=datetime.now(timezone.utc).isoformat(), all_touched=GAEZ_ALL_TOUCHED,
+                  sampling_note="Native cells touching the AOI; sample availability, not parcel-scale resolution or area coverage.")
     try:
-        r = requests.get(url, timeout=GAEZ_HTTP_TIMEOUT)
-        r.raise_for_status()
-        return r.json()
-    except Exception:
-        return None
-
-
-def _asset_records(manifest: Dict[str, Any]) -> Iterable[Dict[str, Any]]:
-    """Flatten every raster selected in manifest v2.5 without dropping any source."""
-    for source in manifest.get("sources", []):
-        base = {
-            "dataset_id": source["dataset_id"],
-            "map_code": source.get("map_code"),
-            "title": source.get("title"),
-            "declared_resolution": source.get("resolution"),
-            "declared_nodata": source.get("nodata"),
-            "declared_unit": source.get("unit"),
-        }
-
-        if source.get("url"):
-            yield {
-                **base,
-                "asset_key": source["dataset_id"],
-                "url": source["url"],
-                "json_url": source.get("json_url"),
-                "asset_ref": source,
-            }
-
-        for list_name in ("historical_assets", "primary_assets", "assets", "selected_assets"):
-            for i, asset in enumerate(source.get(list_name, []) or []):
-                url = asset.get("geotiff_url") or asset.get("url")
-                if not url:
-                    continue
-                suffix = (
-                    asset.get("input_code")
-                    or asset.get("management")
-                    or asset.get("code")
-                    or asset.get("dimension")
-                    or str(i + 1)
-                )
-                yield {
-                    **base,
-                    "asset_key": f"{source['dataset_id']}__{suffix}",
-                    "url": url,
-                    "json_url": asset.get("json_url"),
-                    "asset_ref": asset,
-                    "period": asset.get("period"),
-                    "crop": asset.get("crop"),
-                    "crop_code": asset.get("crop_code"),
-                    "water_supply": asset.get("water_supply"),
-                    "input_level": asset.get("input_level"),
-                    "input_code": asset.get("input_code"),
-                    "management": asset.get("management"),
-                    "dimension": asset.get("dimension"),
-                }
-
-
-def _safe_name(text: str) -> str:
-    return "".join(c if c.isalnum() or c in "._-" else "_" for c in text)
-
-
-def _open_remote_or_temp(url: str):
-    """
-    Prefer GDAL virtual HTTP access. If unsupported, download temporarily.
-    Returns (dataset, temporary_path_or_none).
-    """
-    vsi_url = "/vsicurl/" + url
-    try:
-        return rasterio.open(vsi_url), None
-    except Exception:
-        suffix = Path(url.split("?", 1)[0]).suffix or ".tif"
-        fd, temp_name = tempfile.mkstemp(prefix="gaez_", suffix=suffix)
-        os.close(fd)
-        with requests.get(url, stream=True, timeout=GAEZ_HTTP_TIMEOUT) as r:
-            r.raise_for_status()
-            with open(temp_name, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1024 * 1024):
-                    if chunk:
-                        f.write(chunk)
-        return rasterio.open(temp_name), Path(temp_name)
-
-
-def _resolve_nodata(source_nodata: Any, raster_nodata: Any) -> Any:
-    if source_nodata == "READ_FROM_RASTER_METADATA":
-        return raster_nodata
-    return raster_nodata if raster_nodata is not None else source_nodata
-
-
-def _valid_values(data: np.ndarray, nodata: Any) -> np.ndarray:
-    values = data.astype("float64", copy=False).ravel()
-    values = values[np.isfinite(values)]
-    if nodata is not None:
-        try:
-            if not math.isnan(float(nodata)):
-                values = values[values != float(nodata)]
-        except (TypeError, ValueError):
-            pass
-    return values
-
-
-def _categorical_summary(values: np.ndarray) -> Dict[str, Any]:
-    if values.size == 0:
-        return {"observed_classes": {}, "dominant_class": None}
-    unique, counts = np.unique(values.astype("int64"), return_counts=True)
-    classes = {str(int(k)): int(v) for k, v in zip(unique, counts)}
-    dominant = int(unique[np.argmax(counts)])
-    return {"observed_classes": classes, "dominant_class": dominant}
-
-
-def _continuous_summary(values: np.ndarray) -> Dict[str, Any]:
-    if values.size == 0:
-        return {
-            "min": None,
-            "max": None,
-            "mean": None,
-            "median": None,
-            "std": None,
-        }
-    return {
-        "min": float(np.min(values)),
-        "max": float(np.max(values)),
-        "mean": float(np.mean(values)),
-        "median": float(np.median(values)),
-        "std": float(np.std(values)),
-    }
-
-
-def _save_clip(
-    data: np.ndarray,
-    transform,
-    src,
-    destination: Path,
-    nodata: Any,
-) -> None:
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    profile = src.profile.copy()
-    profile.update(
-        driver="GTiff",
-        height=data.shape[1],
-        width=data.shape[2],
-        transform=transform,
-        count=data.shape[0],
-        compress="LZW",
-        tiled=True,
-        nodata=nodata,
-    )
-    with rasterio.open(destination, "w", **profile) as dst:
-        dst.write(data)
-
-
-def verify_gaez_asset(asset: Dict[str, Any], aoi_wgs84: gpd.GeoDataFrame) -> Dict[str, Any]:
-    url = asset["url"]
-    http_ok, content_length, http_status = _head_ok(url)
-    result: Dict[str, Any] = {
-        k: v for k, v in asset.items() if k not in {"asset_ref"}
-    }
-    result.update(
-        http_ok=http_ok,
-        http_status=http_status,
-        content_length_bytes=content_length,
-        json_metadata_available=_fetch_json(asset.get("json_url")) is not None,
-        verification_status="FAILED_ACCESS" if not http_ok else "OPEN_PENDING",
-    )
-    if not http_ok:
-        return result
-
-    src = None
-    temp_path: Optional[Path] = None
-    try:
-        src, temp_path = _open_remote_or_temp(url)
-        with src:
-            if src.crs is None:
-                raise ValueError("Raster CRS is missing")
-
-            aoi = aoi_wgs84.to_crs(src.crs)
-            geoms = [g.__geo_interface__ for g in aoi.geometry if g is not None and not g.is_empty]
-            if not geoms:
-                raise ValueError("AOI has no valid geometry")
-
-            try:
-                clipped, clip_transform = rio_mask(src, geoms, crop=True, filled=True, all_touched=GAEZ_ALL_TOUCHED)
-                overlaps = True
-            except ValueError as exc:
-                if "do not overlap" in str(exc).lower():
-                    result.update(
-                        raster_crs=str(src.crs),
-                        raster_width=src.width,
-                        raster_height=src.height,
-                        raster_bounds=list(src.bounds),
-                        raster_resolution=[abs(src.transform.a), abs(src.transform.e)],
-                        raster_dtype=src.dtypes[0],
-                        raster_nodata=src.nodata,
-                        aoi_overlap=False,
-                        valid_pixel_count=0,
-                        verification_status="FAILED_NO_AOI_OVERLAP",
-                    )
-                    return result
-                raise
-
-            effective_nodata = _resolve_nodata(asset.get("declared_nodata"), src.nodata)
-            values = _valid_values(clipped[0], effective_nodata)
-            total_pixels = int(clipped[0].size)
-            valid_pixels = int(values.size)
-            coverage_pct = (100.0 * valid_pixels / total_pixels) if total_pixels else 0.0
-
-            result.update(
-                raster_crs=str(src.crs),
-                raster_width=int(src.width),
-                raster_height=int(src.height),
-                raster_bounds=[float(x) for x in src.bounds],
-                raster_resolution=[abs(float(src.transform.a)), abs(float(src.transform.e))],
-                raster_dtype=src.dtypes[0],
-                raster_nodata=src.nodata,
-                effective_nodata=effective_nodata,
-                aoi_overlap=overlaps,
-                clipped_pixel_count=total_pixels,
-                valid_pixel_count=valid_pixels,
-                valid_coverage_percent=float(coverage_pct),
-            )
-
-            is_categorical = str(asset.get("declared_unit", "")).lower() in {"class", "classes"}
-            if is_categorical:
-                result.update(_categorical_summary(values))
-            else:
-                result.update(_continuous_summary(values))
-
-            # Dataset-specific sanity checks from manifest v2.5.
-            code = asset.get("map_code")
-            if code == "RES05-SIX" and values.size:
-                result["value_rule_passed"] = bool(np.isin(values.astype(int), np.arange(1, 10)).all())
-            elif code == "RES05-YXX" and values.size:
-                result["value_rule_passed"] = bool((values >= 0).all())
-            elif code == "LR-IRR" and values.size:
-                result["value_rule_passed"] = bool(((values >= 0) & (values <= 100)).all())
-            else:
-                result["value_rule_passed"] = True
-
-            if valid_pixels == 0:
-                result["verification_status"] = "FAILED_NO_VALID_AOI_PIXELS"
-            elif not result["value_rule_passed"]:
-                result["verification_status"] = "FAILED_VALUE_RULE"
-            else:
-                result["verification_status"] = "VERIFIED_INSIDE_AOI"
-
-            if GAEZ_SAVE_AOI_CLIPS and valid_pixels > 0:
-                clip_path = GAEZ_CLIP_DIR / f"{_safe_name(asset['asset_key'])}.tif"
-                _save_clip(clipped, clip_transform, src, clip_path, effective_nodata)
-                result["local_clip"] = str(clip_path)
-
-    except Exception as exc:
+        url = str(asset["url"])
+        remote = url.startswith("https://")
+        if remote:
+            result.update(_remote_probe(url))
         result["verification_status"] = "FAILED_PROCESSING"
-        result["error"] = str(exc)
-    finally:
-        if temp_path and temp_path.exists():
-            temp_path.unlink()
-
+        with rasterio.Env(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR", GDAL_HTTP_TIMEOUT=30,
+                          GDAL_HTTP_MAX_RETRY=1, CPL_VSIL_CURL_ALLOWED_EXTENSIONS=".tif,.tiff", VSI_CACHE=False):
+            with rasterio.open("/vsicurl/" + url if remote else url) as src:
+                if src.crs is None or src.count != 1:
+                    raise ValueError("Expected a georeferenced, single-band GAEZ raster")
+                geoms = [g.__geo_interface__ for g in aoi_wgs84.to_crs(src.crs).geometry]
+                result.update(raster_crs=str(src.crs), raster_width=src.width, raster_height=src.height,
+                              raster_bounds=list(src.bounds), raster_resolution=list(src.res),
+                              raster_dtype=src.dtypes[0], raster_nodata=src.nodata)
+                try:
+                    window = geometry_window(src, geoms)
+                except WindowError:
+                    result.update(verification_status="FAILED_NO_AOI_OVERLAP", aoi_overlap=False)
+                    return result
+                itemsize = np.dtype(src.dtypes[0]).itemsize
+                # Account for the native blocks needed by this window, not just the cropped array.
+                bh, bw = src.block_shapes[0]
+                blocks = ((int((window.row_off + window.height - 1) // bh) - int(window.row_off // bh) + 1)
+                          * (int((window.col_off + window.width - 1) // bw) - int(window.col_off // bw) + 1))
+                if max(window.width * window.height, blocks * bh * bw) * itemsize > MAX_WINDOW_BYTES:
+                    raise ValueError("Native AOI read exceeds the 10 MB raster sample limit")
+                clipped, transform = rio_mask(src, geoms, crop=True, filled=False,
+                                             all_touched=GAEZ_ALL_TOUCHED, indexes=1)
+                touched = geometry_mask(geoms, clipped.shape, transform,
+                                        all_touched=GAEZ_ALL_TOUCHED, invert=True)
+                valid = touched & ~np.ma.getmaskarray(clipped) & np.isfinite(clipped.data)
+                # Both documented and intrinsic NoData are excluded. Zero remains valid for yield/irrigation.
+                for nd in (src.nodata, asset.get("declared_nodata")):
+                    if isinstance(nd, (int, float)) and np.isfinite(nd):
+                        valid &= clipped.data != nd
+                values = clipped.data[valid].astype(float)
+                selected = int(touched.sum())
+                result.update(aoi_overlap=True, clipped_pixel_count=int(clipped.size),
+                              intersecting_pixel_count=selected, valid_pixel_count=int(values.size),
+                              valid_selected_pixel_percent=100 * values.size / selected if selected else 0.0,
+                              coverage_metric="Fraction of intersecting native cells with valid values; not AOI area percent")
+                code = asset.get("map_code")
+                categorical = str(asset.get("declared_unit", "")).lower() in {"class", "classes"}
+                rule = bool(values.size)
+                if categorical:
+                    rule &= bool(np.equal(values, np.floor(values)).all())
+                if code == "RES05-SIX":
+                    rule &= bool(np.isin(values, np.arange(1, 10)).all())
+                elif code == "RES05-YXX":
+                    rule &= bool((values >= 0).all())
+                elif code == "LR-IRR":
+                    rule &= bool(((values >= 0) & (values <= 100)).all())
+                result["value_rule_passed"] = rule
+                if values.size:
+                    if categorical and rule:
+                        keys, counts = np.unique(values.astype(int), return_counts=True)
+                        result.update(observed_classes={str(k): int(c) for k, c in zip(keys, counts)},
+                                      dominant_class=int(keys[counts.argmax()]))
+                    else:
+                        result.update(min=float(values.min()), max=float(values.max()),
+                                      mean=float(values.mean()), median=float(np.median(values)), std=float(values.std()))
+                result["verification_status"] = ("FAILED_NO_VALID_AOI_PIXELS" if not values.size
+                    else "VERIFIED_INSIDE_AOI" if rule else "FAILED_VALUE_RULE")
+                if GAEZ_SAVE_AOI_CLIPS and rule:
+                    path = output_dir / "clips" / f"{asset['asset_key']}.tif"
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    # An explicit internal mask preserves valid zero and excludes pixels outside the AOI.
+                    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=True):
+                        with rasterio.open(path, "w", driver="GTiff", height=clipped.shape[0],
+                                           width=clipped.shape[1], count=1, dtype=src.dtypes[0],
+                                           crs=src.crs, transform=transform, compress="LZW") as dst:
+                            dst.write(clipped.data, 1)
+                            dst.write_mask(valid.astype("uint8") * 255)
+                    result["local_clip"] = "clips/" + path.name
+        try:
+            metadata = _sidecar(asset.get("json_url")) if remote else None
+            result["json_metadata_available"] = metadata is not None
+            if metadata is not None:
+                path = output_dir / "metadata" / f"{asset['asset_key']}.json"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+        except Exception as error:
+            result.update(json_metadata_available=False, json_metadata_error=str(error))
+    except Exception as error:
+        if result["verification_status"] == "VERIFIED_INSIDE_AOI":
+            result["verification_status"] = "FAILED_PROCESSING"
+        result["error"] = f"{type(error).__name__}: {error}"
     return result
 
 
-def _apply_results_to_manifest(
-    manifest: Dict[str, Any],
-    asset_rows: List[Dict[str, Any]],
-    results: List[Dict[str, Any]],
-) -> Dict[str, Any]:
-    result_by_key = {r["asset_key"]: r for r in results}
-    for asset in asset_rows:
-        r = result_by_key[asset["asset_key"]]
-        ref = asset["asset_ref"]
-        ref["status"] = r["verification_status"]
-        ref["verification_evidence"] = {
-            "http_status": r.get("http_status"),
-            "raster_crs": r.get("raster_crs"),
-            "raster_resolution": r.get("raster_resolution"),
-            "raster_dtype": r.get("raster_dtype"),
-            "raster_nodata": r.get("raster_nodata"),
-            "aoi_overlap": r.get("aoi_overlap"),
-            "valid_pixel_count": r.get("valid_pixel_count"),
-            "valid_coverage_percent": r.get("valid_coverage_percent"),
-            "observed_classes": r.get("observed_classes"),
-            "min": r.get("min"),
-            "max": r.get("max"),
-            "mean": r.get("mean"),
-            "median": r.get("median"),
-            "std": r.get("std"),
-            "local_clip": r.get("local_clip"),
-        }
-
-    statuses = [r["verification_status"] for r in results]
-    manifest["stage_02_gaez_verification"] = {
-        "prototype_crop": "Maize",
-        "prototype_crop_code": "MZE",
-        "historical_period": "2001-2020",
-        "period_code": "HP0120",
-        "other_crops": "DEFERRED_UNTIL_PROTOTYPE_APPROVAL",
-        "future_cmip6": "DEFERRED_UNTIL_CURRENT_PROTOTYPE_APPROVAL",
-        "assets_checked": len(results),
-        "assets_verified": int(sum(s == "VERIFIED_INSIDE_AOI" for s in statuses)),
-        "assets_failed": int(sum(s != "VERIFIED_INSIDE_AOI" for s in statuses)),
-        "overall_status": (
-            "VERIFIED_INSIDE_AOI"
-            if statuses and all(s == "VERIFIED_INSIDE_AOI" for s in statuses)
-            else "REVIEW_REQUIRED"
-        ),
-    }
-    return manifest
-
-
-def run_gaez_stage02_verification(
-    aoi: gpd.GeoDataFrame,
-    manifest_path: Path = GAEZ_MANIFEST_PATH,
-) -> pd.DataFrame:
-    """
-    Main Stage 02 entry point.
-
-    Parameters
-    ----------
-    aoi:
-        Parcel A GeoDataFrame. Any CRS is accepted, but CRS must be defined.
-    manifest_path:
-        Consolidated GAEZ v5 manifest v2.5 placed in config/sources.
-    """
-    if aoi.crs is None:
-        raise ValueError("Parcel A AOI CRS is undefined")
-    if aoi.empty:
-        raise ValueError("Parcel A AOI is empty")
-
-    GAEZ_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    GAEZ_CLIP_DIR.mkdir(parents=True, exist_ok=True)
-
-    manifest = _load_yaml(manifest_path)
-    if str(manifest.get("manifest_version")) != "2.5":
-        raise ValueError(
-            f"Expected GAEZ manifest version 2.5, found {manifest.get('manifest_version')}"
-        )
-
-    aoi_wgs84 = aoi.to_crs("EPSG:4326")
-    asset_rows = list(_asset_records(manifest))
-    results = [verify_gaez_asset(asset, aoi_wgs84) for asset in asset_rows]
-
-    report = pd.DataFrame([{k: v for k, v in r.items() if k != "asset_ref"} for r in results])
-    report.to_csv(GAEZ_REPORT_CSV, index=False)
-    with GAEZ_REPORT_JSON.open("w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2, default=str)
-
-    updated_manifest = _apply_results_to_manifest(manifest, asset_rows, results)
-    _write_yaml(updated_manifest, GAEZ_UPDATED_MANIFEST)
-
-    print("\nGAEZ Stage 02 verification summary")
-    print(report[["dataset_id", "asset_key", "verification_status", "valid_pixel_count"]].to_string(index=False))
-    print(f"\nCSV report: {GAEZ_REPORT_CSV}")
-    print(f"JSON report: {GAEZ_REPORT_JSON}")
-    print(f"Evidence-updated manifest: {GAEZ_UPDATED_MANIFEST}")
-    return report
-
-
-# ---------------------------------------------------------------------------
-# INTEGRATION IN THE EXISTING STAGE 02 NOTEBOOK/SCRIPT
-# ---------------------------------------------------------------------------
-# After Parcel A has been loaded as a GeoDataFrame named `parcel_a_gdf`, run:
-#
-# gaez_verification_df = run_gaez_stage02_verification(parcel_a_gdf)
-#
-# Do not run Stage 03 GAEZ analysis unless every required source has either:
-#   1) verification_status == VERIFIED_INSIDE_AOI, or
-#   2) a documented, explicitly accepted exception.
-# ---------------------------------------------------------------------------
+def run_gaez_stage02_verification(aoi: gpd.GeoDataFrame, manifest_path=GAEZ_MANIFEST_PATH, output_dir=None):
+    if aoi.empty or aoi.crs is None or aoi.geometry.is_empty.any() or not aoi.geometry.is_valid.all():
+        raise ValueError("A valid AOI with a defined CRS is required")
+    manifest = yaml.safe_load(Path(manifest_path).read_text(encoding="utf-8"))
+    assets = list(_asset_records(manifest))
+    keys = [a["asset_key"] for a in assets]
+    if str(manifest.get("manifest_version")) != "2.5" or len(keys) != 16 or set(keys) != EXPECTED_ASSET_KEYS:
+        raise ValueError("Manifest v2.5 must contain exactly the 16 selected, unique GAEZ assets")
+    out = Path(output_dir or GAEZ_OUTPUT_DIR)
+    out.mkdir(parents=True, exist_ok=True)
+    rows = [verify_gaez_asset(a, aoi.to_crs(4326), out) for a in assets]
+    frame = pd.DataFrame(rows)
+    frame.to_csv(out / "gaez_verification_report.csv", index=False)
+    (out / "gaez_verification_report.json").write_text(frame.to_json(orient="records", indent=2), encoding="utf-8")
+    verified = copy.deepcopy(manifest)
+    for asset, result in zip(_asset_records(verified), rows):
+        asset["asset_ref"].update(status=result["verification_status"], verification_evidence={
+            k: v for k, v in result.items() if k not in asset})
+    verified["stage_02_gaez_verification"] = {
+        "assets_expected": 16, "assets_checked": len(frame),
+        "assets_verified": int(frame.verification_status.eq("VERIFIED_INSIDE_AOI").sum()),
+        "overall_status": "VERIFIED_INSIDE_AOI" if gaez_complete(frame) else "REVIEW_REQUIRED",
+        "all_touched": True, "future_cmip6": "DEFERRED_UNTIL_CURRENT_PROTOTYPE_APPROVAL",
+        "other_crops": "DEFERRED_UNTIL_PROTOTYPE_APPROVAL"}
+    (out / "gaez_v5_source_manifest_verified.yml").write_text(yaml.safe_dump(verified, sort_keys=False), encoding="utf-8")
+    return frame

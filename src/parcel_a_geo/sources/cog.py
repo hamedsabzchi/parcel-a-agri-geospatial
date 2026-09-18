@@ -48,6 +48,7 @@ class CogSourceAdapter(BaseSourceAdapter):
             return values.tolist()
 
     def validate_sample(self, sample: Any) -> tuple[str, str]:
+        self.metadata.update(sample_kind="PIXEL_VALUES", sample_values=sample)
         nodata = getattr(self, "_raster_metadata", {}).get("nodata")
         status, note = validate_values(sample or [], nodata=nodata)
         return status, f"COG centroid sample: {note}"

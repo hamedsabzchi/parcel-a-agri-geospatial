@@ -57,7 +57,8 @@ class WmsSourceAdapter(BaseSourceAdapter):
             return "NO_VALID_DATA", "WMS image is fully transparent"
         if len(set(valid)) == 1:
             return "UNKNOWN", "WMS image contains one repeated value; NoData cannot be excluded"
-        return "VALID_DATA", "WMS returned a non-empty AOI image with varying pixel values"
+        self.metadata["sample_kind"] = "RENDERED_MAP"
+        return "UNKNOWN", "WMS map available; rendered colours do not verify numeric source pixels"
 
     def get_access_information(self) -> str:
         return "AUTOMATED_OPEN"

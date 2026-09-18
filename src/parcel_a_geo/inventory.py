@@ -45,6 +45,9 @@ INVENTORY_FIELDS = [
     "failure_reason",
     "notes",
     "citation",
+    "sample_kind",
+    "sample_verified",
+    "evidence_json",
 ]
 
 
@@ -79,6 +82,8 @@ def assign_processing_priority(record: dict[str, Any]) -> str:
         return "NEEDS_MANUAL_REVIEW"
     if valid in {"VERIFICATION_FAILED", "NO_VALID_DATA", "INVALID_RANGE", "UNKNOWN"}:
         return "NEEDS_MANUAL_REVIEW"
+    if record.get("sample_verified") is False:
+        return "NEEDS_MANUAL_REVIEW"
     if valid in {"VALID_DATA", "VALID_RECORDS"} and coverage in {"FULL_COVERAGE", "PARTIAL_COVERAGE"}:
         if relevance == "CORE":
             return "USE_NEXT"
@@ -112,7 +117,7 @@ class Inventory:
             }
         return {
             "registered": int(len(frame)),
-            "verified": int(frame["valid_data_status"].isin(["VALID_DATA", "VALID_RECORDS"]).sum()),
+            "verified": int(frame["sample_verified"].eq(True).sum()),
             "full_coverage": int((frame["AOI_coverage_status"] == "FULL_COVERAGE").sum()),
             "partial_coverage": int((frame["AOI_coverage_status"] == "PARTIAL_COVERAGE").sum()),
             "no_coverage": int((frame["AOI_coverage_status"] == "NO_COVERAGE").sum()),

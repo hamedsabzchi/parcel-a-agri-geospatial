@@ -1,4 +1,4 @@
-"""Optional Earth Engine metadata and point-sample adapter."""
+"""Earth Engine metadata and bounded native-scale sample adapter."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ import os
 from typing import Any
 
 from .base import BaseSourceAdapter
+from ..validation import validate_values
 
 
 class EarthEngineSourceAdapter(BaseSourceAdapter):
@@ -21,6 +22,7 @@ class EarthEngineSourceAdapter(BaseSourceAdapter):
         if not project:
             raise PermissionError(f"Earth Engine project is missing from environment variable {variable}")
         ee.Initialize(project=project)
+        ee.data.setDeadline(60000)
         return ee
 
     def get_metadata(self) -> dict[str, Any]:
@@ -31,7 +33,8 @@ class EarthEngineSourceAdapter(BaseSourceAdapter):
         return {"catalogue_verified": True}
 
     def get_minimal_sample(self, aoi: Any) -> dict[str, Any]:
-        point = self.ee.Geometry.Point(list(aoi.centroid))
+        location = aoi.geometry.representative_point()
+        point = self.ee.Geometry.Point([location.x, location.y])
         aoi_geometry = self.ee.Geometry(aoi.geometry.__geo_interface__)
         kind = str(self.dataset.get("collection_kind", "IMAGE_COLLECTION"))
         if kind == "IMAGE":
@@ -74,6 +77,9 @@ class EarthEngineSourceAdapter(BaseSourceAdapter):
             maxPixels=100000,
         ).getInfo()
         return {
+            "image_id": image.id().getInfo(),
+            "point": [location.x, location.y],
+            "properties": image.toDictionary(["model", "scenario", "system:time_start"]).getInfo(),
             "count": count,
             "values": values,
             "bands": bands,
@@ -97,9 +103,11 @@ class EarthEngineSourceAdapter(BaseSourceAdapter):
         if not sample or sample.get("count", 0) == 0:
             return "NO_VALID_DATA", "Earth Engine returned no AOI-intersecting image"
         values = sample.get("values", {})
-        if not values or all(value is None for value in values.values()):
-            return "NO_VALID_DATA", "Earth Engine centroid sample is entirely NoData"
-        return "VALID_DATA", f"Earth Engine returned {sample['count']} image record(s) and a valid point sample"
+        status, note = validate_values(values.values())
+        self.metadata.update(sample_kind="PIXEL_VALUES", sample=sample)
+        if status != "VALID_DATA":
+            return "NO_VALID_DATA", "Earth Engine point sample is entirely NoData"
+        return "VALID_DATA", f"Earth Engine returned {sample['count']} image record(s); {note}. Verification covers this sample only."
 
     def get_temporal_extent(self) -> tuple[str, str]:
         return getattr(self, "_sample_dates", ("UNKNOWN", "UNKNOWN"))

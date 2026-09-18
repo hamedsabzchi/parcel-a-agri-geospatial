@@ -7,8 +7,11 @@ architecture:
   source_verification: Stage 02 All-in-One
   analysis: Stage 03
   store_global_rasters_in_github: false
-  access_rule: Use official remote assets; read AOI window where supported, otherwise
-    download temporarily, clip, then delete global temporary file.
+  access_rule: Use official remote assets through HTTP byte ranges. Read only bounded
+    native-grid AOI windows; never download whole global rasters.
+  all_touched: true
+  maximum_raster_sample_mb: 10
+  expected_selected_asset_count: 16
 sources:
 - dataset_id: GAEZ_V5_AEZ57
   map_code: AEZ57
@@ -289,8 +292,8 @@ selection_sequence:
   completed:
   - 'Maize HP0120 suitability: HRLM, LRLM, HILM and LILM'
   - 'Maize HP0120 attainable yield: HRLM, LRLM, HILM and LILM'
-  current_focus: Define the next priority crop and repeat suitability plus attainable-yield
-    source selection
+  current_focus: Verify all 16 selected current maize and baseline assets inside Parcel A
+    before selecting further crops
   next_decision_required:
   - Select the second priority crop
   - Retain HP0120 and all four water-input combinations unless the project scope is

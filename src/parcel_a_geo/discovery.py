@@ -24,6 +24,7 @@ class DiscoveryRunner:
         project_config_path: str | Path = "config/project.yml",
         registry_path: str | Path = "config/datasets.yml",
         progress: Callable[[str], None] | None = None,
+        run_directory: str | Path | None = None,
     ) -> None:
         self.project_root = Path(project_root).resolve()
         self.config_path = project_path(self.project_root, project_config_path)
@@ -35,8 +36,8 @@ class DiscoveryRunner:
             project_path(self.project_root, self.config["aoi_path"]),
             str(self.config["aoi_identifier"]),
         )
-        self.output_dir = project_path(self.project_root, self.config["output_directory"])
-        self.cache_dir = project_path(self.project_root, self.config["cache_directory"])
+        self.output_dir = Path(run_directory).resolve() if run_directory else project_path(self.project_root, self.config["output_directory"])
+        self.cache_dir = self.output_dir / "cache" if run_directory else project_path(self.project_root, self.config["cache_directory"])
         self.log_dir = self.output_dir / "logs"
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self.logger = self._logger(self.log_dir / "discovery_log.txt")

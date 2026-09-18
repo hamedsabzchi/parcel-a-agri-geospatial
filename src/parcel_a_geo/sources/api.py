@@ -53,18 +53,21 @@ class ApiSourceAdapter(BaseSourceAdapter):
         if dataset_id == "CLIMATE_NASA_POWER":
             parameters = sample.get("properties", {}).get("parameter", {}) if isinstance(sample, dict) else {}
             values = [value for series in parameters.values() for value in series.values()]
+            self.metadata.update(sample_kind="POINT_VALUES", sample=sample)
             self.metadata["record_count"] = len(values)
             return validate_values(values, nodata=-999)
         if dataset_id == "ACCESS_OSM":
             elements = sample.get("elements", []) if isinstance(sample, dict) else []
             if elements:
                 self.metadata["record_count"] = elements[0].get("tags", {}).get("total", "UNKNOWN")
-            return ("VALID_RECORDS", "Overpass returned a bounded count response") if elements else (
+            self.metadata["sample_kind"] = "BBOX_COUNTS"
+            return ("UNKNOWN", "BBox count is metadata; individual AOI features remain untested") if elements else (
                 "NO_VALID_DATA",
                 "Overpass returned no count response",
             )
         if sample:
-            return "VALID_RECORDS", "API returned a non-empty documented response"
+            self.metadata.update(sample_kind="CATALOGUE_RECORDS", response=sample)
+            return "UNKNOWN", "API metadata available; no AOI data sample has been verified"
         return "NO_VALID_DATA", "API returned an empty response"
 
     def get_access_information(self) -> str:

@@ -32,3 +32,9 @@ outputs/cache/**
 # OS files
 .DS_Store
 Thumbs.db
+
+# Isolated Stage 02 runtime and generated results
+.stage02/
+outputs/stage02_runs/
+outputs/stage02_setup.log
+data/local/**

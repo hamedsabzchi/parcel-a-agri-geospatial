@@ -65,7 +65,8 @@ class StacSourceAdapter(BaseSourceAdapter):
             return "NO_VALID_DATA", "STAC search returned no AOI-intersecting item"
         assets = features[0].get("assets", {})
         self.metadata["bands"] = self.metadata.get("bands") or list(assets)
-        return "VALID_RECORDS", "STAC returned an AOI-intersecting item record"
+        self.metadata.update(sample_kind="CATALOGUE_RECORDS", item_id=features[0].get("id"), assets=assets)
+        return "VALID_RECORDS", "STAC item found; raster pixel access remains untested"
 
     def get_access_information(self) -> str:
         return "AUTOMATED_OPEN"

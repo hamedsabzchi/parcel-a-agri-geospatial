@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -75,9 +76,8 @@ def validate_values(
         try:
             numeric = float(value)
         except (TypeError, ValueError):
-            cleaned.append(value)
             continue
-        if numeric != numeric:
+        if not math.isfinite(numeric):
             continue
         cleaned.append(numeric)
     if not cleaned:

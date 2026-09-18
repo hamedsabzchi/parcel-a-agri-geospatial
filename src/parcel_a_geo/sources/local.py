@@ -76,6 +76,7 @@ class LocalProjectSourceAdapter(BaseSourceAdapter):
             return list(dataset.sample([(x, y)], masked=True))[0].tolist()
 
     def validate_sample(self, sample: Any) -> tuple[str, str]:
+        self.metadata["sample_kind"] = "FEATURE_VALUES" if hasattr(sample, "empty") else "PIXEL_VALUES"
         if hasattr(sample, "empty"):
             return ("VALID_DATA", "Local vector intersects AOI") if not sample.empty else (
                 "NO_VALID_DATA",
