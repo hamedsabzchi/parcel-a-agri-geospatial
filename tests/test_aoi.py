@@ -55,15 +55,18 @@ class TestReportAOI(unittest.TestCase):
         notebook = json.loads(
             (ROOT / "notebooks/01_define_and_display_aoi.ipynb").read_text()
         )
-        self.assertEqual(len(notebook["cells"]), 4)
+        self.assertEqual(len(notebook["cells"]), 2)
         code = "".join(
             "".join(cell.get("source", []))
             for cell in notebook["cells"]
             if cell["cell_type"] == "code"
         )
-        self.assertIn("SUCCESS: Stage 01 finished", code)
+        self.assertIn("AOI area", code)
+        self.assertIn("X (m)", code)
+        self.assertIn("Satellite", code)
         self.assertNotIn("earth_engine_asset", code)
         self.assertNotIn("SOURCE_MODE", code)
+        self.assertNotIn("formal boundary confirmation", code)
 
 
 if __name__ == "__main__":
