@@ -38,8 +38,10 @@ Stage 02 uses `data/aoi/parcel_a.geojson` to verify FAO and non-FAO dataset cove
 
 [![Open Stage 02 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/02_data_discovery.ipynb)
 
-1. Select **Runtime > Run all**. No GitHub token is required.
-2. Optionally add `EARTH_ENGINE_PROJECT` and enable Earth Engine in the labelled notebook cell.
+1. Select **Runtime > Run all**. The notebook contains one runnable cell.
+2. On the first run, approve the Google Earth Engine authorization request.
+
+The notebook automatically initializes the existing Earth Engine project used by the owner's other geospatial notebooks. No GitHub token or Colab secret is required.
 
 Outputs:
 

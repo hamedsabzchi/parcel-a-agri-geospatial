@@ -53,12 +53,13 @@ def code(source: str, form: bool = True) -> dict:
 
 
 def build_notebook() -> dict:
-    setup = r'''
-#@title Setup
+    workflow = r'''
+#@title Run Stage 02
 from pathlib import Path
 import base64
 import json
 import os
+import shutil
 import subprocess
 import sys
 import zlib
@@ -87,28 +88,47 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 for module_name in list(sys.modules):
     if module_name == "parcel_a_geo" or module_name.startswith("parcel_a_geo."):
         del sys.modules[module_name]
-print("Setup complete")
-'''.replace("__PROJECT_BUNDLE_LITERAL__", bundle_literal(project_bundle()))
 
-    return {
-        "cells": [
-            markdown("# Stage 02 - Agricultural Data Discovery for Parcel A"),
-            markdown("## 1 Setup"),
-            code(setup),
-            markdown("## 2 Load Parcel A"),
-            code(
-                r'''
-#@title Load Parcel A
+import ee
 import folium
-from IPython.display import display
-from parcel_a_geo.config import load_project_config, project_path
+from IPython.display import HTML, clear_output, display
+from parcel_a_geo.config import load_dataset_registry, load_project_config, project_path
+from parcel_a_geo.discovery import DiscoveryRunner
 from parcel_a_geo.validation import load_aoi
+
+EARTH_ENGINE_PROJECT = os.getenv("EARTH_ENGINE_PROJECT", "practical-proxy-441422-n6")
+os.environ["EARTH_ENGINE_PROJECT"] = EARTH_ENGINE_PROJECT
+try:
+    ee.Initialize(project=EARTH_ENGINE_PROJECT)
+except Exception:
+    ee.Authenticate(auth_mode="notebook", force=True)
+    ee.Initialize(project=EARTH_ENGINE_PROJECT)
+
+if ee.String("Parcel A Stage 02").getInfo() != "Parcel A Stage 02":
+    raise RuntimeError("Earth Engine server connection could not be verified")
 
 project_config = load_project_config(PROJECT_ROOT / "config/project.yml")
 aoi = load_aoi(
     project_path(PROJECT_ROOT, project_config["aoi_path"]),
     project_config["aoi_identifier"],
 )
+registry = load_dataset_registry(PROJECT_ROOT / "config/datasets.yml")
+
+runner = DiscoveryRunner(PROJECT_ROOT, progress=lambda _: None)
+runner.config["earth_engine_enabled"] = True
+runner.run_all()
+inventory_table = runner.inventory.frame()
+output_paths = runner.write_outputs()
+archive_path = Path(
+    shutil.make_archive(
+        str(PROJECT_ROOT / "outputs/stage02_results"),
+        "zip",
+        root_dir=runner.output_dir,
+    )
+)
+
+clear_output(wait=True)
+
 aoi_map = folium.Map(location=[aoi.centroid[1], aoi.centroid[0]], zoom_start=11)
 folium.GeoJson(
     aoi.wgs84.__geo_interface__,
@@ -118,91 +138,6 @@ folium.GeoJson(
 minx, miny, maxx, maxy = aoi.bounds
 aoi_map.fit_bounds([[miny, minx], [maxy, maxx]])
 display(aoi_map)
-'''
-            ),
-            markdown("## 3 Load dataset registry"),
-            code(
-                r'''
-#@title Load dataset registry
-import pandas as pd
-from parcel_a_geo.config import load_dataset_registry
-
-registry = load_dataset_registry(PROJECT_ROOT / "config/datasets.yml")
-source_groups = len({item["source_group"] for item in registry})
-print(f"Data catalogue ready: {len(registry)} sources in {source_groups} agricultural themes")
-'''
-            ),
-            markdown("## 4 Optional Earth Engine connection"),
-            code(
-                r'''
-#@title Optional Earth Engine connection
-ENABLE_EARTH_ENGINE = False #@param {type:"boolean"}
-
-if ENABLE_EARTH_ENGINE:
-    try:
-        import ee
-        project = os.getenv("EARTH_ENGINE_PROJECT", "")
-        try:
-            from google.colab import userdata
-            project = project or userdata.get("EARTH_ENGINE_PROJECT")
-        except Exception:
-            pass
-        if not project:
-            raise RuntimeError("EARTH_ENGINE_PROJECT is not configured")
-        os.environ["EARTH_ENGINE_PROJECT"] = project
-        try:
-            ee.Initialize(project=project)
-        except Exception:
-            ee.Authenticate()
-            ee.Initialize(project=project)
-        print("Earth Engine connected")
-    except Exception as error:
-        ENABLE_EARTH_ENGINE = False
-        print("Earth Engine is not connected. Public-source discovery will continue.")
-else:
-    print("Public-source discovery selected. Earth Engine remains optional.")
-'''
-            ),
-            markdown("## 5 Check FAO sources"),
-            code(
-                r'''
-#@title Check FAO sources
-from parcel_a_geo.discovery import DiscoveryRunner
-
-runner = DiscoveryRunner(PROJECT_ROOT, progress=lambda _: None)
-runner.config["earth_engine_enabled"] = ENABLE_EARTH_ENGINE
-runner.run_fao()
-print("FAO source check complete")
-'''
-            ),
-            markdown("## 6 Check non FAO sources"),
-            code(
-                r'''
-#@title Check non FAO sources
-runner.run_non_fao()
-print("Non-FAO source check complete")
-'''
-            ),
-            markdown("## 7 Check future climate sources"),
-            code(
-                r'''
-#@title Check future climate sources
-runner.run_future_climate()
-print("Future-climate source check complete")
-'''
-            ),
-            markdown("## 8 Build inventory"),
-            code(
-                r'''
-#@title Build inventory
-inventory_table = runner.inventory.frame()
-'''
-            ),
-            markdown("## 9 Display summary"),
-            code(
-                r'''
-#@title Display summary
-from IPython.display import HTML
 
 verified = inventory_table["valid_data_status"].isin(["VALID_DATA", "VALID_RECORDS"])
 ready_next = inventory_table["processing_priority"] == "USE_NEXT"
@@ -221,7 +156,13 @@ card_html = "".join(
     f'color:#176b3a">{value}</div><div>{label}</div></div>'
     for label, value in cards
 )
-display(HTML(f'<h2>Stage 02 result</h2><div style="display:flex;gap:12px;flex-wrap:wrap">{card_html}</div>'))
+display(
+    HTML(
+        '<p style="padding:10px;background:#e8f5e9;color:#176b3a;border-radius:6px">'
+        '<b>Google Earth Engine connected.</b> All registered sources were checked.</p>'
+        f'<h2>Stage 02 result</h2><div style="display:flex;gap:12px;flex-wrap:wrap">{card_html}</div>'
+    )
+)
 
 recommended = inventory_table[ready_next | ready_later][
     ["dataset_name", "agricultural_theme", "spatial_resolution", "processing_priority"]
@@ -244,26 +185,11 @@ if pending.any():
     display(
         HTML(
             f"<p><b>{int(pending.sum())} sources are not yet confirmed.</b> "
-            "They require Earth Engine, a supplied project file, or manual portal verification. "
+            "They require a supplied project file, manual access, or a source-specific check. "
             "They are not treated as available data.</p>"
         )
     )
-'''
-            ),
-            markdown("## 10 Save outputs"),
-            code(
-                r'''
-#@title Save outputs
-import shutil
 
-output_paths = runner.write_outputs()
-archive_path = Path(
-    shutil.make_archive(
-        str(PROJECT_ROOT / "outputs/stage02_results"),
-        "zip",
-        root_dir=runner.output_dir,
-    )
-)
 display(HTML("<h3>Results package ready</h3><p>The ZIP contains the report, map, inventory and technical log.</p>"))
 try:
     from google.colab import files
@@ -272,8 +198,15 @@ except ImportError:
     from IPython.display import FileLink
     display(FileLink(str(archive_path)))
 print("SUCCESS: Stage 02 data discovery completed")
-'''
+'''.replace("__PROJECT_BUNDLE_LITERAL__", bundle_literal(project_bundle()))
+
+    return {
+        "cells": [
+            markdown(
+                "# Stage 02 - Agricultural Data Discovery for Parcel A\n\n"
+                "Run the single cell below. The first run may ask you to approve Google Earth Engine access."
             ),
+            code(workflow),
         ],
         "metadata": {
             "colab": {"name": "02_data_discovery.ipynb", "provenance": []},
