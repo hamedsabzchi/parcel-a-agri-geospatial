@@ -1,1 +1,298 @@
 
+manifest_version: '2.5'
+project: parcel-a-agri-geospatial
+stage: '02'
+component: fao_gaez_v5_source_verification
+status: MAIZE_CURRENT_ASSETS_SELECTED_AOI_TESTS_AND_OTHER_CROPS_PENDING
+architecture:
+  source_verification: Stage 02 All-in-One
+  analysis: Stage 03
+  store_global_rasters_in_github: false
+  access_rule: Use official remote assets; read AOI window where supported, otherwise
+    download temporarily, clip, then delete global temporary file.
+sources:
+- dataset_id: GAEZ_V5_AEZ57
+  map_code: AEZ57
+  title: AEZ classification by climate, soil, terrain, land cover (57 classes)
+  resolution: ~1 km
+  period: 2001-2020
+  nodata: 255
+  unit: class
+  url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/22c4b002-ae80-41f7-9f36-463b546378a2
+  status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+- dataset_id: GAEZ_V5_RES01_LGP
+  map_code: RES01-LGP
+  title: Total number of growing period days class
+  resolution: ~10 km
+  nodata: 0
+  unit: class
+  metadata_url: https://data.apps.fao.org/catalog/iso/6dfa26e1-2312-4f68-ada8-a105739395ce
+  historical_assets:
+  - period: 2001-2020
+    code: HP0120
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP0120.AGERA5.HIST.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP0120.AGERA5.HIST.json
+  - period: 1981-2000
+    code: HP8100
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP8100.AGERA5.HIST.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP8100.AGERA5.HIST.json
+  future_period_codes:
+    FP2140: 2021-2040
+    FP4160: 2041-2060
+    FP6180: 2061-2080
+    FP8100: 2081-2100
+  future_scenarios:
+  - SSP126
+  - SSP370
+  - SSP585
+  future_models:
+  - GFDL-ESM4
+  - IPSL-CM6A-LR
+  - MPI-ESM1-2-HR
+  - MRI-ESM2-0
+  - UKESM1-0-LL
+  status: HISTORICAL_ASSETS_IDENTIFIED_AOI_TEST_PENDING
+- dataset_id: GAEZ_V5_SQX
+  map_code: SQX
+  title: Soil quality
+  resolution: ~1 km
+  reference_crop: maize
+  soil_source: HWSD v2.01
+  nodata: 0
+  unit: index
+  metadata_url: https://data.apps.fao.org/catalog/iso/476ffbd9-4af5-4429-bf99-2df6a34b5733
+  primary_assets:
+  - dimension: SQ0
+    management: HIM
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.HIM.tif
+  - dimension: SQ0
+    management: LIM
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.LIM.tif
+  diagnostics:
+    SQ1: Nutrient availability
+    SQ2: Nutrient retention capacity
+    SQ3: Rooting conditions
+    SQ4: Oxygen availability for roots
+    SQ5: Salinity and sodicity
+    SQ6: Lime and gypsum
+    SQ7: Workability
+  status: ASSETS_IDENTIFIED_AOI_TEST_PENDING
+- dataset_id: GAEZ_V5_SQ_IDX
+  map_code: SQ-IDX
+  title: Most limiting soil quality
+  resolution: ~1 km
+  reference_crop: maize
+  soil_source: HWSD v2.01
+  nodata: 0
+  unit: class
+  metadata_url: https://data.apps.fao.org/catalog/iso/c620319f-0f06-46c5-9795-0cd8bfc34357
+  assets:
+  - management: HIM
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.HIM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.HIM.json
+  - management: LIM
+    url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.LIM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.LIM.json
+  status: ASSETS_IDENTIFIED_AOI_AND_LEGEND_TEST_PENDING
+- dataset_id: GAEZ_V5_LR_IRR
+  map_code: LR-IRR
+  title: Share of irrigated land
+  resolution: 30 arc-seconds (~1 km)
+  source_years:
+  - 2000
+  - 2005
+  - 2010
+  - 2015
+  nodata: READ_FROM_RASTER_METADATA
+  unit: percent of cropland area under irrigation
+  url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/5e11e7c5-9088-4f1a-80df-04ef026bd726
+  status: SOURCE_IDENTIFIED_AOI_AND_NODATA_TEST_PENDING
+- dataset_id: GAEZ_V5_RES05_SIX
+  map_code: RES05-SIX
+  title: Crop suitability, class index (Global - 20 years average - ~10 km) - GAEZ
+    v5
+  resolution: ~10 km
+  nodata: 0
+  unit: Class
+  scale_factor: 1.0
+  metadata_url: https://data.apps.fao.org/catalog/iso/00cffd62-2ebf-47ab-9777-332cd1071aa0
+  mapset_url: https://console.cloud.google.com/storage/browser/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX
+  readme_url: https://data.apps.fao.org/catalog/dataset/514c92d5-9e01-4c70-814a-80ea1ca9fe6a/resource/768b08ad-be9c-427a-84be-3a3d6dd7835a/download/_readme_res05.xlsx
+  class_legend:
+    1: 'SI > 85: Very high'
+    2: 'SI > 70: High'
+    3: 'SI > 55: Good'
+    4: 'SI > 40: Medium'
+    5: 'SI > 25: Moderate'
+    6: 'SI > 10: Marginal'
+    7: 'SI > 0: Very marginal'
+    8: Not suitable
+    9: Water
+  dimension_codes: &id001
+    crop:
+      MZE: Maize
+    period:
+      HP0120: 2001-2020
+    climate_source:
+      AGERA5: AgERA5
+    scenario:
+      HIST: Historical
+    water_and_input:
+      HRLM: Rainfed high-input
+      LRLM: Rainfed low-input
+      HILM: Irrigated high-input
+      LILM: Irrigated low-input
+  selected_assets:
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Rainfed
+    input_level: High
+    input_code: HRLM
+    filename: GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HRLM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Rainfed
+    input_level: Low
+    input_code: LRLM
+    filename: GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LRLM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Irrigated
+    input_level: High
+    input_code: HILM
+    filename: GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HILM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HILM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HILM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Irrigated
+    input_level: Low
+    input_code: LILM
+    filename: GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LILM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LILM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LILM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  status: MAIZE_HP0120_FOUR_ASSETS_IDENTIFIED_AOI_TEST_PENDING
+- dataset_id: GAEZ_V5_RES05_YXX
+  map_code: RES05-YXX
+  title: Agro-ecological attainable yield, average of best occurring suitability class
+  resolution: ~10 km
+  nodata: -9
+  unit: Kg (DW)/ha
+  scale_factor: 1.0
+  metadata_url: https://data.apps.fao.org/catalog/iso/2673f847-129f-4388-8bb0-0699e41c3e7c
+  mapset_url: https://console.cloud.google.com/storage/browser/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX
+  readme_url: https://data.apps.fao.org/catalog/dataset/450b0d98-575f-4863-b13d-3a597cfbb578/resource/0107d6c0-e504-44dd-a5fa-c17e53c85484/download/_readme_res05.xlsx
+  dimension_codes: *id001
+  selected_assets:
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Rainfed
+    input_level: High
+    input_code: HRLM
+    filename: GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HRLM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Rainfed
+    input_level: Low
+    input_code: LRLM
+    filename: GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LRLM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Irrigated
+    input_level: High
+    input_code: HILM
+    filename: GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HILM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HILM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HILM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  - crop: Maize
+    crop_code: MZE
+    period: 2001-2020
+    period_code: HP0120
+    climate_source: AGERA5
+    scenario: HIST
+    water_supply: Irrigated
+    input_level: Low
+    input_code: LILM
+    filename: GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LILM.tif
+    geotiff_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LILM.tif
+    json_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LILM.json
+    status: SOURCE_IDENTIFIED_AOI_TEST_PENDING
+  status: MAIZE_HP0120_FOUR_ATTAINABLE_YIELD_ASSETS_IDENTIFIED_AOI_TEST_PENDING
+  interpretation_note: For maize, values are dry-weight yield in kg per hectare. Fresh-weight
+    comparisons require the documented crop conversion factor.
+stage_02_tests_pending:
+- Open every selected official asset
+- Confirm CRS, bounds, resolution, data type and intrinsic NoData
+- Read only Parcel A window
+- Confirm valid values/classes and AOI coverage
+- Record evidence and promote only successful assets to VERIFIED_INSIDE_AOI
+gaez_files_still_required:
+  current:
+  - Suitability and attainable yield for other priority crops after the crop list
+    is finalized
+  future_cmip6:
+  - Future crop suitability for selected crops and chosen periods/scenarios
+  - Future attainable yield for selected crops and chosen periods/scenarios
+decision_required_before_next_search:
+- Final priority crop list
+- Rainfed and/or irrigated conditions
+- Low and/or high input-management levels
+- 'Preferred suitability output: class, index, or both'
+- Future periods and SSPs; climate-model ensemble rule
+completion_rule: GAEZ source work is complete only after crop-specific current and
+  future assets are selected and all selected assets pass Parcel A AOI tests.
+selection_sequence:
+  completed:
+  - 'Maize HP0120 suitability: HRLM, LRLM, HILM and LILM'
+  - 'Maize HP0120 attainable yield: HRLM, LRLM, HILM and LILM'
+  current_focus: Define the next priority crop and repeat suitability plus attainable-yield
+    source selection
+  next_decision_required:
+  - Select the second priority crop
+  - Retain HP0120 and all four water-input combinations unless the project scope is
+    narrowed
