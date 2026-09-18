@@ -12,12 +12,18 @@ The geometry is technically valid and suitable for workflow development and prel
 
 ## Run Stage 01 in Google Colab
 
-1. Open `notebooks/01_define_and_display_aoi.ipynb` in Google Colab.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/01_define_and_display_aoi.ipynb)
+
+No coding or Google Earth Engine connection is required for this stage:
+
+1. Click **Open in Colab** above. Because this repository is private, Colab may ask you to authorize access to GitHub.
 2. Select **Runtime > Run all**.
-3. The default `report_vertices` mode runs without Google Earth Engine.
-4. If an official boundary is available, change `SOURCE_MODE` to `upload` and upload a GeoJSON, GPKG, KML, or ZIP containing a Shapefile.
-5. If the official boundary is stored in Google Earth Engine, change `SOURCE_MODE` to `earth_engine_asset` and enter the Asset ID and Google Cloud project ID.
-6. After visual and institutional confirmation, set `AOI_APPROVED=True` and run the notebook again.
+3. Wait for the interactive map and the message `SUCCESS: Stage 01 finished`.
+4. Use the download link at the bottom of the notebook to obtain all generated files as one ZIP archive.
+
+The message `REVIEW - formal boundary confirmation pending` is expected and is **not an error**. It means that the geometry is valid, but the reconstructed boundary still needs confirmation by the project owner or survey team.
+
+To keep the first stage reliable and easy to follow, boundary uploads and Google Earth Engine are intentionally deferred until a formal boundary file or Asset ID is available.
 
 ## Stage 01 outputs
 

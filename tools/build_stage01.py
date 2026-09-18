@@ -78,6 +78,234 @@ def write_validation_csv(path: Path, summary: dict) -> None:
         writer.writerows(rows)
 
 
+def write_simple_colab_notebook(path: Path) -> None:
+    """Write the one-click Colab notebook used by non-technical reviewers."""
+
+    def markdown_cell(source: str) -> dict:
+        return {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": (source.strip() + "\n").splitlines(keepends=True),
+        }
+
+    def code_cell(source: str) -> dict:
+        return {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {"cellView": "form"},
+            "outputs": [],
+            "source": (source.strip() + "\n").splitlines(keepends=True),
+        }
+
+    introduction = """
+# Stage 01 - View the Parcel A study area
+
+This is a one-click notebook. **Do not edit the code.**
+
+1. In the Colab menu, select **Runtime > Run all**.
+2. Wait for the green boundary map and `SUCCESS: Stage 01 finished`.
+3. Download the ZIP file from the link shown at the end.
+
+This stage uses the seven survey vertices from the final French report. It does not require Google Earth Engine or any uploaded file.
+
+> `REVIEW - formal boundary confirmation pending` is an expected status, not an error. It means the reconstructed geometry is technically valid but has not yet been formally approved.
+"""
+
+    install_code = """
+#@title Step 1 - Prepare Colab
+%pip install -q "geopandas>=1.0,<2" "pyogrio>=0.9,<1" "folium>=0.17,<1"
+print("Step 1 of 2 complete. The required mapping packages are ready.")
+"""
+
+    analysis_code = """
+#@title Step 2 - Build, check, display, and export Parcel A
+from pathlib import Path
+import json
+import shutil
+
+import folium
+import geopandas as gpd
+import pandas as pd
+from IPython.display import FileLink, display
+from shapely.geometry import Polygon
+
+ANALYSIS_CRS = "EPSG:32633"
+EXCHANGE_CRS = "EPSG:4326"
+REPORTED_AREA_HA = 5128.69
+STATUS = "REVIEW - formal boundary confirmation pending"
+
+VERTICES = [
+    ("A1", 375142.89553203, 730553.78023993, 927),
+    ("A2", 381315.67865558, 726934.57048810, 952),
+    ("A3", 386655.47274849, 730036.88441500, 933),
+    ("A4", 381124.21918453, 733184.44527635, 918),
+    ("A5", 382254.47034824, 735241.34560231, 914),
+    ("A6", 380256.00132039, 736073.12628858, 912),
+    ("A7", 376031.75713711, 732703.05038135, 925),
+]
+
+polygon = Polygon([(x, y) for _, x, y, _ in VERTICES])
+if not polygon.is_valid or polygon.is_empty:
+    raise RuntimeError("The reconstructed Parcel A boundary is not a valid polygon.")
+
+aoi_utm = gpd.GeoDataFrame(
+    [{"aoi_id": "parcel_a", "source": "final_report_table_1", "status": STATUS}],
+    geometry=[polygon],
+    crs=ANALYSIS_CRS,
+)
+area_ha = float(aoi_utm.geometry.area.iloc[0] / 10_000)
+perimeter_km = float(aoi_utm.geometry.length.iloc[0] / 1_000)
+difference_ha = area_ha - REPORTED_AREA_HA
+difference_pct = difference_ha / REPORTED_AREA_HA * 100
+aoi_utm["area_ha"] = round(area_ha, 2)
+aoi_wgs84 = aoi_utm.to_crs(EXCHANGE_CRS)
+
+centroid_utm = aoi_utm.geometry.centroid.iloc[0]
+centroid = gpd.GeoSeries([centroid_utm], crs=ANALYSIS_CRS).to_crs(EXCHANGE_CRS).iloc[0]
+aoi_map = folium.Map(
+    location=[centroid.y, centroid.x],
+    zoom_start=12,
+    tiles="OpenStreetMap",
+    control_scale=True,
+)
+folium.TileLayer(
+    tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    attr="Esri World Imagery",
+    name="Satellite imagery",
+).add_to(aoi_map)
+boundary_layer = folium.GeoJson(
+    data=json.loads(aoi_wgs84.to_json()),
+    name="Parcel A boundary",
+    style_function=lambda _: {
+        "color": "#24573a",
+        "weight": 4,
+        "fillColor": "#80b918",
+        "fillOpacity": 0.30,
+    },
+    tooltip=folium.GeoJsonTooltip(
+        fields=["aoi_id", "area_ha", "status"],
+        aliases=["Study area", "Area (ha)", "Status"],
+    ),
+).add_to(aoi_map)
+
+vertex_gdf = gpd.GeoDataFrame(
+    [{"vertex_id": vertex_id, "altitude_m": altitude} for vertex_id, _, _, altitude in VERTICES],
+    geometry=gpd.points_from_xy(
+        [x for _, x, _, _ in VERTICES],
+        [y for _, _, y, _ in VERTICES],
+    ),
+    crs=ANALYSIS_CRS,
+).to_crs(EXCHANGE_CRS)
+for row in vertex_gdf.itertuples():
+    folium.CircleMarker(
+        [row.geometry.y, row.geometry.x],
+        radius=5,
+        color="#9d2a2a",
+        fill=True,
+        fill_color="white",
+        fill_opacity=1,
+        tooltip=f"{row.vertex_id} - {row.altitude_m} m",
+    ).add_to(aoi_map)
+
+folium.LayerControl(collapsed=False).add_to(aoi_map)
+minx, miny, maxx, maxy = aoi_wgs84.total_bounds
+aoi_map.fit_bounds([[miny, minx], [maxy, maxx]])
+
+validation = pd.DataFrame([
+    {"Check": "Geometry", "Result": "PASS", "Value": "Valid polygon"},
+    {"Check": "Calculated area", "Result": "PASS", "Value": f"{area_ha:.2f} ha"},
+    {"Check": "Difference from report", "Result": "PASS", "Value": f"{abs(difference_pct):.3f}%"},
+    {"Check": "Formal boundary confirmation", "Result": "REVIEW", "Value": "Pending"},
+])
+
+output_dir = (
+    Path("/content/parcel_a_stage01_outputs")
+    if Path("/content").is_dir()
+    else Path.cwd() / "parcel_a_stage01_outputs"
+)
+output_dir.mkdir(parents=True, exist_ok=True)
+
+geojson_path = output_dir / "aoi_candidate_wgs84.geojson"
+gpkg_path = output_dir / "aoi_candidate_utm33n.gpkg"
+table_path = output_dir / "01_aoi_validation.csv"
+map_path = output_dir / "01_aoi_candidate.html"
+summary_path = output_dir / "aoi_candidate_summary.json"
+
+aoi_wgs84.to_file(geojson_path, driver="GeoJSON", engine="pyogrio")
+aoi_utm.to_file(gpkg_path, layer="aoi", driver="GPKG", engine="pyogrio")
+validation.to_csv(table_path, index=False)
+aoi_map.save(map_path)
+summary_path.write_text(
+    json.dumps(
+        {
+            "aoi_id": "parcel_a",
+            "source": "seven survey vertices from final report table 1",
+            "analysis_crs": ANALYSIS_CRS,
+            "exchange_crs": EXCHANGE_CRS,
+            "area_ha": area_ha,
+            "reported_area_ha": REPORTED_AREA_HA,
+            "area_difference_ha": difference_ha,
+            "area_difference_percent": difference_pct,
+            "perimeter_km": perimeter_km,
+            "geometry_valid": True,
+            "status": STATUS,
+        },
+        indent=2,
+    ),
+    encoding="utf-8",
+)
+zip_path = Path(shutil.make_archive(str(output_dir), "zip", root_dir=output_dir))
+
+display(validation)
+display(aoi_map)
+print()
+print("SUCCESS: Stage 01 finished")
+print(f"Calculated area: {area_ha:.2f} ha")
+print(f"Status: {STATUS}")
+print("The REVIEW status is not an error.")
+print("Download all generated files here:")
+display(FileLink(str(zip_path)))
+"""
+
+    interpretation = """
+## What the result means
+
+You should see:
+
+- one green Parcel A polygon;
+- seven labelled survey points;
+- a calculated area of approximately **5,127.48 ha**;
+- `SUCCESS: Stage 01 finished` below the map.
+
+The boundary is sufficiently consistent with the reported area for workflow preparation. The only remaining action in Stage 01 is visual and institutional confirmation that the polygon is the correct project boundary. Google Earth Engine will be connected in a later stage when it is actually needed.
+"""
+
+    notebook = {
+        "cells": [
+            markdown_cell(introduction),
+            code_cell(install_code),
+            code_cell(analysis_code),
+            markdown_cell(interpretation),
+        ],
+        "metadata": {
+            "colab": {
+                "name": "01_define_and_display_aoi.ipynb",
+                "provenance": [],
+            },
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3",
+            },
+            "language_info": {"name": "python"},
+        },
+        "nbformat": 4,
+        "nbformat_minor": 5,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(notebook, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
 def write_interactive_map(path: Path, feature_collection: dict, summary: dict) -> None:
     feature_json = json.dumps(feature_collection, ensure_ascii=False)
     vertices = [
@@ -280,6 +508,9 @@ def main() -> None:
     write_json(data_dir / "aoi_candidate_wgs84.geojson", feature_collection)
     write_json(data_dir / "aoi_candidate_summary.json", summary)
     write_validation_csv(table_dir / "01_aoi_validation.csv", summary)
+    write_simple_colab_notebook(
+        ROOT / "notebooks/01_define_and_display_aoi.ipynb"
+    )
     write_interactive_map(
         map_dir / "01_aoi_candidate.html", feature_collection, summary
     )

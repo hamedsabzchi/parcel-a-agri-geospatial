@@ -51,6 +51,20 @@ class TestReportAOI(unittest.TestCase):
         )
         self.assertEqual(checked["g0_gate"], "HOLD")
 
+    def test_colab_notebook_is_simple_and_one_click(self) -> None:
+        notebook = json.loads(
+            (ROOT / "notebooks/01_define_and_display_aoi.ipynb").read_text()
+        )
+        self.assertEqual(len(notebook["cells"]), 4)
+        code = "".join(
+            "".join(cell.get("source", []))
+            for cell in notebook["cells"]
+            if cell["cell_type"] == "code"
+        )
+        self.assertIn("SUCCESS: Stage 01 finished", code)
+        self.assertNotIn("earth_engine_asset", code)
+        self.assertNotIn("SOURCE_MODE", code)
+
 
 if __name__ == "__main__":
     unittest.main()
