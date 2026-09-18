@@ -3,11 +3,35 @@
 
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
+import zlib
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def project_bundle() -> str:
+    """Return a deterministic compressed bundle required by the private-repository notebook."""
+
+    paths = [
+        ROOT / "requirements.txt",
+        ROOT / "config/project.yml",
+        ROOT / "config/datasets.yml",
+        ROOT / "data/aoi/parcel_a.geojson",
+        *sorted((ROOT / "src/parcel_a_geo").rglob("*.py")),
+    ]
+    payload = {
+        path.relative_to(ROOT).as_posix(): base64.b64encode(path.read_bytes()).decode("ascii")
+        for path in paths
+    }
+    serialized = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return base64.b64encode(zlib.compress(serialized, level=9)).decode("ascii")
+
+
+def bundle_literal(value: str, width: int = 100) -> str:
+    return "\n".join(f'    "{value[index:index + width]}"' for index in range(0, len(value), width))
 
 
 def markdown(source: str) -> dict:
@@ -29,56 +53,45 @@ def code(source: str, form: bool = True) -> dict:
 
 
 def build_notebook() -> dict:
-    return {
-        "cells": [
-            markdown("# Stage 02 - Agricultural Data Discovery for Parcel A"),
-            markdown("## 1 Setup"),
-            code(
-                r'''
+    setup = r'''
 #@title Setup
 from pathlib import Path
+import base64
+import json
 import os
 import subprocess
 import sys
+import zlib
 
-REPOSITORY = "hamedsabzchi/parcel-a-agri-geospatial"
+PROJECT_BUNDLE_B64 = (
+__PROJECT_BUNDLE_LITERAL__
+)
+
 PROJECT_ROOT = Path.cwd()
 if not (PROJECT_ROOT / "config/project.yml").exists():
-    PROJECT_ROOT = Path("/content/parcel-a-agri-geospatial")
-    if not PROJECT_ROOT.exists():
-        token = os.getenv("GITHUB_TOKEN", "")
-        try:
-            from google.colab import userdata
-            token = token or userdata.get("GITHUB_TOKEN")
-        except Exception:
-            pass
-        clone_url = (
-            f"https://x-access-token:{token}@github.com/{REPOSITORY}.git"
-            if token
-            else f"https://github.com/{REPOSITORY}.git"
-        )
-        result = subprocess.run(
-            ["git", "clone", "--depth", "1", clone_url, str(PROJECT_ROOT)],
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode:
-            raise RuntimeError(
-                "The repository is private. Add GITHUB_TOKEN to Colab Secrets and run again."
-            )
-        subprocess.run(
-            ["git", "remote", "set-url", "origin", f"https://github.com/{REPOSITORY}.git"],
-            cwd=PROJECT_ROOT,
-            check=False,
-        )
+    base_directory = Path("/content") if Path("/content").exists() else Path.cwd()
+    PROJECT_ROOT = base_directory / "parcel-a-agri-geospatial"
+    PROJECT_ROOT.mkdir(parents=True, exist_ok=True)
+    bundled_files = json.loads(
+        zlib.decompress(base64.b64decode(PROJECT_BUNDLE_B64)).decode("utf-8")
+    )
+    for relative_path, encoded_content in bundled_files.items():
+        target = PROJECT_ROOT / relative_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(base64.b64decode(encoded_content))
 
 subprocess.check_call(
     [sys.executable, "-m", "pip", "install", "-q", "-r", str(PROJECT_ROOT / "requirements.txt")]
 )
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 print("Setup complete")
-'''
-            ),
+'''.replace("__PROJECT_BUNDLE_LITERAL__", bundle_literal(project_bundle()))
+
+    return {
+        "cells": [
+            markdown("# Stage 02 - Agricultural Data Discovery for Parcel A"),
+            markdown("## 1 Setup"),
+            code(setup),
             markdown("## 2 Load Parcel A"),
             code(
                 r'''

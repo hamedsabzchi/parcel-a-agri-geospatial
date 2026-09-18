@@ -17,6 +17,8 @@ class TestStage02Notebook(unittest.TestCase):
         self.assertIn("## 10 Save outputs", text)
         self.assertNotIn("FAO_GAEZ_V5_CURRENT", text)
         self.assertIn("load_dataset_registry", text)
+        self.assertIn("PROJECT_BUNDLE_B64", text)
+        self.assertNotIn("GITHUB_TOKEN", text)
 
 
 if __name__ == "__main__":
