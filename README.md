@@ -32,6 +32,34 @@ tests/              Automated tests
 tools/              Build utilities
 ```
 
-## Next stage
+## Stage 02 - Agricultural geospatial data discovery
 
-Inventory and AOI coverage of FAO and non-FAO agricultural datasets.
+Stage 02 uses `data/aoi/parcel_a.geojson` to verify FAO and non-FAO dataset coverage and valid data. It uses metadata and small samples only. It does not perform agricultural analysis or large downloads.
+
+[![Open Stage 02 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/02_data_discovery.ipynb)
+
+1. Because the repository is private, add `GITHUB_TOKEN` to Colab Secrets.
+2. Optionally add `EARTH_ENGINE_PROJECT` and enable Earth Engine in the labelled notebook cell.
+3. Select **Runtime > Run all**.
+
+Outputs:
+
+- `outputs/stage02/tables/data_inventory.csv`
+- `outputs/stage02/tables/data_inventory.xlsx`
+- `outputs/stage02/metadata/data_inventory.json`
+- `outputs/stage02/logs/discovery_log.txt`
+- `outputs/stage02/maps/data_coverage_map.html`
+- `outputs/stage02/stage02_report.html`
+
+Supported access methods include Earth Engine, REST API, STAC, COG, WMS, direct download, Python SDK, manual portals and local project files.
+
+Status meanings:
+
+- Coverage: `FULL_COVERAGE`, `PARTIAL_COVERAGE`, `NO_COVERAGE`, `COVERAGE_UNKNOWN`
+- Valid data: `VALID_DATA`, `VALID_RECORDS`, `NO_VALID_DATA`, `VERIFICATION_FAILED`, `UNKNOWN`
+- Access: `AUTOMATED_OPEN`, `AUTOMATED_AUTHENTICATION_REQUIRED`, `MANUAL_DOWNLOAD_AVAILABLE`, `MANUAL_INSPECTION_REQUIRED`, `ACCESS_RESTRICTED`, `UNAVAILABLE`, `VERIFICATION_FAILED`
+- Priority: `USE_NEXT`, `USE_LATER`, `OPTIONAL`, `NOT_SUITABLE`, `NO_COVERAGE`, `ACCESS_BLOCKED`, `NEEDS_MANUAL_REVIEW`
+
+Manual portals and authenticated services cannot be confirmed without the required access. Unknown values remain `UNKNOWN`.
+
+Stage 03 will process only datasets marked `USE_NEXT`.

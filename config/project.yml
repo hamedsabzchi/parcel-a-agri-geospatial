@@ -1,0 +1,19 @@
+project_name: Parcel A Agricultural Geospatial Analysis
+aoi_path: data/aoi/parcel_a.geojson
+aoi_identifier: PARCEL_A
+output_directory: outputs/stage02
+cache_directory: data/cache/stage02
+request_timeout_seconds: 20
+retry_limit: 2
+earth_engine_enabled: false
+earth_engine_project_environment_variable: EARTH_ENGINE_PROJECT
+test_dates:
+  start: "2024-01-01"
+  end: "2024-12-31"
+maximum_raster_sample_mb: 10
+maximum_vector_features: 1000
+maximum_download_mb: 10
+user_agent: parcel-a-stage02/1.0
+log_level: INFO
+notebook_version: "1.0"
+repository_url: https://github.com/hamedsabzchi/parcel-a-agri-geospatial

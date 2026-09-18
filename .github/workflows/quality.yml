@@ -7,12 +7,18 @@ on:
 jobs:
   stage-01:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install project dependencies
+        run: python -m pip install -q -r requirements.txt
       - name: Validate AOI source and calculations
         run: python -m unittest discover -s tests -v
       - name: Validate notebook JSON
-        run: python -m json.tool notebooks/01_define_and_display_aoi.ipynb > /dev/null
+        run: |
+          python -m json.tool notebooks/01_define_and_display_aoi.ipynb > /dev/null
+          python -m json.tool notebooks/02_data_discovery.ipynb > /dev/null

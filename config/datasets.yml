@@ -1,0 +1,1094 @@
+schema_version: "1.0"
+
+defaults: &defaults
+  dataset_id: UNKNOWN
+  source_name: UNKNOWN
+  dataset_name: UNKNOWN
+  provider: UNKNOWN
+  source_group: UNKNOWN
+  agricultural_theme: UNKNOWN
+  description: UNKNOWN
+  catalogue_url: UNKNOWN
+  access_type: MANUAL_PORTAL
+  access_endpoint: UNKNOWN
+  collection_id: UNKNOWN
+  expected_spatial_coverage: UNKNOWN
+  expected_bbox: UNKNOWN
+  expected_temporal_coverage: UNKNOWN
+  spatial_resolution: UNKNOWN
+  temporal_resolution: UNKNOWN
+  variables: UNKNOWN
+  units: UNKNOWN
+  CRS: UNKNOWN
+  NoData: UNKNOWN
+  licence: UNKNOWN
+  citation: UNKNOWN
+  authentication_requirement: UNKNOWN
+  verification_method: catalogue_and_manual_review
+  initial_priority: SUPPORTING
+  collection_kind: UNKNOWN
+  local_path: UNKNOWN
+  notes: UNKNOWN
+
+datasets:
+  - <<: *defaults
+    dataset_id: FAO_GAEZ_V5_CURRENT
+    source_name: GAEZ v5
+    dataset_name: GAEZ v5 current agro-ecological resources and crop suitability
+    provider: FAO and IIASA
+    source_group: FAO
+    agricultural_theme: Crop suitability and attainable yield
+    description: Crop suitability, attainable yield, growing period, thermal and moisture regimes, soil quality, terrain constraints, land cover, irrigation and exclusions.
+    catalogue_url: https://gaez.fao.org/
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: Historical and baseline periods; verify v5 catalogue
+    spatial_resolution: Verify from selected GAEZ v5 layer
+    variables: suitability; attainable yield; LGP; thermal zones; moisture regimes; soil quality; terrain; irrigation; exclusions
+    licence: FAO terms; verify per layer
+    authentication_requirement: Verify per service
+    verification_method: official_catalogue_plus_minimal_service_or_raster_window
+    initial_priority: CORE
+    notes: Do not substitute GAEZ v4 when v5 is requested; preserve crop, water regime and input level dimensions.
+
+  - <<: *defaults
+    dataset_id: FAO_GAEZ_V5_FUTURE
+    source_name: GAEZ v5
+    dataset_name: GAEZ v5 CMIP6 future agro-ecological outputs
+    provider: FAO and IIASA
+    source_group: Future climate
+    agricultural_theme: Future crop suitability and climate risk
+    description: Future suitability and attainable-yield layers by crop, model, scenario and period.
+    catalogue_url: https://gaez.fao.org/
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: CMIP6 future periods; verify in v5 catalogue
+    variables: crop suitability; attainable yield; scenario; model; future period
+    licence: FAO terms; verify per layer
+    authentication_requirement: Verify per service
+    verification_method: official_catalogue_plus_minimal_service_or_raster_window
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: FAO_WAPOR_V3_L1
+    source_name: WaPOR v3
+    dataset_name: WaPOR v3 Level 1 water productivity variables
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Evapotranspiration and water productivity
+    description: Level 1 actual evapotranspiration and interception, reference evapotranspiration, precipitation, NPP, biomass, land cover and phenology.
+    catalogue_url: https://www.fao.org/in-action/remote-sensing-for-water-productivity/en
+    access_type: EARTH_ENGINE
+    access_endpoint: https://developers.google.com/earth-engine/datasets/tags/wapor
+    collection_id: FAO/WAPOR/3/L1_AETI_D
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2018-present; verify per variable
+    spatial_resolution: Approximately 300 m; verify per variable
+    temporal_resolution: Dekadal or annual; verify per variable
+    variables: AETI; RET; precipitation; NPP; biomass; land cover; phenology; soil moisture; water productivity
+    units: Variable-specific
+    CRS: Variable-specific
+    licence: FAO open-data terms
+    authentication_requirement: Earth Engine account and project for automated test
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: CORE
+    notes: Collection ID is the AETI discovery probe; other WaPOR variables are registered in returned metadata and checked in Stage 03 planning.
+
+  - <<: *defaults
+    dataset_id: FAO_WAPOR_V3_L2
+    source_name: WaPOR v3
+    dataset_name: WaPOR v3 Level 2 products
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Higher-resolution evapotranspiration and productivity
+    description: Level 2 variables and temporal steps available for the Parcel A location.
+    catalogue_url: https://data.apps.fao.org/wapor/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Selected regional domains
+    expected_bbox: UNKNOWN
+    expected_temporal_coverage: Verify in current WaPOR catalogue
+    spatial_resolution: Approximately 100 m where available
+    variables: AETI; NPP; biomass; land cover; phenology; water productivity
+    licence: FAO open-data terms
+    authentication_requirement: Verify current portal or API requirements
+    verification_method: catalogue_query_and_aoi_domain_test
+    initial_priority: CORE
+    notes: Coverage must be tested; regional availability must not be assumed.
+
+  - <<: *defaults
+    dataset_id: FAO_WAPOR_V3_L3
+    source_name: WaPOR v3
+    dataset_name: WaPOR v3 Level 3 products
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Local water productivity
+    description: Level 3 products for designated schemes or project areas.
+    catalogue_url: https://data.apps.fao.org/wapor/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Selected project areas only
+    expected_bbox: UNKNOWN
+    expected_temporal_coverage: Verify in current WaPOR catalogue
+    spatial_resolution: Approximately 30 m where available
+    variables: AETI; NPP; biomass; water productivity
+    licence: FAO open-data terms
+    authentication_requirement: Verify current portal or API requirements
+    verification_method: catalogue_query_and_exact_aoi_domain_test
+    initial_priority: OPTIONAL
+    notes: Never assume Level 3 coverage.
+
+  - <<: *defaults
+    dataset_id: FAO_SOILFER
+    source_name: SoilFER
+    dataset_name: SoilFER soil information resources
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Soil fertility and constraints
+    description: Soil properties, fertility information, constraints and available SoilFER spatial products.
+    catalogue_url: https://github.com/un-fao/SoilFER
+    expected_spatial_coverage: Programme and product dependent
+    expected_bbox: UNKNOWN
+    variables: soil properties; fertility; constraints
+    licence: Verify for each resource
+    authentication_requirement: Verify for each resource
+    verification_method: official_catalogue_then_spatial_layer_test
+    initial_priority: CORE
+    notes: Programme information alone is not spatial-data availability.
+
+  - <<: *defaults
+    dataset_id: FAO_CROPSUIT
+    source_name: SoilFER CropSuit App
+    dataset_name: SoilFER crop suitability layers
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Soil-based crop suitability
+    description: Suitability layers by crop, soil group, water regime and management or input level.
+    catalogue_url: https://data.apps.fao.org/
+    access_type: WMS
+    expected_spatial_coverage: Verify in current catalogue
+    expected_bbox: UNKNOWN
+    variables: crops; soil groups; rainfed and irrigated suitability; management level
+    licence: Verify per layer
+    authentication_requirement: Verify service access
+    verification_method: catalogue_and_wms_capabilities_then_minimal_getmap
+    initial_priority: CORE
+    notes: If no documented service is available, classify as manual inspection required.
+
+  - <<: *defaults
+    dataset_id: FAO_CAVA
+    source_name: CAVA
+    dataset_name: Climate and Agriculture Risk Visualization and Assessment
+    provider: FAO and partners
+    source_group: Future climate
+    agricultural_theme: Historical and future agroclimate risk
+    description: Historical climate, ERA5-related data, CORDEX-CORE projections and agriculture-related climate indicators.
+    catalogue_url: https://cavaplatform.fao.org/
+    access_type: PYTHON_SDK
+    expected_spatial_coverage: Platform and dataset dependent
+    expected_bbox: UNKNOWN
+    variables: precipitation; temperature; drought; heat; agroclimatic indicators; scenarios; models
+    licence: Verify per dataset
+    authentication_requirement: Verify current platform requirements
+    verification_method: official_catalogue_and_python_service_minimal_request
+    initial_priority: CORE
+    notes: Record actual geographic support; country-level output is not parcel-scale data.
+
+  - <<: *defaults
+    dataset_id: FAO_ASIS
+    source_name: ASIS
+    dataset_name: Agricultural Stress Index System
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: Drought and vegetation stress
+    description: Vegetation health, agricultural stress and drought indicators.
+    catalogue_url: https://asis.apps.fao.org/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global agricultural areas
+    expected_bbox: [-180, -90, 180, 90]
+    variables: VHI; VCI; TCI; agricultural stress index
+    licence: FAO terms
+    authentication_requirement: Verify current portal requirements
+    verification_method: official_catalogue_and_service_or_manual_aoi_check
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: FAO_FAOSTAT_CAMEROON
+    source_name: FAOSTAT
+    dataset_name: Cameroon agricultural statistics
+    provider: FAO
+    source_group: FAO
+    agricultural_theme: National agricultural context
+    description: National or available subnational crop production, area, yield and agricultural context indicators.
+    catalogue_url: https://www.fao.org/faostat/en/#data
+    access_type: REST_API
+    access_endpoint: https://fenixservices.fao.org/faostat/api/v1/en
+    expected_spatial_coverage: Cameroon national statistics
+    expected_bbox: [8.4, 1.6, 16.2, 13.2]
+    expected_temporal_coverage: 1961-present; domain dependent
+    temporal_resolution: Annual
+    variables: production; harvested area; yield; inputs; land use
+    units: Indicator-specific
+    licence: FAOSTAT terms
+    authentication_requirement: None for public API
+    verification_method: api_metadata_or_small_country_query
+    initial_priority: OPTIONAL
+    notes: Non-spatial national statistics; never label as parcel-level data.
+
+  - <<: *defaults
+    dataset_id: EO_SENTINEL2_L2A
+    source_name: Copernicus Data Space
+    dataset_name: Sentinel-2 Level-2A
+    provider: European Commission and ESA
+    source_group: Earth observation
+    agricultural_theme: Vegetation, land cover and crop monitoring
+    description: Multispectral bottom-of-atmosphere surface reflectance imagery.
+    catalogue_url: https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2
+    access_type: STAC_API
+    access_endpoint: https://stac.dataspace.copernicus.eu/v1
+    collection_id: sentinel-2-l2a
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2015-present
+    spatial_resolution: 10 m; 20 m; 60 m
+    temporal_resolution: Approximately 5 days with two satellites
+    variables: surface reflectance bands; scene classification; cloud metadata
+    units: Reflectance and categorical masks
+    CRS: UTM tiles
+    licence: Copernicus Sentinel data terms
+    authentication_requirement: Metadata search open; asset access may require account
+    verification_method: stac_collection_and_aoi_item_search
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: EO_SENTINEL1_GRD
+    source_name: Copernicus Data Space
+    dataset_name: Sentinel-1 GRD
+    provider: European Commission and ESA
+    source_group: Earth observation
+    agricultural_theme: All-weather crop and surface monitoring
+    description: C-band synthetic aperture radar ground-range detected imagery.
+    catalogue_url: https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-1
+    access_type: STAC_API
+    access_endpoint: https://stac.dataspace.copernicus.eu/v1
+    collection_id: sentinel-1-grd
+    expected_spatial_coverage: Global acquisition plan
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2014-present
+    spatial_resolution: Approximately 10 m for common IW GRD products
+    temporal_resolution: Acquisition dependent
+    variables: VV; VH; HH; HV; orbit and acquisition metadata
+    units: Radar backscatter after processing
+    licence: Copernicus Sentinel data terms
+    authentication_requirement: Metadata search open; asset access may require account
+    verification_method: stac_collection_and_aoi_item_search
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: EO_LANDSAT_C2_L2
+    source_name: LandsatLook STAC
+    dataset_name: Landsat Collection 2 Level 2 Surface Reflectance
+    provider: USGS
+    source_group: Earth observation
+    agricultural_theme: Long-term land and vegetation monitoring
+    description: Landsat 4-9 Level 2 surface reflectance products.
+    catalogue_url: https://www.usgs.gov/landsat-missions/landsat-collection-2
+    access_type: STAC_API
+    access_endpoint: https://landsatlook.usgs.gov/stac-server
+    collection_id: landsat-c2l2-sr
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1982-present
+    spatial_resolution: 30 m
+    temporal_resolution: 16 days per satellite
+    variables: surface reflectance; quality bands
+    units: Scaled reflectance
+    licence: USGS Landsat data policy
+    authentication_requirement: Metadata search open
+    verification_method: stac_collection_and_aoi_item_search
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: EO_MODIS_NDVI
+    source_name: MODIS
+    dataset_name: MOD13Q1 Vegetation Indices
+    provider: NASA LP DAAC
+    source_group: Earth observation
+    agricultural_theme: Long-term vegetation condition
+    description: Sixteen-day NDVI and EVI composites.
+    catalogue_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+    access_type: EARTH_ENGINE
+    access_endpoint: https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD13Q1
+    collection_id: MODIS/061/MOD13Q1
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2000-present
+    spatial_resolution: 250 m
+    temporal_resolution: 16 days
+    variables: NDVI; EVI; quality
+    units: Scaled vegetation index
+    licence: NASA data policy
+    authentication_requirement: Earth Engine account and project for automated test
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: EO_VIIRS_NIGHT_LIGHTS
+    source_name: VIIRS
+    dataset_name: VIIRS monthly nighttime lights
+    provider: NOAA and EOG
+    source_group: Earth observation
+    agricultural_theme: Infrastructure proxy
+    description: Monthly nighttime-light composites for contextual infrastructure analysis.
+    catalogue_url: https://eogdata.mines.edu/products/vnl/
+    access_type: EARTH_ENGINE
+    access_endpoint: https://developers.google.com/earth-engine/datasets/catalog/NOAA_VIIRS_DNB_MONTHLY_V1_VCMSLCFG
+    collection_id: NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2012-present
+    spatial_resolution: Approximately 500 m
+    temporal_resolution: Monthly
+    variables: average radiance; cloud-free coverage
+    units: nW cm-2 sr-1
+    licence: NOAA data policy
+    authentication_requirement: Earth Engine account and project for automated test
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: OPTIONAL
+
+  - <<: *defaults
+    dataset_id: LC_LOCAL_PROJECT
+    source_name: Local project data
+    dataset_name: Existing project land-cover map
+    provider: Project team
+    source_group: Land cover and crop information
+    agricultural_theme: Current land cover
+    description: Existing land-cover map referenced by project documentation.
+    catalogue_url: LOCAL_PROJECT_DATA
+    access_type: LOCAL_PROJECT_DATA
+    local_path: data/local/land_cover
+    expected_spatial_coverage: Parcel A project area
+    expected_bbox: UNKNOWN
+    expected_temporal_coverage: 2025 according to project report
+    spatial_resolution: Verify from source raster
+    variables: land-cover class
+    licence: Project ownership; verify
+    authentication_requirement: Local file required
+    verification_method: local_file_open_extent_intersection_and_sample
+    initial_priority: CORE
+    notes: Missing source file must be reported, not reconstructed from the report image.
+
+  - <<: *defaults
+    dataset_id: CROP_LOCAL_PROJECT
+    source_name: Local project data
+    dataset_name: Existing project crop-type map
+    provider: Project team
+    source_group: Land cover and crop information
+    agricultural_theme: Crop type
+    description: Existing project crop-type layer if supplied.
+    catalogue_url: LOCAL_PROJECT_DATA
+    access_type: LOCAL_PROJECT_DATA
+    local_path: data/local/crop_type
+    expected_spatial_coverage: Parcel A project area
+    expected_bbox: UNKNOWN
+    variables: crop class
+    licence: Project ownership; verify
+    authentication_requirement: Local file required
+    verification_method: local_file_open_extent_intersection_and_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: LC_ESA_WORLDCOVER_2021
+    source_name: ESA WorldCover
+    dataset_name: ESA WorldCover 2021 v200
+    provider: ESA
+    source_group: Land cover and crop information
+    agricultural_theme: Land-cover benchmark
+    description: Global 10 m land-cover map for 2021.
+    catalogue_url: https://esa-worldcover.org/en/data-access
+    access_type: EARTH_ENGINE
+    access_endpoint: https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
+    collection_id: ESA/WorldCover/v200
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2021
+    spatial_resolution: 10 m
+    temporal_resolution: Static annual product
+    variables: land-cover class
+    units: Categorical class
+    licence: CC BY 4.0
+    authentication_requirement: Earth Engine account and project for automated test
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: LC_DYNAMIC_WORLD
+    source_name: Dynamic World
+    dataset_name: Dynamic World V1
+    provider: Google and World Resources Institute
+    source_group: Land cover and crop information
+    agricultural_theme: Near-real-time land-cover probabilities
+    description: Sentinel-2-based 10 m land-cover labels and class probabilities.
+    catalogue_url: https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1
+    access_type: EARTH_ENGINE
+    collection_id: GOOGLE/DYNAMICWORLD/V1
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Sentinel-2 acquisition areas
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2015-present
+    spatial_resolution: 10 m
+    temporal_resolution: Per Sentinel-2 scene
+    variables: label; class probabilities
+    units: Class and probability
+    licence: CC BY 4.0
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: LC_COPERNICUS_GLOBAL
+    source_name: Copernicus Global Land Service
+    dataset_name: Copernicus Global Land Cover 100 m
+    provider: European Commission Joint Research Centre
+    source_group: Land cover and crop information
+    agricultural_theme: Land-cover benchmark
+    description: Global land-cover classification and class probabilities.
+    catalogue_url: https://land.copernicus.eu/global/products/lc
+    access_type: EARTH_ENGINE
+    collection_id: COPERNICUS/Landcover/100m/Proba-V-C3/Global
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2015-2019 in this collection
+    spatial_resolution: 100 m
+    temporal_resolution: Annual
+    variables: discrete class; class probabilities; forest type; cover fractions
+    units: Categorical class and percent
+    licence: Copernicus data policy
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: LC_MODIS_MCD12Q1
+    source_name: MODIS
+    dataset_name: MCD12Q1 Land Cover Type
+    provider: NASA LP DAAC
+    source_group: Land cover and crop information
+    agricultural_theme: Long-term land-cover context
+    description: Annual MODIS global land-cover classifications.
+    catalogue_url: https://lpdaac.usgs.gov/products/mcd12q1v061/
+    access_type: EARTH_ENGINE
+    collection_id: MODIS/061/MCD12Q1
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2001-present
+    spatial_resolution: 500 m
+    temporal_resolution: Annual
+    variables: multiple land-cover classification schemes
+    units: Categorical class
+    licence: NASA data policy
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: OPTIONAL
+
+  - <<: *defaults
+    dataset_id: CROP_WORLDCEREAL
+    source_name: WorldCereal
+    dataset_name: ESA WorldCereal 2021 products
+    provider: ESA WorldCereal consortium
+    source_group: Land cover and crop information
+    agricultural_theme: Cropland and crop-type benchmark
+    description: Global seasonal temporary-crop, active-cropland and crop-type products.
+    catalogue_url: https://esa-worldcereal.org/en/products/global-maps
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global cropland
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 2021 product year
+    spatial_resolution: 10 m
+    temporal_resolution: Seasonal product
+    variables: temporary crops; active cropland; maize; cereals; irrigation markers where available
+    licence: Verify WorldCereal product terms
+    authentication_requirement: Verify download service
+    verification_method: official_catalogue_and_aoi_tile_lookup
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CROP_MAPSPAM
+    source_name: MapSPAM
+    dataset_name: Spatial Production Allocation Model crop maps
+    provider: IFPRI and partners
+    source_group: Land cover and crop information
+    agricultural_theme: Regional crop-production context
+    description: Gridded crop area, production and yield estimates.
+    catalogue_url: https://www.mapspam.info/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: Approximately 5 arc-minutes; verify version
+    temporal_resolution: Model year
+    variables: harvested area; production; yield; production system
+    licence: Verify current version
+    authentication_requirement: Verify portal
+    verification_method: catalogue_and_aoi_grid_cell_check
+    initial_priority: OPTIONAL
+    notes: Context only; not a parcel-scale crop map.
+
+  - <<: *defaults
+    dataset_id: DEM_COPERNICUS_GLO30
+    source_name: Copernicus DEM
+    dataset_name: Copernicus DEM GLO-30
+    provider: European Commission and ESA
+    source_group: Terrain and hydrology
+    agricultural_theme: Elevation, slope and drainage
+    description: Global digital surface model at approximately 30 m.
+    catalogue_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+    access_type: EARTH_ENGINE
+    collection_id: COPERNICUS/DEM/GLO30
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: 30 m
+    temporal_resolution: Static
+    variables: elevation
+    units: metres
+    licence: Copernicus DEM licence
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: DEM_SRTM
+    source_name: SRTM
+    dataset_name: NASA SRTM 1 Arc-Second Global
+    provider: NASA and USGS
+    source_group: Terrain and hydrology
+    agricultural_theme: Elevation benchmark
+    description: Near-global digital elevation model.
+    catalogue_url: https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm
+    access_type: EARTH_ENGINE
+    collection_id: USGS/SRTMGL1_003
+    collection_kind: IMAGE
+    expected_spatial_coverage: 60 degrees north to 56 degrees south
+    expected_bbox: [-180, -56, 180, 60]
+    expected_temporal_coverage: February 2000 acquisition
+    spatial_resolution: 30 m
+    temporal_resolution: Static
+    variables: elevation
+    units: metres
+    licence: USGS public-domain data
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: DEM_ALOS_AW3D30
+    source_name: ALOS AW3D30
+    dataset_name: ALOS World 3D 30 m
+    provider: JAXA
+    source_group: Terrain and hydrology
+    agricultural_theme: Elevation benchmark
+    description: Global digital surface model derived from ALOS PRISM.
+    catalogue_url: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/
+    access_type: EARTH_ENGINE
+    collection_id: JAXA/ALOS/AW3D30/V3_2
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: 30 m
+    temporal_resolution: Static composite
+    variables: DSM; stack count
+    units: metres
+    licence: JAXA AW3D30 terms
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: HYDRO_HYDROSHEDS
+    source_name: HydroSHEDS
+    dataset_name: HydroSHEDS and HydroRIVERS
+    provider: WWF and partners
+    source_group: Terrain and hydrology
+    agricultural_theme: Rivers, drainage and watersheds
+    description: Hydrographic conditioning, river networks, flow direction, accumulation and basin products.
+    catalogue_url: https://www.hydrosheds.org/
+    access_type: DIRECT_DOWNLOAD
+    expected_spatial_coverage: Near-global land
+    expected_bbox: [-180, -60, 180, 85]
+    spatial_resolution: Product dependent
+    variables: rivers; basins; flow direction; flow accumulation
+    licence: HydroSHEDS licence
+    authentication_requirement: Verify product download terms
+    verification_method: catalogue_tile_or_vector_bbox_then_minimal_feature_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: HYDRO_JRC_SURFACE_WATER
+    source_name: JRC Global Surface Water
+    dataset_name: Global Surface Water v1.4
+    provider: European Commission Joint Research Centre
+    source_group: Terrain and hydrology
+    agricultural_theme: Surface water and wetness constraints
+    description: Historical surface-water occurrence, seasonality, transitions and maximum extent.
+    catalogue_url: https://global-surface-water.appspot.com/download
+    access_type: EARTH_ENGINE
+    collection_id: JRC/GSW1_4/GlobalSurfaceWater
+    collection_kind: IMAGE
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1984-2021
+    spatial_resolution: 30 m
+    temporal_resolution: Summary product
+    variables: occurrence; seasonality; recurrence; transitions; maximum extent
+    units: Percent and categorical class
+    licence: Copernicus/JRC terms
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: HYDRO_GLOBAL_IRRIGATED_AREA
+    source_name: Global irrigated-area catalogues
+    dataset_name: Global irrigated and rainfed cropland products
+    provider: Multiple documented providers
+    source_group: Terrain and hydrology
+    agricultural_theme: Irrigation context
+    description: Global irrigated-area or irrigation-equipped-area datasets identified during discovery.
+    catalogue_url: https://www.fao.org/aquastat/en/geospatial-information/global-maps-irrigated-areas/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    variables: irrigated area; rainfed cropland; area equipped for irrigation
+    licence: Verify per product
+    authentication_requirement: Verify per product
+    verification_method: catalogue_and_aoi_grid_cell_check
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: SOIL_HWSD_V2
+    source_name: HWSD
+    dataset_name: Harmonized World Soil Database v2
+    provider: FAO and IIASA
+    source_group: Soil and land resources
+    agricultural_theme: Soil baseline
+    description: Global harmonized soil mapping units and attributes.
+    catalogue_url: https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/
+    access_type: DIRECT_DOWNLOAD
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: Approximately 1 km
+    temporal_resolution: Static
+    variables: soil units; texture; organic carbon; pH; CEC; depth and related attributes
+    licence: FAO data terms
+    authentication_requirement: Verify download access
+    verification_method: catalogue_and_minimal_raster_or_database_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: SOIL_SOILGRIDS_PH
+    source_name: SoilGrids
+    dataset_name: SoilGrids pH in water
+    provider: ISRIC World Soil Information
+    source_group: Soil and land resources
+    agricultural_theme: Soil properties
+    description: Global machine-learning soil pH predictions by depth with uncertainty quantiles.
+    catalogue_url: https://www.isric.org/explore/soilgrids
+    access_type: WMS
+    access_endpoint: https://maps.isric.org/mapserv?map=/map/phh2o.map
+    collection_id: phh2o_0-5cm_mean
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: 250 m
+    temporal_resolution: Static model version
+    variables: pH; prediction quantiles by depth
+    units: pH x 10; verify scale factor
+    CRS: Multiple WMS-supported CRS
+    NoData: Verify from service
+    licence: CC BY 4.0
+    authentication_requirement: None for WMS
+    verification_method: wms_capabilities_and_minimal_getmap
+    initial_priority: CORE
+    notes: Additional SoilGrids properties are discovered from service metadata.
+
+  - <<: *defaults
+    dataset_id: SOIL_OPENLANDMAP_SOC
+    source_name: OpenLandMap
+    dataset_name: OpenLandMap soil organic carbon
+    provider: OpenGeoHub Foundation
+    source_group: Soil and land resources
+    agricultural_theme: Soil organic carbon benchmark
+    description: Global soil organic-carbon predictions by depth.
+    catalogue_url: https://openlandmap.org/
+    access_type: EARTH_ENGINE
+    collection_id: OpenLandMap/SOL/SOL_ORGANIC-CARBON_USDA-6A1C_M/v02
+    collection_kind: IMAGE
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: 250 m
+    temporal_resolution: Static
+    variables: soil organic carbon by depth
+    units: g kg-1; verify scale factor
+    licence: Verify OpenLandMap asset terms
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_bands_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: SOIL_ISDASOIL
+    source_name: iSDAsoil
+    dataset_name: iSDAsoil African soil properties
+    provider: iSDA
+    source_group: Soil and land resources
+    agricultural_theme: African soil properties
+    description: African soil-property predictions including texture, nutrients and chemistry.
+    catalogue_url: https://www.isda-africa.com/isdasoil/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Africa
+    expected_bbox: [-20, -40, 55, 38]
+    spatial_resolution: 30 m; verify property and version
+    temporal_resolution: Static model version
+    variables: carbon; pH; texture; bulk density; CEC; nitrogen; nutrients; uncertainty
+    units: Property-specific
+    licence: Verify current iSDAsoil terms
+    authentication_requirement: Verify current service
+    verification_method: official_catalogue_and_minimal_property_request
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CLIMATE_ERA5_LAND
+    source_name: ERA5-Land
+    dataset_name: ERA5-Land Daily Aggregated
+    provider: Copernicus Climate Change Service and ECMWF
+    source_group: Weather and historical climate
+    agricultural_theme: Historical weather and land-surface climate
+    description: Reanalysis temperature, precipitation, radiation, wind, soil moisture and evapotranspiration variables.
+    catalogue_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+    access_type: EARTH_ENGINE
+    collection_id: ECMWF/ERA5_LAND/DAILY_AGGR
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1950-present
+    spatial_resolution: Approximately 11 km
+    temporal_resolution: Daily aggregation
+    variables: temperature; precipitation; radiation; wind; soil moisture; evapotranspiration
+    units: Variable-specific SI units
+    licence: Copernicus C3S licence
+    authentication_requirement: Earth Engine account and project for automated test
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CLIMATE_CHIRPS_DAILY
+    source_name: CHIRPS
+    dataset_name: CHIRPS Daily precipitation
+    provider: Climate Hazards Center UC Santa Barbara
+    source_group: Weather and historical climate
+    agricultural_theme: Rainfall history and drought
+    description: Satellite-gauge daily precipitation estimates.
+    catalogue_url: https://www.chc.ucsb.edu/data/chirps
+    access_type: EARTH_ENGINE
+    collection_id: UCSB-CHG/CHIRPS/DAILY
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: 50 degrees south to 50 degrees north
+    expected_bbox: [-180, -50, 180, 50]
+    expected_temporal_coverage: 1981-present
+    spatial_resolution: 0.05 degrees; approximately 5.5 km
+    temporal_resolution: Daily
+    variables: precipitation
+    units: mm day-1
+    licence: CHIRPS data policy
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CLIMATE_AGERA5
+    source_name: AgERA5
+    dataset_name: AgERA5 agro-meteorological indicators
+    provider: Copernicus Climate Change Service
+    source_group: Weather and historical climate
+    agricultural_theme: Agricultural weather
+    description: Daily agricultural meteorological variables derived from ERA5.
+    catalogue_url: https://cds.climate.copernicus.eu/datasets/sis-agrometeorological-indicators
+    access_type: PYTHON_SDK
+    access_endpoint: https://cds.climate.copernicus.eu/api
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1979-present; verify current release
+    spatial_resolution: 0.1 degrees
+    temporal_resolution: Daily
+    variables: precipitation; temperature; radiation; wind; humidity; reference evapotranspiration
+    units: Variable-specific
+    licence: Copernicus C3S licence
+    authentication_requirement: Copernicus Climate Data Store account and API key
+    verification_method: catalogue_metadata_and_authenticated_minimal_request
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CLIMATE_TERRACLIMATE
+    source_name: TerraClimate
+    dataset_name: TerraClimate monthly climate and water balance
+    provider: University of Idaho
+    source_group: Weather and historical climate
+    agricultural_theme: Climate and water-balance context
+    description: Monthly climate and climatic water-balance variables.
+    catalogue_url: https://www.climatologylab.org/terraclimate.html
+    access_type: EARTH_ENGINE
+    collection_id: IDAHO_EPSCOR/TERRACLIMATE
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1958-present
+    spatial_resolution: Approximately 4.6 km
+    temporal_resolution: Monthly
+    variables: precipitation; temperature; PET; AET; soil moisture; drought index; runoff
+    units: Variable-specific
+    licence: TerraClimate data terms
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_bands_dates_and_centroid_sample
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: CLIMATE_NASA_POWER
+    source_name: NASA POWER
+    dataset_name: NASA POWER daily point meteorology
+    provider: NASA
+    source_group: Weather and historical climate
+    agricultural_theme: Weather cross-check
+    description: Daily meteorological time series at the AOI centroid.
+    catalogue_url: https://power.larc.nasa.gov/docs/services/api/
+    access_type: REST_API
+    access_endpoint: https://power.larc.nasa.gov/api/temporal/daily/point
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1981-present; parameter dependent
+    spatial_resolution: Point response from gridded products
+    temporal_resolution: Daily
+    variables: PRECTOTCORR; T2M; T2M_MIN; T2M_MAX; ALLSKY_SFC_SW_DWN; WS2M; RH2M
+    units: Parameter-specific
+    licence: NASA open-data policy
+    authentication_requirement: None for public API
+    verification_method: centroid_point_api_small_date_range
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: FUTURE_NEX_GDDP_CMIP6
+    source_name: NEX-GDDP-CMIP6
+    dataset_name: NASA NEX-GDDP-CMIP6
+    provider: NASA
+    source_group: Future climate
+    agricultural_theme: Downscaled future climate
+    description: Daily statistically downscaled CMIP6 projections by model and scenario.
+    catalogue_url: https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6
+    access_type: EARTH_ENGINE
+    collection_id: NASA/GDDP-CMIP6
+    collection_kind: IMAGE_COLLECTION
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: 1950-2100; model dependent
+    spatial_resolution: 0.25 degrees
+    temporal_resolution: Daily
+    variables: precipitation; minimum temperature; maximum temperature; models; SSP scenarios
+    units: kg m-2 s-1 and K; verify per band
+    licence: NASA data policy and model terms
+    authentication_requirement: Earth Engine account and project
+    verification_method: earth_engine_count_models_scenarios_dates_and_centroid_sample
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: FUTURE_CORDEX_CORE
+    source_name: CORDEX-CORE
+    dataset_name: CORDEX-CORE Africa projections
+    provider: World Climate Research Programme
+    source_group: Future climate
+    agricultural_theme: Regional climate projections
+    description: Regional climate-model projections for the African domain.
+    catalogue_url: https://cordex.org/data-access/esgf/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: CORDEX Africa domain
+    expected_bbox: [-30, -46, 60, 45]
+    expected_temporal_coverage: Historical and future scenario periods
+    spatial_resolution: Approximately 0.22 degrees for CORDEX-CORE; verify dataset
+    temporal_resolution: Daily or monthly; variable dependent
+    variables: precipitation; temperature; climate indices; models; RCP or SSP scenario where provided
+    units: Variable-specific
+    licence: ESGF dataset terms
+    authentication_requirement: Dataset dependent
+    verification_method: esgf_catalogue_query_and_small_subset_test
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: FUTURE_ISIMIP3
+    source_name: ISIMIP3
+    dataset_name: ISIMIP3 climate input data
+    provider: ISIMIP consortium
+    source_group: Future climate
+    agricultural_theme: Climate-impact modelling inputs
+    description: Bias-adjusted historical and scenario climate inputs used for impact modelling.
+    catalogue_url: https://www.isimip.org/gettingstarted/data-access/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: Historical and future periods; protocol dependent
+    spatial_resolution: Dataset dependent
+    temporal_resolution: Daily; dataset dependent
+    variables: precipitation; temperature; radiation; humidity; wind; scenarios; models
+    units: Variable-specific
+    licence: ISIMIP data terms
+    authentication_requirement: ISIMIP account may be required
+    verification_method: catalogue_query_and_small_subset_test
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: FUTURE_WORLDCLIM_CMIP6
+    source_name: WorldClim
+    dataset_name: WorldClim CMIP6 future climate
+    provider: WorldClim
+    source_group: Future climate
+    agricultural_theme: Bioclimatic future context
+    description: Monthly and bioclimatic CMIP6 future climate by model, SSP and period.
+    catalogue_url: https://www.worldclim.org/data/cmip6/cmip6climate.html
+    access_type: DIRECT_DOWNLOAD
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: Future 20-year periods to 2100
+    spatial_resolution: 30 arc-seconds to 10 arc-minutes
+    temporal_resolution: Monthly climatology and bioclimatic summaries
+    variables: precipitation; minimum temperature; maximum temperature; bioclimatic variables; SSP; model
+    units: Variable-specific
+    licence: WorldClim data licence
+    authentication_requirement: None for public files
+    verification_method: catalogue_file_index_and_small_raster_window
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: FUTURE_CHELSA_CMIP6
+    source_name: CHELSA
+    dataset_name: CHELSA CMIP6 future climatologies
+    provider: CHELSA
+    source_group: Future climate
+    agricultural_theme: High-resolution future climate context
+    description: Downscaled monthly and bioclimatic CMIP6 climatologies.
+    catalogue_url: https://chelsa-climate.org/cmip6/
+    access_type: DIRECT_DOWNLOAD
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: Historical baseline and future periods
+    spatial_resolution: Approximately 1 km
+    temporal_resolution: Monthly climatology and period summaries
+    variables: precipitation; temperature; bioclimatic variables; SSP; model
+    units: Variable-specific
+    licence: CHELSA licence
+    authentication_requirement: Verify current download access
+    verification_method: catalogue_file_index_and_small_raster_window
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: ACCESS_OSM
+    source_name: OpenStreetMap
+    dataset_name: Roads, settlements, markets and infrastructure
+    provider: OpenStreetMap contributors
+    source_group: Accessibility and agricultural context
+    agricultural_theme: Access and infrastructure
+    description: Open map features relevant to roads, settlements, markets, buildings and infrastructure.
+    catalogue_url: https://www.openstreetmap.org/
+    access_type: REST_API
+    access_endpoint: https://overpass-api.de/api/interpreter
+    expected_spatial_coverage: Global contributor coverage
+    expected_bbox: [-180, -90, 180, 90]
+    expected_temporal_coverage: Current and historical edits
+    spatial_resolution: Vector features
+    temporal_resolution: Continuously updated
+    variables: roads; settlements; markets; buildings; electricity and infrastructure tags
+    licence: Open Database License
+    authentication_requirement: None for public Overpass endpoint
+    verification_method: bounded_overpass_count_query
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CONTEXT_ADMIN_BOUNDARIES
+    source_name: geoBoundaries
+    dataset_name: Cameroon administrative boundaries
+    provider: William and Mary geoLab
+    source_group: Accessibility and agricultural context
+    agricultural_theme: Administrative reporting context
+    description: Open administrative boundaries for Cameroon.
+    catalogue_url: https://www.geoboundaries.org/
+    access_type: REST_API
+    access_endpoint: https://www.geoboundaries.org/api/current/gbOpen/CMR/ALL/
+    expected_spatial_coverage: Cameroon
+    expected_bbox: [8.4, 1.6, 16.2, 13.2]
+    temporal_resolution: Release version
+    variables: administrative boundaries and names
+    licence: CC BY 4.0 for gbOpen
+    authentication_requirement: None for public API
+    verification_method: api_metadata_and_minimal_boundary_intersection
+    initial_priority: SUPPORTING
+
+  - <<: *defaults
+    dataset_id: CONTEXT_PROTECTED_AREAS
+    source_name: Protected Planet
+    dataset_name: World Database on Protected Areas
+    provider: UNEP-WCMC and IUCN
+    source_group: Accessibility and agricultural context
+    agricultural_theme: Environmental constraints
+    description: Protected-area boundaries and designations.
+    catalogue_url: https://www.protectedplanet.net/en/thematic-areas/wdpa
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Global
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: Vector polygons and points
+    temporal_resolution: Monthly release
+    variables: protected-area boundary; designation; status; governance
+    licence: Protected Planet terms of use
+    authentication_requirement: Account or token may be required
+    verification_method: authenticated_catalogue_or_manual_aoi_intersection
+    initial_priority: CORE
+
+  - <<: *defaults
+    dataset_id: CONTEXT_WORLDPOP
+    source_name: WorldPop
+    dataset_name: Cameroon population grids
+    provider: WorldPop
+    source_group: Accessibility and agricultural context
+    agricultural_theme: Population and labour context
+    description: Gridded population estimates for Cameroon.
+    catalogue_url: https://hub.worldpop.org/
+    access_type: MANUAL_PORTAL
+    expected_spatial_coverage: Cameroon
+    expected_bbox: [8.4, 1.6, 16.2, 13.2]
+    spatial_resolution: Product dependent; commonly about 100 m or 1 km
+    temporal_resolution: Annual or census-model year
+    variables: population count; population density
+    units: people per pixel or density
+    licence: WorldPop open-data terms; verify product
+    authentication_requirement: Verify current service
+    verification_method: catalogue_and_small_aoi_raster_window
+    initial_priority: OPTIONAL
+
+  - <<: *defaults
+    dataset_id: CONTEXT_GHSL
+    source_name: Global Human Settlement Layer
+    dataset_name: GHSL built-up and settlement products
+    provider: European Commission Joint Research Centre
+    source_group: Accessibility and agricultural context
+    agricultural_theme: Settlements and built infrastructure
+    description: Global built-up surface, settlement model and population products.
+    catalogue_url: https://human-settlement.emergency.copernicus.eu/download.php
+    access_type: DIRECT_DOWNLOAD
+    expected_spatial_coverage: Global land
+    expected_bbox: [-180, -90, 180, 90]
+    spatial_resolution: Product dependent; 10 m to 1 km
+    temporal_resolution: Epoch-based
+    variables: built-up surface; settlement class; population
+    units: Product-specific
+    licence: European Commission reuse policy
+    authentication_requirement: None for public downloads
+    verification_method: catalogue_tile_index_and_small_raster_window
+    initial_priority: OPTIONAL

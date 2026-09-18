@@ -14,6 +14,8 @@ venv/
 # Large or private raw data
 data/raw/**
 data/private/**
+data/cache/*
+!data/cache/.gitkeep
 *.tif
 *.tiff
 *.nc
