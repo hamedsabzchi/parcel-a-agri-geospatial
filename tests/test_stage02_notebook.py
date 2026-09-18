@@ -19,6 +19,8 @@ class TestStage02Notebook(unittest.TestCase):
         self.assertIn("load_dataset_registry", text)
         self.assertIn("PROJECT_BUNDLE_B64", text)
         self.assertNotIn("GITHUB_TOKEN", text)
+        self.assertIn("Verified datasets for the analysis pipeline", text)
+        self.assertIn("progress=lambda _: None", text)
 
 
 if __name__ == "__main__":

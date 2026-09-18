@@ -84,6 +84,9 @@ subprocess.check_call(
     [sys.executable, "-m", "pip", "install", "-q", "-r", str(PROJECT_ROOT / "requirements.txt")]
 )
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
+for module_name in list(sys.modules):
+    if module_name == "parcel_a_geo" or module_name.startswith("parcel_a_geo."):
+        del sys.modules[module_name]
 print("Setup complete")
 '''.replace("__PROJECT_BUNDLE_LITERAL__", bundle_literal(project_bundle()))
 
@@ -125,13 +128,8 @@ import pandas as pd
 from parcel_a_geo.config import load_dataset_registry
 
 registry = load_dataset_registry(PROJECT_ROOT / "config/datasets.yml")
-registry_summary = (
-    pd.DataFrame(registry)
-    .groupby("source_group", as_index=False)
-    .size()
-    .rename(columns={"size": "datasets"})
-)
-display(registry_summary)
+source_groups = len({item["source_group"] for item in registry})
+print(f"Data catalogue ready: {len(registry)} sources in {source_groups} agricultural themes")
 '''
             ),
             markdown("## 4 Optional Earth Engine connection"),
@@ -160,9 +158,9 @@ if ENABLE_EARTH_ENGINE:
         print("Earth Engine connected")
     except Exception as error:
         ENABLE_EARTH_ENGINE = False
-        print(f"Earth Engine skipped: {type(error).__name__}. Add the Colab secret and rerun when needed.")
+        print("Earth Engine is not connected. Public-source discovery will continue.")
 else:
-    print("Earth Engine checks skipped")
+    print("Public-source discovery selected. Earth Engine remains optional.")
 '''
             ),
             markdown("## 5 Check FAO sources"),
@@ -171,9 +169,10 @@ else:
 #@title Check FAO sources
 from parcel_a_geo.discovery import DiscoveryRunner
 
-runner = DiscoveryRunner(PROJECT_ROOT)
+runner = DiscoveryRunner(PROJECT_ROOT, progress=lambda _: None)
 runner.config["earth_engine_enabled"] = ENABLE_EARTH_ENGINE
 runner.run_fao()
+print("FAO source check complete")
 '''
             ),
             markdown("## 6 Check non FAO sources"),
@@ -181,6 +180,7 @@ runner.run_fao()
                 r'''
 #@title Check non FAO sources
 runner.run_non_fao()
+print("Non-FAO source check complete")
 '''
             ),
             markdown("## 7 Check future climate sources"),
@@ -188,6 +188,7 @@ runner.run_non_fao()
                 r'''
 #@title Check future climate sources
 runner.run_future_climate()
+print("Future-climate source check complete")
 '''
             ),
             markdown("## 8 Build inventory"),
@@ -195,38 +196,81 @@ runner.run_future_climate()
                 r'''
 #@title Build inventory
 inventory_table = runner.inventory.frame()
-print(f"Inventory rows: {len(inventory_table)}")
 '''
             ),
             markdown("## 9 Display summary"),
             code(
                 r'''
 #@title Display summary
-summary = pd.DataFrame([runner.inventory.summary()])
-display(summary)
-display(
-    inventory_table[
-        [
-            "dataset_id",
-            "AOI_coverage_status",
-            "valid_data_status",
-            "access_status",
-            "processing_priority",
-        ]
-    ]
+from IPython.display import HTML
+
+verified = inventory_table["valid_data_status"].isin(["VALID_DATA", "VALID_RECORDS"])
+ready_next = inventory_table["processing_priority"] == "USE_NEXT"
+ready_later = inventory_table["processing_priority"] == "USE_LATER"
+pending = ~verified
+
+cards = [
+    ("Sources reviewed", len(inventory_table)),
+    ("Verified inside Parcel A", int(verified.sum())),
+    ("Ready for the next stage", int(ready_next.sum())),
+    ("Require further verification", int(pending.sum())),
+]
+card_html = "".join(
+    f'<div style="flex:1;min-width:160px;padding:16px;border:1px solid #d9e2dc;'
+    f'border-radius:8px;background:#f6faf7"><div style="font-size:28px;font-weight:700;'
+    f'color:#176b3a">{value}</div><div>{label}</div></div>'
+    for label, value in cards
 )
+display(HTML(f'<h2>Stage 02 result</h2><div style="display:flex;gap:12px;flex-wrap:wrap">{card_html}</div>'))
+
+recommended = inventory_table[ready_next | ready_later][
+    ["dataset_name", "agricultural_theme", "spatial_resolution", "processing_priority"]
+].copy()
+recommended["processing_priority"] = recommended["processing_priority"].map(
+    {"USE_NEXT": "Use next", "USE_LATER": "Useful later"}
+)
+recommended = recommended.rename(
+    columns={
+        "dataset_name": "Verified dataset",
+        "agricultural_theme": "Agricultural use",
+        "spatial_resolution": "Resolution",
+        "processing_priority": "Decision",
+    }
+)
+display(HTML("<h3>Verified datasets for the analysis pipeline</h3>"))
+display(HTML(recommended.to_html(index=False, escape=True, border=0)))
+
+if pending.any():
+    display(
+        HTML(
+            f"<p><b>{int(pending.sum())} sources are not yet confirmed.</b> "
+            "They require Earth Engine, a supplied project file, or manual portal verification. "
+            "They are not treated as available data.</p>"
+        )
+    )
 '''
             ),
             markdown("## 10 Save outputs"),
             code(
                 r'''
 #@title Save outputs
-from IPython.display import FileLink
+import shutil
 
 output_paths = runner.write_outputs()
-for name, path in output_paths.items():
-    print(name)
-    display(FileLink(str(path)))
+archive_path = Path(
+    shutil.make_archive(
+        str(PROJECT_ROOT / "outputs/stage02_results"),
+        "zip",
+        root_dir=runner.output_dir,
+    )
+)
+display(HTML("<h3>Results package ready</h3><p>The ZIP contains the report, map, inventory and technical log.</p>"))
+try:
+    from google.colab import files
+    files.download(str(archive_path))
+except ImportError:
+    from IPython.display import FileLink
+    display(FileLink(str(archive_path)))
 print("SUCCESS: Stage 02 data discovery completed")
 '''
             ),

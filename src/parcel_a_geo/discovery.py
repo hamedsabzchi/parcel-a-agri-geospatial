@@ -49,6 +49,7 @@ class DiscoveryRunner:
     def _logger(path: Path) -> logging.Logger:
         logger = logging.getLogger(f"parcel_a_stage02_{path}")
         logger.setLevel(logging.INFO)
+        logger.propagate = False
         logger.handlers.clear()
         handler = logging.FileHandler(path, mode="w", encoding="utf-8")
         handler.setFormatter(logging.Formatter("%(asctime)sZ %(levelname)s %(message)s"))

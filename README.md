@@ -50,6 +50,8 @@ Outputs:
 - `outputs/stage02/maps/data_coverage_map.html`
 - `outputs/stage02/stage02_report.html`
 
+The notebook displays only the AOI, four decision-summary counts, and the verified datasets recommended for later analysis. Detailed statuses and logs are saved in the downloadable results ZIP.
+
 Supported access methods include Earth Engine, REST API, STAC, COG, WMS, direct download, Python SDK, manual portals and local project files.
 
 Status meanings:
