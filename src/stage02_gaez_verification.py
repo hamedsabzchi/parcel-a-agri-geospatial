@@ -1,4 +1,3 @@
-
 # ============================================================================
 # STAGE 02 ADDITION: GAEZ v5 SOURCE VERIFICATION FOR THE MAIZE PROTOTYPE
 # Manifest: config/sources/gaez_v5_source_manifest.yml
@@ -33,6 +32,7 @@ GAEZ_UPDATED_MANIFEST = GAEZ_OUTPUT_DIR / "gaez_v5_source_manifest_verified.yml"
 
 # Set to False if Stage 02 should verify sources without retaining AOI GeoTIFFs.
 GAEZ_SAVE_AOI_CLIPS = True
+GAEZ_ALL_TOUCHED = True
 GAEZ_HTTP_TIMEOUT = 120
 
 
@@ -248,7 +248,7 @@ def verify_gaez_asset(asset: Dict[str, Any], aoi_wgs84: gpd.GeoDataFrame) -> Dic
                 raise ValueError("AOI has no valid geometry")
 
             try:
-                clipped, clip_transform = rio_mask(src, geoms, crop=True, filled=True)
+                clipped, clip_transform = rio_mask(src, geoms, crop=True, filled=True, all_touched=GAEZ_ALL_TOUCHED)
                 overlaps = True
             except ValueError as exc:
                 if "do not overlap" in str(exc).lower():
