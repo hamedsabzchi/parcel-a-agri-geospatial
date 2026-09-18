@@ -1,0 +1,38 @@
+{
+  "aoi_id": "parcel_a",
+  "status": "reconstructed_pending_confirmation",
+  "g0_gate": "HOLD",
+  "source_crs": "EPSG:32633",
+  "exchange_crs": "EPSG:4326",
+  "vertex_count": 7,
+  "geometry_type": "Polygon",
+  "is_simple": true,
+  "ring_orientation": "counterclockwise",
+  "computed_area_m2": 51274805.715164185,
+  "computed_area_ha": 5127.480571516418,
+  "reported_area_ha": 5128.69,
+  "area_difference_ha": -1.2094284835811777,
+  "area_difference_percent": -0.023581625787114795,
+  "perimeter_m": 31936.549743971023,
+  "centroid_utm33n": [
+    380375.67136140884,
+    731146.4554194005
+  ],
+  "centroid_wgs84": [
+    13.917876029382295,
+    6.613439997054574
+  ],
+  "bounds_utm33n": [
+    375142.89553203,
+    726934.5704881,
+    386655.47274849,
+    736073.12628858
+  ],
+  "bounds_wgs84": [
+    13.870558527499307,
+    6.575363954152991,
+    13.974697548755477,
+    6.657996784201509
+  ],
+  "confirmation_required": true
+}

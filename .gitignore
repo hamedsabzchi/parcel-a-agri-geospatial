@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments and IDEs
+.venv/
+venv/
+.env
+.vscode/
+.idea/
+
+# Large or private raw data
+data/raw/**
+data/private/**
+*.tif
+*.tiff
+*.nc
+*.hdf
+*.h5
+
+# Temporary processing
+outputs/tmp/**
+outputs/cache/**
+*.aux.xml
+*.ovr
+*.qmd
+
+# OS files
+.DS_Store
+Thumbs.db

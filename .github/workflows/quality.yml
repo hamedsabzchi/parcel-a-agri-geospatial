@@ -1,0 +1,18 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  stage-01:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate AOI source and calculations
+        run: python -m unittest discover -s tests -v
+      - name: Validate notebook JSON
+        run: python -m json.tool notebooks/01_define_and_display_aoi.ipynb > /dev/null

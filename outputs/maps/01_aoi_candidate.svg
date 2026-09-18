@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+  <rect width="100%" height="100%" fill="#f7f8f4"/>
+  <style>
+    text { font-family: "DejaVu Sans", Arial, sans-serif; fill: #183623; }
+    .title { font-size: 30px; font-weight: 700; }
+    .subtitle { font-size: 16px; fill: #46634e; }
+    .grid { stroke: #d9dfda; stroke-width: 1; }
+    .axis { font-size: 12px; fill: #586b5e; }
+    .frame { fill: #eef3ec; stroke: #284f35; stroke-width: 2; }
+    .aoi { fill: #80b918; fill-opacity: .42; stroke: #24573a; stroke-width: 4; }
+    .vertex { fill: white; stroke: #9d2a2a; stroke-width: 3; }
+    .vertex-label { font-size: 15px; font-weight: 700; }
+    .stat-title { font-size: 20px; font-weight: 700; }
+    .stat { font-size: 16px; }
+    .small { font-size: 13px; fill: #526357; }
+  </style>
+  <text x="600" y="48" text-anchor="middle" class="title">Parcel A study area</text>
+  <text x="600" y="78" text-anchor="middle" class="subtitle">Dir 1, Mbere, Adamaoua, Cameroon — Stage 01 AOI reconstruction</text>
+  <rect x="90" y="125" width="760" height="610" rx="4" class="frame"/>
+  <line x1="191.19" y1="125" x2="191.19" y2="735" class="grid"/><line x1="305.01" y1="125" x2="305.01" y2="735" class="grid"/><line x1="418.83" y1="125" x2="418.83" y2="735" class="grid"/><line x1="532.65" y1="125" x2="532.65" y2="735" class="grid"/><line x1="646.47" y1="125" x2="646.47" y2="735" class="grid"/><line x1="760.28" y1="125" x2="760.28" y2="735" class="grid"/><line x1="90" y1="629.40" x2="850" y2="629.40" class="grid"/><line x1="90" y1="515.58" x2="850" y2="515.58" class="grid"/><line x1="90" y1="401.76" x2="850" y2="401.76" class="grid"/><line x1="90" y1="287.95" x2="850" y2="287.95" class="grid"/><line x1="90" y1="174.13" x2="850" y2="174.13" class="grid"/>
+  <text x="191.19" y="758" text-anchor="middle" class="axis">376000</text><text x="305.01" y="758" text-anchor="middle" class="axis">378000</text><text x="418.83" y="758" text-anchor="middle" class="axis">380000</text><text x="532.65" y="758" text-anchor="middle" class="axis">382000</text><text x="646.47" y="758" text-anchor="middle" class="axis">384000</text><text x="760.28" y="758" text-anchor="middle" class="axis">386000</text><text x="80" y="633.40" text-anchor="end" class="axis">728000</text><text x="80" y="519.58" text-anchor="end" class="axis">730000</text><text x="80" y="405.76" text-anchor="end" class="axis">732000</text><text x="80" y="291.95" text-anchor="end" class="axis">734000</text><text x="80" y="178.13" text-anchor="end" class="axis">736000</text>
+  <polygon points="142.41,484.07 493.70,690.03 797.59,513.48 482.81,334.36 547.13,217.30 433.40,169.97 193.00,361.75" class="aoi"/>
+  <circle cx="142.41" cy="484.07" r="6" class="vertex"/><text x="152.41" y="475.07" class="vertex-label">A1</text><circle cx="493.70" cy="690.03" r="6" class="vertex"/><text x="503.70" y="681.03" class="vertex-label">A2</text><circle cx="797.59" cy="513.48" r="6" class="vertex"/><text x="807.59" y="504.48" class="vertex-label">A3</text><circle cx="482.81" cy="334.36" r="6" class="vertex"/><text x="492.81" y="325.36" class="vertex-label">A4</text><circle cx="547.13" cy="217.30" r="6" class="vertex"/><text x="557.13" y="208.30" class="vertex-label">A5</text><circle cx="433.40" cy="169.97" r="6" class="vertex"/><text x="443.40" y="160.97" class="vertex-label">A6</text><circle cx="193.00" cy="361.75" r="6" class="vertex"/><text x="203.00" y="352.75" class="vertex-label">A7</text>
+  <circle cx="440.21" cy="450.34" r="5" fill="#17351f"/>
+  <line x1="126" y1="693" x2="239.82" y2="693" stroke="#17351f" stroke-width="7"/>
+  <line x1="126" y1="685" x2="126" y2="701" stroke="#17351f" stroke-width="2"/>
+  <line x1="239.82" y1="685" x2="239.82" y2="701" stroke="#17351f" stroke-width="2"/>
+  <text x="182.91" y="679" text-anchor="middle" class="axis">2 km</text>
+  <path d="M 805 199 L 805 149 L 791 170 M 805 149 L 819 170" fill="none" stroke="#17351f" stroke-width="3"/>
+  <text x="805" y="143" text-anchor="middle" class="vertex-label">N</text>
+  <text x="895" y="154" class="stat-title">AOI quality summary</text>
+  <text x="895" y="198" class="stat">Source CRS</text>
+  <text x="895" y="224" class="subtitle">WGS 84 / UTM Zone 33N</text>
+  <text x="895" y="274" class="stat">Computed area</text>
+  <text x="895" y="304" class="stat-title">5127.48 ha</text>
+  <text x="895" y="350" class="stat">Reported area</text>
+  <text x="895" y="378" class="subtitle">5128.69 ha</text>
+  <text x="895" y="424" class="stat">Difference</text>
+  <text x="895" y="452" class="subtitle">1.21 ha (0.024%)</text>
+  <rect x="895" y="500" width="235" height="48" rx="24" fill="#fff3cd" stroke="#d7ae37"/>
+  <text x="1012" y="531" text-anchor="middle" font-size="18" font-weight="700" fill="#765500">G0 HOLD</text>
+  <text x="895" y="587" class="small">Geometry is valid and suitable for</text>
+  <text x="895" y="609" class="small">workflow setup and visual review.</text>
+  <text x="895" y="645" class="small">Final boundary confirmation is</text>
+  <text x="895" y="667" class="small">required before decision analysis.</text>
+  <text x="90" y="790" class="small">Source: final characterization report, table 1. Reconstructed from seven reported survey vertices.</text>
+</svg>

@@ -1,0 +1,10 @@
+check,value,result
+source_crs,EPSG:32633,PASS_FROM_REPORT_MAP
+vertex_count,7,PASS
+ring_orientation,counterclockwise,PASS
+self_intersection,false,PASS
+computed_area_ha,5127.480571516418,PASS
+reported_area_ha,5128.69,REFERENCE
+area_difference_ha,-1.2094284835811777,PASS_WITHIN_0.1_PERCENT
+manual_boundary_confirmation,false,HOLD
+G0_geometry_gate,HOLD,HOLD

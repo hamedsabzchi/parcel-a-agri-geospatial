@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "name": "parcel_a_report_reconstructed",
+  "bbox": [
+    13.870558527499307,
+    6.575363954152991,
+    13.974697548755477,
+    6.657996784201509
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "aoi_id": "parcel_a",
+        "name": "Parcel A Dir 1",
+        "country": "Cameroon",
+        "region": "Adamaoua",
+        "department": "Mbere",
+        "municipality": "Dir",
+        "source": "Final characterization report table 1",
+        "source_crs": "EPSG:32633",
+        "status": "reconstructed_pending_confirmation",
+        "reported_area_ha": 5128.69,
+        "computed_area_ha": 5127.480571516418,
+        "g0_gate": "HOLD"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.870558527499307,
+              6.607974431675913
+            ],
+            [
+              13.926460317444779,
+              6.575363954152991
+            ],
+            [
+              13.974697548755477,
+              6.603524631138707
+            ],
+            [
+              13.924606687078198,
+              6.631887281739859
+            ],
+            [
+              13.93479013232794,
+              6.650513024605466
+            ],
+            [
+              13.91669625171208,
+              6.657996784201509
+            ],
+            [
+              13.878554150883298,
+              6.627431384994347
+            ],
+            [
+              13.870558527499307,
+              6.607974431675913
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

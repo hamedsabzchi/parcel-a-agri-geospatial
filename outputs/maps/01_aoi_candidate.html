@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage 01 Parcel A Boundary</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    html, body { height: 100%; margin: 0; font-family: Tahoma, Arial, sans-serif; }
+    #map { height: 100%; }
+    .panel {
+      position: absolute; z-index: 1000; top: 16px; left: 16px;
+      width: min(390px, calc(100% - 52px)); background: rgba(255,255,255,.96);
+      padding: 16px 18px; border-radius: 10px; box-shadow: 0 3px 16px rgba(0,0,0,.25);
+      line-height: 1.65; color: #17351f;
+    }
+    .panel h1 { margin: 0 0 6px; font-size: 20px; }
+    .panel p { margin: 4px 0; font-size: 13px; }
+    .hold { display: inline-block; background: #fff3cd; color: #7a5600;
+      border: 1px solid #e7c768; border-radius: 14px; padding: 1px 9px; font-weight: 700; }
+    .vertex-label { background: #fff; border: 1px solid #2f6b3b;
+      color: #17351f; font-weight: 700; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <section class="panel">
+    <h1>Parcel A study area</h1>
+    <p>Dir 1, Mbéré, Adamaoua, Cameroon</p>
+    <p><b>Reference CRS:</b> WGS 84 / UTM Zone 33N</p>
+    <p><b>Calculated area:</b> 5127.48 ha</p>
+    <p><b>Reported area:</b> 5128.69 ha</p>
+    <p><b>Difference:</b> 1.21 ha</p>
+    <p><b>G0 status:</b> <span class="hold">HOLD pending boundary confirmation</span></p>
+  </section>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map("map", { zoomControl: true }).setView([6.613439997054574, 13.917876029382295], 12);
+    const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19, attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+    const satellite = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 19, attribution: "Tiles &copy; Esri" }
+    );
+    const feature = {"type": "FeatureCollection", "name": "parcel_a_report_reconstructed", "bbox": [13.870558527499307, 6.575363954152991, 13.974697548755477, 6.657996784201509], "features": [{"type": "Feature", "properties": {"aoi_id": "parcel_a", "name": "Parcel A Dir 1", "country": "Cameroon", "region": "Adamaoua", "department": "Mbere", "municipality": "Dir", "source": "Final characterization report table 1", "source_crs": "EPSG:32633", "status": "reconstructed_pending_confirmation", "reported_area_ha": 5128.69, "computed_area_ha": 5127.480571516418, "g0_gate": "HOLD"}, "geometry": {"type": "Polygon", "coordinates": [[[13.870558527499307, 6.607974431675913], [13.926460317444779, 6.575363954152991], [13.974697548755477, 6.603524631138707], [13.924606687078198, 6.631887281739859], [13.93479013232794, 6.650513024605466], [13.91669625171208, 6.657996784201509], [13.878554150883298, 6.627431384994347], [13.870558527499307, 6.607974431675913]]]}}]};
+    const boundary = L.geoJSON(feature, {
+      style: { color: "#24573a", weight: 4, fillColor: "#80b918", fillOpacity: 0.32 },
+      onEachFeature: (f, layer) => layer.bindPopup(
+        "<b>Parcel A</b><br>5127.48 ha<br>Reconstructed from report vertices"
+      )
+    }).addTo(map);
+    const vertices = [{"id": "A1", "lon": 13.870558527499307, "lat": 6.607974431675913, "alt": 927.0}, {"id": "A2", "lon": 13.926460317444779, "lat": 6.575363954152991, "alt": 952.0}, {"id": "A3", "lon": 13.974697548755477, "lat": 6.603524631138707, "alt": 933.0}, {"id": "A4", "lon": 13.924606687078198, "lat": 6.631887281739859, "alt": 918.0}, {"id": "A5", "lon": 13.93479013232794, "lat": 6.650513024605466, "alt": 914.0}, {"id": "A6", "lon": 13.91669625171208, "lat": 6.657996784201509, "alt": 912.0}, {"id": "A7", "lon": 13.878554150883298, "lat": 6.627431384994347, "alt": 925.0}];
+    const vertexLayer = L.layerGroup().addTo(map);
+    for (const v of vertices) {
+      L.circleMarker([v.lat, v.lon], {
+        radius: 5, color: "#9d2a2a", weight: 2, fillColor: "#fff", fillOpacity: 1
+      }).bindTooltip(v.id, { permanent: true, direction: "top", className: "vertex-label" })
+        .bindPopup(`${v.id}<br>Altitude: ${v.alt} m`).addTo(vertexLayer);
+    }
+    L.control.layers({"OpenStreetMap": osm, "Esri World Imagery": satellite},
+      {"AOI boundary": boundary, "Report vertices": vertexLayer}, {collapsed: false}).addTo(map);
+    L.control.scale({ imperial: false }).addTo(map);
+    map.fitBounds(boundary.getBounds(), { padding: [30, 30] });
+  </script>
+</body>
+</html>

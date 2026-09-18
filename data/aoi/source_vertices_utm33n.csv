@@ -1,0 +1,8 @@
+vertex_id,easting_m,northing_m,altitude_m,source_crs,source
+A1,375142.89553203,730553.78023993,927,EPSG:32633,Final characterization report table 1
+A2,381315.67865558,726934.57048810,952,EPSG:32633,Final characterization report table 1
+A3,386655.47274849,730036.88441500,933,EPSG:32633,Final characterization report table 1
+A4,381124.21918453,733184.44527635,918,EPSG:32633,Final characterization report table 1
+A5,382254.47034824,735241.34560231,914,EPSG:32633,Final characterization report table 1
+A6,380256.00132039,736073.12628858,912,EPSG:32633,Final characterization report table 1
+A7,376031.75713711,732703.05038135,925,EPSG:32633,Final characterization report table 1

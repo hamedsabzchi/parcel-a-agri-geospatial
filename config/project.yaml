@@ -1,0 +1,28 @@
+project:
+  id: parcel_a_dir1
+  name: Parcel A Agricultural Geospatial Analysis
+  country: Cameroon
+  region: Adamaoua
+  department: Mbere
+  municipality: Dir
+  locality: Central Plain Dir 1
+
+aoi:
+  id: parcel_a
+  source: Caractérisation de la Parcelle A de Dir 1 report
+  source_mode: report_vertices
+  source_status: reconstructed_pending_confirmation
+  source_crs: EPSG:32633
+  exchange_crs: EPSG:4326
+  reported_area_ha: 5128.69
+  computed_area_ha: 5127.480571516418
+  approval: false
+
+quality_gates:
+  G0_geometry: HOLD
+  reason: Waiting for owner or survey-team confirmation of the reconstructed boundary
+
+processing:
+  default_buffer_m: 5000
+  preserve_native_resolution: true
+  raw_data_immutable: true
