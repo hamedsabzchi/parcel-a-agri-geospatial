@@ -64,3 +64,10 @@ class InputTests(unittest.TestCase):
         inputs=validate(self.root,ROOT);row=next(r for r in inputs["sources"] if r["dataset_id"]=="FAO_WAPOR_V3_L2")
         row.update(FINAL_STATUS="VERIFIED_INSIDE_AOI",FINAL_ACTION="USE_NEXT",Stage_02B_evidence_json=json.dumps([{"collection":"projects/UNFAO/wapor/v3/L2-NPP-D","sample":{"L2-NPP-D":25}}]))
         layers,_=resolve(inputs,configuration(ROOT));self.assertEqual(next(l for l in layers if l["layer_id"]=="wapor_l2_aeti")["extraction_status"],"NOT_REQUESTED")
+
+    def test_wapor_uses_actual_single_band_from_verified_product(self):
+        inputs=validate(self.root,ROOT);row=next(r for r in inputs["sources"] if r["dataset_id"]=="FAO_WAPOR_V3_L2")
+        row.update(FINAL_STATUS="VERIFIED_INSIDE_AOI",FINAL_ACTION="USE_NEXT",Stage_02B_evidence_json=json.dumps([{"collection":"projects/UNFAO/wapor/v3/L2-AETI-D","sample":{"b1":25}}]))
+        layers,_=resolve(inputs,configuration(ROOT));layer=next(l for l in layers if l["layer_id"]=="wapor_l2_aeti")
+        self.assertEqual(layer['extraction_status'],'PENDING');self.assertEqual(layer['variable'],'b1')
+        self.assertEqual(layer['product_variable'],'L2-AETI-D')

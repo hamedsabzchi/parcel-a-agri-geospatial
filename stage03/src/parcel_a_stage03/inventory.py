@@ -70,6 +70,16 @@ def resolve(inputs, config):
                 layer["extraction_status"]="NOT_REQUESTED"
             else:
                 layer["verified_sample"]=match
+                # FAO's exact L2 asset may expose its single product band as b1.
+                # Use the recorded sample's actual band name, never a guessed alias.
+                if layer["variable"] not in match["sample"]:
+                    bands=[k for k,v in match["sample"].items() if isinstance(v,(int,float)) and not isinstance(v,bool)]
+                    if len(bands)==1:
+                        layer["product_variable"]=layer["variable"]
+                        layer["variable"]=bands[0]
+                    else:
+                        state,reason="CATALOG_ONLY","The verified L2 product has ambiguous bands; select its quantitative band explicitly."
+                        layer["extraction_status"]="NOT_REQUESTED"
         if layer["required"] and state!="SELECTED_REQUIRED":
             raise ValueError(f"Required layer is not eligible: {layer['layer_id']}")
         layer.update(stage03_disposition=state,reason=reason)
