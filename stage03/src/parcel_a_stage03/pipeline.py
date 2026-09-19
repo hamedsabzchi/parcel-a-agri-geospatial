@@ -17,7 +17,7 @@ from .inputs import unpack, validate
 from .inventory import configuration, resolve
 from .spatial import read_raster, categorical_summary, project_geometry
 from .temporal import assert_unique_rows
-from . import sources, render
+from . import sources
 from .dashboard import write_dashboard
 
 TABLE_FIELDS={
@@ -43,6 +43,8 @@ def prepare(project,source,workspace):
 
 
 def run(project,source,output_base=None,cache=None,ee_project=None,progress=print,prepared=None):
+    # Preflight validates inputs without loading the plotting stack.
+    from . import render
     project,source=Path(project).resolve(),Path(source).resolve()
     stamp=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     run_dir=Path(output_base or project/"outputs/stage03_runs")/stamp
@@ -252,7 +254,7 @@ def run(project,source,output_base=None,cache=None,ee_project=None,progress=prin
         write_json(payload/"metadata/supplemental_verification.json",[p for p in provenance if p["parameters"].get("supplemental")])
         write_json(payload/"metadata/run_summary.json",summary)
         write_csv(payload/"metadata/metadata_completeness.csv",[dict(layer_id=l["layer_id"],field=k,status="RESOLVED" if l.get(k) is not None else "NOT_APPLICABLE",reason="Recorded source/processing field" if l.get(k) is not None else "Not a dimension of this product; dates remain unspecified where the source is unspecified") for l in layers for k in ("source_id","variable","unit","mask_rule","licence","depth","climate_scenario","management_code","period")])
-        (payload/"metadata/environment.txt").write_text(subprocess.check_output([sys.executable,"-m","pip","freeze"],text=True))
+        (payload/"metadata/environment.txt").write_text(subprocess.check_output([sys.executable,"-I","-m","pip","freeze"],text=True))
         write_json(payload/"metadata/table_schemas.json",dict(version="3.0",fields=TABLE_FIELDS,numeric_null="Unavailable or rejected, never substituted by zero",status_enums=dict(disposition=["SELECTED_REQUIRED","SELECTED_OPTIONAL","CATALOG_ONLY","DEFERRED","BLOCKED","INPUT_MISSING"],extraction=["NOT_REQUESTED","PENDING","EXTRACTED","EMPTY","FAILED","QA_FAILED"])))
         (payload/"README.txt").write_text("Parcel A — Stage 03\n\nExtract this ZIP, then open dashboard/parcel_a_data_inventory.html.\nThematic maps, tables, graphs and downloads work offline. Optional basemaps need internet.\nSource-defined suitability and yield are descriptive products, not recommendations or measured parcel production.\nNative data: clipped_data/. Static exports: maps/ and charts/. Evidence: metadata/ and qa/.\nFull methods: metadata/methodology.md. All 48 sources remain in tables/source_inventory.csv.\nStatus: "+outcome+"\n",encoding="utf-8")
         expected_paths=["maps/parcel_a.png","clipped_data/vectors/parcel_a.geojson","dashboard/parcel_a_data_inventory.html"]

@@ -5,8 +5,10 @@ import hashlib
 import importlib
 import json
 import os
+import re
 import subprocess
 import sys
+import traceback
 import venv
 import zlib
 from html import escape
@@ -61,12 +63,63 @@ def choose_input(base):
     return target
 
 
+def worker_command(python,root,selected,base,result_path):
+    # Isolate the worker from notebook/user-site packages and Python environment
+    # settings. Pass the bundled source path explicitly rather than PYTHONPATH.
+    launch="import runpy,sys; sys.path.insert(0,sys.argv.pop(1)); runpy.run_module('parcel_a_stage03',run_name='__main__')"
+    return [str(python),"-I","-u","-c",launch,str(root/"stage03/src"),
+        "--root",str(root),"--input",str(selected),
+        "--output-base",str(base/"outputs/stage03_runs"),
+        "--cache",str(base/"data/cache/stage03"),"--result-path",str(result_path)]
+
+
+def log_error(log,start=0):
+    with log.open("rb") as stream:
+        stream.seek(max(start,log.stat().st_size-16000))
+        lines=stream.read().decode("utf-8",errors="replace").splitlines()
+    lines=[line.strip() for line in lines if line.strip()]
+    errors=[line for line in lines if re.match(r"(?:[\w.]+(?:Error|Exception)|ERROR|Fatal Python error):",line)]
+    return (errors[-1] if errors else lines[-1] if lines else "No error text was returned.")[:1200]
+
+
+def run_worker(command,extra,env,log,result_path):
+    result_path.unlink(missing_ok=True)
+    with log.open("a",encoding="utf-8") as stream:
+        stream.write("\n--- "+("Input check" if "--preflight" in extra else "Build results")+" ---\n")
+        stream.flush();start=log.stat().st_size
+        process=subprocess.run(command+extra,env=env,stdout=stream,stderr=subprocess.STDOUT)
+    data={}
+    if result_path.exists():
+        try:data=json.loads(result_path.read_text(encoding="utf-8"))
+        except (ValueError,OSError):pass
+    if process.returncode or not isinstance(data,dict) or not data:
+        reason=data.get("error") if isinstance(data,dict) else None
+        reason=reason or log_error(log,start)
+        phase=data.get("phase") if isinstance(data,dict) else None
+        label=phase or ("checking inputs" if "--preflight" in extra else "building results")
+        raise RuntimeError(f"Stopped while {label} (exit {process.returncode}). {reason}")
+    return data
+
+
+def download_file(path):
+    try:
+        from google.colab import files
+    except ImportError:
+        display(FileLink(str(path)))
+        return
+    try:files.download(str(path))
+    except Exception:
+        display(FileLink(str(path)))
+        print(f"Download {Path(path).name} from Colab's Files panel.")
+
+
 def run_notebook():
     cwd=Path.cwd()
     base=cwd if (cwd/"config/project.yml").exists() else ((Path("/content") if Path("/content").exists() else cwd)/"parcel-a-agri-geospatial")
     base.mkdir(parents=True,exist_ok=True)
     log=base/"outputs/stage03_setup.log";log.parent.mkdir(parents=True,exist_ok=True)
     try:
+        log.write_text(f"Stage 03 notebook {STAGE03_SHA256}\nPython {sys.version}\n",encoding="utf-8")
         print("Preparing Stage 03…")
         root=materialize(STAGE03_BUNDLE,STAGE03_SHA256,base)
         selected=choose_input(base)
@@ -76,23 +129,17 @@ def run_notebook():
         python=env_dir/"bin/python";installed=env_dir/"stage03-installed"
         if not python.exists():venv.EnvBuilder(with_pip=False).create(env_dir)
         if not installed.exists():
-            with log.open("w") as stream:
-                result=subprocess.run([sys.executable,"-m","pip","--python",str(python),"install","-q","-r",str(lock)],stdout=stream,stderr=subprocess.STDOUT)
-            if result.returncode:raise RuntimeError("Setup could not finish. The setup log contains the cause.")
+            with log.open("a") as stream:
+                result=subprocess.run([sys.executable,"-I","-m","pip","--python",str(python),"install","-q","-r",str(lock)],stdout=stream,stderr=subprocess.STDOUT)
+            if result.returncode:raise RuntimeError("Dependency setup failed. "+log_error(log))
             installed.write_text(key)
-        env=dict(os.environ,PYTHONPATH=str(root/"stage03/src"),MPLCONFIGDIR=str(base/".stage03/matplotlib"))
+        env=dict(os.environ,MPLBACKEND="Agg",MPLCONFIGDIR=str(base/".stage03/matplotlib"))
         result_path=root/"stage03_result.json"
-        command=[str(python),"-m","parcel_a_stage03","--root",str(root),"--input",str(selected),
-            "--output-base",str(base/"outputs/stage03_runs"),"--cache",str(base/"data/cache/stage03"),"--result-path",str(result_path)]
-        def worker(extra):
-            result_path.unlink(missing_ok=True)
-            with log.open("a") as stream:r=subprocess.run(command+extra,env=env,stdout=stream,stderr=subprocess.STDOUT)
-            data=json.loads(result_path.read_text()) if result_path.exists() else {}
-            if r.returncode:raise RuntimeError(data.get("error","Stage 03 stopped. See the retained log."))
-            return data
+        command=worker_command(python,root,selected,base,result_path)
+        def worker(extra):return run_worker(command,extra,env,log,result_path)
         preflight=worker(["--preflight"])
         if preflight["needs_earth_engine"]:
-            package_path=subprocess.check_output([str(python),"-c","import sysconfig; print(sysconfig.get_path('purelib'))"],text=True).strip()
+            package_path=subprocess.check_output([str(python),"-I","-c","import sysconfig; print(sysconfig.get_path('purelib'))"],text=True).strip()
             sys.path.insert(0,package_path);importlib.invalidate_caches()
             import ee
             project=os.getenv("EARTH_ENGINE_PROJECT","practical-proxy-441422-n6")
@@ -114,15 +161,14 @@ def run_notebook():
         else:
             print(f"Stage 03 complete: {summary['extracted_layer_count']} layers from {summary['extracted_source_count']} sources.")
             if summary["gaps"]:print(f"{len(summary['gaps'])} optional layers need attention; details are in the dashboard.")
-        try:
-            from google.colab import files
-            files.download(output["archive"])
-        except ImportError:display(FileLink(output["archive"]))
+        download_file(output["archive"])
         return output["outcome"]!="INCOMPLETE"
     except Exception as error:
+        with log.open("a",encoding="utf-8") as stream:traceback.print_exc(file=stream)
         display(HTML(f"<p><b>Stage 03 needs attention:</b> {escape(str(error))}</p>"))
-        if log.exists():display(FileLink(str(log)))
+        print("Attach the downloaded stage03_setup.log here so the exact error can be checked.")
+        download_file(log)
         return False
 
 
-run_notebook()
+_stage03_success=run_notebook()

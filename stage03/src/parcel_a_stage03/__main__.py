@@ -3,8 +3,6 @@ import json
 import sys
 import traceback
 from pathlib import Path
-from .common import write_json
-from .pipeline import prepare, run
 
 
 def main():
@@ -13,18 +11,31 @@ def main():
     p.add_argument("--output-base",required=True);p.add_argument("--result-path",required=True)
     p.add_argument("--cache");p.add_argument("--ee-project");p.add_argument("--preflight",action="store_true")
     args=p.parse_args()
+    phase="loading Stage 03 dependencies"
     try:
+        # Keep dependency imports inside the error boundary. A broken environment
+        # must still produce a readable result for the notebook's parent process.
+        from .common import write_json
+        from .pipeline import prepare, run
         if args.preflight:
+            phase="checking the Stage 02 package"
             import tempfile
             with tempfile.TemporaryDirectory(prefix="stage03-preflight-",dir=Path(args.result_path).parent) as work:
                 cfg,inputs,layers,rows,_=prepare(args.root,args.input,work)
                 result=dict(needs_earth_engine=any(l["extraction_status"]=="PENDING" and l["adapter"].startswith("ee_") for l in layers),
                     selected_layers=sum(l["extraction_status"]=="PENDING" for l in layers),aoi_sha256=inputs["aoi_sha256"])
-        else:result=run(args.root,args.input,args.output_base,args.cache,args.ee_project,progress=lambda _:None)
+        else:
+            phase="building Stage 03 results"
+            result=run(args.root,args.input,args.output_base,args.cache,args.ee_project,progress=lambda _:None)
         write_json(args.result_path,result)
     except Exception as error:
-        write_json(args.result_path,dict(outcome="INCOMPLETE",error=str(error),corrective_action="Use the complete, unmodified Stage 02 ZIP; inspect the retained log if extraction failed."))
         traceback.print_exc()
+        # This path intentionally uses only the standard library, including when
+        # NumPy/rasterio or another dependency could not be imported.
+        result_path=Path(args.result_path)
+        result_path.parent.mkdir(parents=True,exist_ok=True)
+        result_path.write_text(json.dumps(dict(outcome="INCOMPLETE",phase=phase,
+            error=f"{type(error).__name__}: {error}"),indent=2),encoding="utf-8")
         return 1
     return 0
 
