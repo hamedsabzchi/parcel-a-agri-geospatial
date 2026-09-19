@@ -1,0 +1,34 @@
+{
+  "workspaceCode" : "GAEZ-V5",
+  "mapCode" : "LR-IRR",
+  "code" : "GAEZ-V5.LR-IRR",
+  "caption" : "Share of irrigated land (Global - ~1 km)",
+  "description" : "The GAEZ v5 land cover layers also include information of area equipped for irrigation derived from the “Global Area Equipped for Irrigation Dataset”. It uses the latest sub-national irrigation statistics (covering 17298 administrative units) from various official sources to develop a gridded global product of area equipped for irrigation for the years 2000, 2005, 2010, and 2015 (Mehta et al., 2024). \n\nThe result is represented as percentage of cropland area under irrigation, in a 30 arc-second grid cell.",
+  "styleCode" : "LCC",
+  "downloadUrl" : "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.tif",
+  "gsutilUri" : "gs://fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.tif",
+  "measureCaption" : "Share of irrigated land",
+  "measureUnit" : "%",
+  "scale" : 1.0,
+  "offset" : 0.0,
+  "additionalInfo" : {
+    "DataLineage" : " All results are derived from the Agro-ecological Zones (AEZ) modeling framework, developed collaboratively by the Food and Agriculture Organization (FAO) and the International Institute for Applied Systems Analysis (IIASA). The complete methodology is detailed in the Global Agro-ecological Zones v5 – Model Documentation, available at https://github.com/un-fao/gaezv5/wiki",
+    "SupplementalInformation" : "\\n\\nTheme: Land and Water Resources\\n\\nSub-theme: Water Resources\\n\\nVariable Name: Share of Irrigated Land"
+  },
+  "tags" : [ "GAEZV5", "IRRIGATED_LAND", "LAND_COVER", "LAND_RESOURCES" ],
+  "width" : 43200,
+  "height" : 21600,
+  "affineTransform" : [ -180.0, 0.008333333333333333, 0.0, 90.0, 0.0, -0.008333333333333333 ],
+  "srs" : {
+    "proj4" : "+proj=longlat +datum=WGS84 +no_defs",
+    "epsg" : "4326"
+  },
+  "extent" : {
+    "srs" : [ -180.0, -90.0, 180.0, 90.0 ],
+    "wgs84" : [ -180.0, -90.0, 180.0, 90.0 ]
+  },
+  "dataType" : "Float32",
+  "noDataValue" : null,
+  "flags" : null,
+  "classes" : null
+}

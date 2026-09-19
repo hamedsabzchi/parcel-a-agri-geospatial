@@ -1,0 +1,81 @@
+{
+  "workspaceCode" : "GAEZ-V5",
+  "code" : "SQ-IDX",
+  "caption" : "Most limiting soil quality (Global - ~1 km)",
+  "description" : null,
+  "dimensions" : [ {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "IM-SQ",
+    "type" : "WHAT"
+  } ],
+  "defaultStyleCode" : "SQ-IDX",
+  "measureCaption" : "Limiting soil quality",
+  "measureUnit" : "class",
+  "scale" : 1.0,
+  "offset" : 0.0,
+  "additionalInfo" : {
+    "DataLineage" : "All results are derived from the Agro-ecological Zones (AEZ) modeling framework, developed collaboratively by the Food and Agriculture Organization (FAO) and the International Institute for Applied Systems Analysis (IIASA). The complete methodology is detailed in the Global Agro-ecological Zones v5 – Model Documentation, available at https://github.com/un-fao/gaezv5/wiki",
+    "SupplementalInformation" : "\\n\\nTheme: Land and Water Resources\\n\\nSub-theme: Soil Resources\\n\\nVariable Name: Soil Quality"
+  },
+  "tags" : [ "GAEZV5", "HWSD", "SOIL_QUALITIES", "SOIL_RESOURCES" ],
+  "width" : 43200,
+  "height" : 21600,
+  "affineTransform" : [ -180.0, 0.008333333333333333, 0.0, 90.0, 0.0, -0.008333333333333333 ],
+  "srs" : {
+    "proj4" : "+proj=longlat +datum=WGS84 +no_defs",
+    "epsg" : "4326"
+  },
+  "extent" : {
+    "srs" : [ -180.0, -90.0, 180.0, 90.0 ],
+    "wgs84" : [ -180.0, -90.0, 180.0, 90.0 ]
+  },
+  "dataType" : "Byte",
+  "noDataValue" : null,
+  "flags" : null,
+  "classes" : {
+    "1" : {
+      "caption" : "No or slight constraints",
+      "description" : "No or slight constraints"
+    },
+    "2" : {
+      "caption" : "Nutrients retention",
+      "description" : "Nutrients retention"
+    },
+    "3" : {
+      "caption" : "Rooting conditions",
+      "description" : "Rooting conditions"
+    },
+    "4" : {
+      "caption" : "Oxygen availability drainage",
+      "description" : "Oxygen availability drainage"
+    },
+    "5" : {
+      "caption" : "Salinity and sodicity",
+      "description" : "Salinity and sodicity"
+    },
+    "6" : {
+      "caption" : "Calcium carbonate and gypsum toxicity",
+      "description" : "Calcium carbonate and gypsum toxicity"
+    },
+    "7" : {
+      "caption" : "Soil workability",
+      "description" : "Soil workability"
+    },
+    "8" : {
+      "caption" : "Steep terrain slopes",
+      "description" : "Steep terrain slopes"
+    },
+    "9" : {
+      "caption" : "Permafrost glacier",
+      "description" : "Permafrost glacier"
+    },
+    "10" : {
+      "caption" : "Miscellaneous Unit no information",
+      "description" : "Miscellaneous Unit no information"
+    },
+    "11" : {
+      "caption" : "Water",
+      "description" : "Water"
+    }
+  }
+}

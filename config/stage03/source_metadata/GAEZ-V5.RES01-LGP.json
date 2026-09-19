@@ -1,0 +1,96 @@
+{
+  "workspaceCode" : "GAEZ-V5",
+  "code" : "RES01-LGP",
+  "caption" : "Total number of growing period days class (Global - 20 years average - ~10 km) - GAEZ v5",
+  "description" : "The total number of growing period days, expressed in classes, dataset is provided at approximately 10 km spatial resolution globally, using different climate data sources for both historical and future periods.\n\nHistorical climate data is sourced from AgERA5 from the Copernicus program, covering the periods 1981–2000 and 2001–2020.\n\nFor future projections, climate model outputs from the latest CMIP6 IPCC AR6 are used, based on three Shared Socioeconomic Pathways (SSPs) and spanning four time periods: 2021–2040, 2041–2060, 2061–2080, and 2081–2100.\n\nThe total number of growing period days dataset is part of the GAEZ v5 Agro-climatic Resources theme and Climate Classification sub-theme.\n\nFor additional information, please refer to the GAEZ v5 Model Documentation (accessible at https://github.com/un-fao/gaezv5/wiki).",
+  "dimensions" : [ {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "PERIOD",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "CLIM",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "SSP",
+    "type" : "WHAT"
+  } ],
+  "defaultStyleCode" : "LGP",
+  "measureCaption" : "Total number of growing period days class",
+  "measureUnit" : "class",
+  "scale" : 1.0,
+  "offset" : 0.0,
+  "additionalInfo" : {
+    "DataLineage" : "All results are derived from the Agro-ecological Zones (AEZ) modeling framework, developed collaboratively by the Food and Agriculture Organization (FAO) and the International Institute for Applied Systems Analysis (IIASA). The complete methodology is detailed in the Global Agro-ecological Zones v5 – Model Documentation, available at https://github.com/un-fao/gaezv5/wiki",
+    "SupplementalInformation" : "\\n\\nTheme: Agro-climatic Resources\\n\\nSub-theme: Climate Classification\\n\\nVariable Name: Total number of growing period days class"
+  },
+  "tags" : [ "AGRO_CLIMATIC_RESOURCES", "CLIMATE_CLASSIFICATION", "GAEZV5" ],
+  "width" : 4320,
+  "height" : 2160,
+  "affineTransform" : [ -180.0, 0.08333333333333333, 0.0, 90.0, 0.0, -0.08333333333333333 ],
+  "srs" : {
+    "proj4" : "+proj=longlat +datum=WGS84 +no_defs",
+    "epsg" : "4326"
+  },
+  "extent" : {
+    "srs" : [ -180.0, -90.0, 180.0, 90.0 ],
+    "wgs84" : [ -180.0, -90.0, 180.0, 90.0 ]
+  },
+  "dataType" : "Byte",
+  "noDataValue" : 0.0,
+  "flags" : null,
+  "classes" : {
+    "0.0" : {
+      "caption" : ""
+    },
+    "1.0" : {
+      "caption" : "0 days"
+    },
+    "2.0" : {
+      "caption" : "1-29 days"
+    },
+    "3.0" : {
+      "caption" : "30-59 days"
+    },
+    "4.0" : {
+      "caption" : "60-89 days"
+    },
+    "5.0" : {
+      "caption" : "90-119 days"
+    },
+    "6.0" : {
+      "caption" : "120-149 days"
+    },
+    "7.0" : {
+      "caption" : "150-179 days"
+    },
+    "8.0" : {
+      "caption" : "180-209 days"
+    },
+    "9.0" : {
+      "caption" : "210-239 days"
+    },
+    "10.0" : {
+      "caption" : "240-269 days"
+    },
+    "11.0" : {
+      "caption" : "270-299 days"
+    },
+    "12.0" : {
+      "caption" : "300-329 days"
+    },
+    "13.0" : {
+      "caption" : "330-364 days"
+    },
+    "14.0" : {
+      "caption" : "365- days"
+    },
+    "15.0" : {
+      "caption" : "365 days"
+    },
+    "16.0" : {
+      "caption" : "365+ days"
+    }
+  }
+}

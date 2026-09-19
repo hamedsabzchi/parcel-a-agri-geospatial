@@ -1,0 +1,20 @@
+{
+  "source_url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=5e11e7c5-9088-4f1a-80df-04ef026bd726",
+  "licence": "CC-BY-4.0",
+  "licence_title": "Creative Commons Attribution 4.0 International",
+  "metadata_modified": "2025-04-17T08:51:42.556291",
+  "legal_constraints": {
+    "legalConstraints": {
+      "otherConstraints": [
+        "This work is made available under the [Creative Commons Attribution 4.0 International licence (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/)"
+      ],
+      "accessConstraints": [
+        "copyright"
+      ],
+      "useConstraints": [
+        "license"
+      ]
+    }
+  },
+  "title": "Share of irrigated land (Global - ~1 km) - GAEZ V5"
+}

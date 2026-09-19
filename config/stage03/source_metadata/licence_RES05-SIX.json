@@ -1,0 +1,20 @@
+{
+  "source_url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=00cffd62-2ebf-47ab-9777-332cd1071aa0",
+  "licence": "CC-BY-4.0",
+  "licence_title": "Creative Commons Attribution 4.0 International",
+  "metadata_modified": "2026-03-19T12:30:53.570654",
+  "legal_constraints": {
+    "legalConstraints": {
+      "otherConstraints": [
+        "This work is made available under the [Creative Commons Attribution 4.0 International licence (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/)"
+      ],
+      "accessConstraints": [
+        "copyright"
+      ],
+      "useConstraints": [
+        "license"
+      ]
+    }
+  },
+  "title": "Crop suitability, class index (Global - 20 years average - ~10 km) - GAEZ v5"
+}

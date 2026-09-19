@@ -45,3 +45,13 @@ The notebook contains its required project files, prepares its own Python enviro
 Stage 02 checks metadata and small samples. Agricultural analyses and full data collection come later. Current GAEZ maize passes only when all 16 selected assets pass; additional crops and future GAEZ scenarios remain deferred.
 
 [Technical details and maintenance](docs/02_stage02.md)
+
+## Stage 03 - Maps, tables and graphs
+
+[![Open Stage 03 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/03_data_inventory_visualization.ipynb)
+
+Run the single cell. Supply your completed Stage 02 ZIP if asked, then approve Google access.
+
+You receive the 16 GAEZ maps, eligible additional maps and historical series, descriptive tables and graphs, and one downloadable ZIP. Extract it and open the dashboard HTML. The thematic dashboard works offline.
+
+[Stage 03 methods, source definitions and maintenance](docs/stage03_methodology.md)

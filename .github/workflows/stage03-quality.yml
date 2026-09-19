@@ -1,0 +1,48 @@
+name: stage03-quality
+
+on:
+  push:
+    paths:
+      - 'stage03/**'
+      - 'config/stage03/**'
+      - 'tools/*stage03*'
+      - 'notebooks/03_data_inventory_visualization.ipynb'
+      - 'docs/stage03_methodology.md'
+      - '.github/workflows/stage03-quality.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-stage03:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+    env:
+      PYTHONPATH: stage03/src:stage03/tests
+      MPLBACKEND: Agg
+      STAGE03_BROWSER_TESTS: '1'
+      STAGE03_TEST_ARTIFACTS: stage03-test-results
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: stage03/requirements-lock.txt
+      - name: Install isolated locked environment
+        run: |
+          python -m pip install -q -r stage03/requirements-lock.txt
+          python -m pip install -q playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          python -m pip check
+      - name: Validate the self-contained notebook
+        run: python tools/build_stage03.py --check
+      - name: Verify science, input integrity, package and offline browser
+        run: python -m unittest discover -s stage03/tests -v
+      - name: Keep clearly labelled test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage03-synthetic-test-evidence-${{ matrix.python }}
+          path: stage03-test-results/

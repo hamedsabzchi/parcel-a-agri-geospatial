@@ -1,0 +1,677 @@
+schema_version: '3.0'
+legends:
+  AEZ57:
+    legend_id: AEZ57
+    title: AEZ classification, 57 classes
+    type: categorical
+    unit: class
+    entries:
+    - code: 1
+      caption: Tropics lowland; semi-arid no soil/terrain limitations
+      colour: '#30123b'
+    - code: 2
+      caption: Tropics lowland; semi-arid with soil/terrain limitations
+      colour: '#351e58'
+    - code: 3
+      caption: Tropics lowland; sub-humid no soil/terrain limitations
+      colour: '#3a2d79'
+    - code: 4
+      caption: Tropics lowland; sub-humid with soil/terrain limitations
+      colour: '#3e3891'
+    - code: 5
+      caption: Tropics lowland; humid no soil/terrain limitations
+      colour: '#4146ac'
+    - code: 6
+      caption: Tropics lowland; humid with soil/terrain limitations
+      colour: '#4451bf'
+    - code: 7
+      caption: Tropics highland; semi-arid no soil/terrain limitations
+      colour: '#455ed3'
+    - code: 8
+      caption: Tropics highland; semi-arid with soil/terrain limitations
+      colour: '#466be3'
+    - code: 9
+      caption: Tropics highland; sub-humid no soil/terrain limitations
+      colour: '#4776ee'
+    - code: 10
+      caption: Tropics highland; sub-humid with soil/terrain limitations
+      colour: '#4682f8'
+    - code: 11
+      caption: Tropics highland; humid no soil/terrain limitations
+      colour: '#458cfd'
+    - code: 12
+      caption: Tropics highland; humid with soil/terrain limitations
+      colour: '#4099ff'
+    - code: 13
+      caption: Sub-tropics warm; semi-arid no soil/terrain limitations
+      colour: '#3aa3fc'
+    - code: 14
+      caption: Sub-tropics warm; semi-arid with soil/terrain limitations
+      colour: '#31aff5'
+    - code: 15
+      caption: Sub-tropics warm; sub-humid no soil/terrain limitations
+      colour: '#28bceb'
+    - code: 16
+      caption: Sub-tropics warm; sub-humid with soil/terrain limitations
+      colour: '#22c5e2'
+    - code: 17
+      caption: Sub-tropics warm; humid no soil/terrain limitations
+      colour: '#1bd0d5'
+    - code: 18
+      caption: Sub-tropics warm; humid with soil/terrain limitations
+      colour: '#18d7ca'
+    - code: 19
+      caption: Sub-tropics mod. cool; semi-arid no soil/terrain limitations
+      colour: '#18e0bd'
+    - code: 20
+      caption: Sub-tropics mod. cool; semi-arid with soil/terrain limitations
+      colour: '#1ce6b4'
+    - code: 21
+      caption: Sub-tropics mod. cool; sub-humid no soil/terrain limitations
+      colour: '#25eca7'
+    - code: 22
+      caption: Sub-tropics mod. cool; sub-humid with soil/terrain limitations
+      colour: '#32f298'
+    - code: 23
+      caption: Sub-tropics mod. cool; humid no soil/terrain limitations
+      colour: '#3ff68a'
+    - code: 24
+      caption: Sub-tropics mod. cool; humid with soil/terrain limitations
+      colour: '#52fa7a'
+    - code: 25
+      caption: Sub-tropics cool; semi-arid no soil/terrain limitations
+      colour: '#61fc6c'
+    - code: 26
+      caption: Sub-tropics cool; semi-arid with soil/terrain limitations
+      colour: '#75fe5c'
+    - code: 27
+      caption: Sub-tropics cool; sub-humid no soil/terrain limitations
+      colour: '#84ff51'
+    - code: 28
+      caption: Sub-tropics cool; sub-humid with soil/terrain limitations
+      colour: '#96fe44'
+    - code: 29
+      caption: Sub-tropics cool; humid no soil/terrain limitations
+      colour: '#a4fc3c'
+    - code: 30
+      caption: Sub-tropics cool; humid with soil/terrain limitations
+      colour: '#affa37'
+    - code: 31
+      caption: Temperate moderate; dry no soil/terrain limitations
+      colour: '#bcf534'
+    - code: 32
+      caption: Temperate moderate; dry with soil/terrain limitations
+      colour: '#c6f034'
+    - code: 33
+      caption: Temperate moderate; moist no soil/terrain limitations
+      colour: '#d2e935'
+    - code: 34
+      caption: Temperate moderate; moist with soil/terrain limitations
+      colour: '#dbe236'
+    - code: 35
+      caption: Temperate moderate; wet no soil/terrain limitations
+      colour: '#e5d938'
+    - code: 36
+      caption: Temperate moderate; wet with soil/terrain limitations
+      colour: '#eecf3a'
+    - code: 37
+      caption: Temperate cool; dry no soil/terrain limitations
+      colour: '#f4c73a'
+    - code: 38
+      caption: Temperate cool; dry with soil/terrain limitations
+      colour: '#f9bc39'
+    - code: 39
+      caption: Temperate cool; moist no soil/terrain limitations
+      colour: '#fcb336'
+    - code: 40
+      caption: Temperate cool; moist with soil/terrain limitations
+      colour: '#fea732'
+    - code: 41
+      caption: Temperate cool; wet no soil/terrain limitations
+      colour: '#fe9b2d'
+    - code: 42
+      caption: Temperate cool; wet with soil/terrain limitations
+      colour: '#fd8d27'
+    - code: 43
+      caption: Cold no permafrost; dry no soil/terrain limitations
+      colour: '#fb7e21'
+    - code: 44
+      caption: Cold no permafrost; dry with soil/terrain limitations
+      colour: '#f8721c'
+    - code: 45
+      caption: Cold no permafrost; moist no soil/terrain limitations
+      colour: '#f36315'
+    - code: 46
+      caption: Cold no permafrost; moist with soil/terrain limitations
+      colour: '#ef5811'
+    - code: 47
+      caption: Cold no permafrost; wet no soil/terrain limitations
+      colour: '#e84b0c'
+    - code: 48
+      caption: Cold no permafrost; wet with soil/terrain limitations
+      colour: '#e2430a'
+    - code: 49
+      caption: Dominantly very steep terrain
+      colour: '#da3907'
+    - code: 50
+      caption: Land with severe soil/terrain limitations
+      colour: '#d02f05'
+    - code: 51
+      caption: Ample irrigated soils
+      colour: '#c82803'
+    - code: 52
+      caption: Dominantly hydromorphic soils
+      colour: '#bc2002'
+    - code: 53
+      caption: Desert/Arid climate
+      colour: '#b21a01'
+    - code: 54
+      caption: Boreal/Cold climate
+      colour: '#a41301'
+    - code: 55
+      caption: Arctic/Very cold climate
+      colour: '#980e01'
+    - code: 56
+      caption: Dominantly built-up land
+      colour: '#880802'
+    - code: 57
+      caption: Dominantly water
+      colour: '#7a0403'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.json
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    ordering: Ascending source code
+    endpoint_inclusivity: Source captions retained verbatim; no new thresholds inferred
+  RES01-LGP:
+    legend_id: RES01-LGP
+    title: Total number of growing period days class
+    type: categorical
+    unit: class
+    entries:
+    - code: 1
+      caption: 0 days
+      colour: '#30123b'
+    - code: 2
+      caption: 1-29 days
+      colour: '#4143a7'
+    - code: 3
+      caption: 30-59 days
+      colour: '#4771e9'
+    - code: 4
+      caption: 60-89 days
+      colour: '#3e9bfe'
+    - code: 5
+      caption: 90-119 days
+      colour: '#22c5e2'
+    - code: 6
+      caption: 120-149 days
+      colour: '#1ae4b6'
+    - code: 7
+      caption: 150-179 days
+      colour: '#46f884'
+    - code: 8
+      caption: 180-209 days
+      colour: '#88ff4e'
+    - code: 9
+      caption: 210-239 days
+      colour: '#b9f635'
+    - code: 10
+      caption: 240-269 days
+      colour: '#e1dd37'
+    - code: 11
+      caption: 270-299 days
+      colour: '#faba39'
+    - code: 12
+      caption: 300-329 days
+      colour: '#fd8d27'
+    - code: 13
+      caption: 330-364 days
+      colour: '#f05b12'
+    - code: 14
+      caption: 365- days
+      colour: '#d63506'
+    - code: 15
+      caption: 365 days
+      colour: '#af1801'
+    - code: 16
+      caption: 365+ days
+      colour: '#7a0403'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.json
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    ordering: Ascending source code
+    endpoint_inclusivity: Source captions retained verbatim; no new thresholds inferred
+  SQ-IDX:
+    legend_id: SQ-IDX
+    title: Limiting soil quality
+    type: categorical
+    unit: class
+    entries:
+    - code: 1
+      caption: No or slight constraints
+      colour: '#30123b'
+    - code: 2
+      caption: Nutrients retention
+      colour: '#4559cb'
+    - code: 3
+      caption: Rooting conditions
+      colour: '#3e9bfe'
+    - code: 4
+      caption: Oxygen availability drainage
+      colour: '#19d5cd'
+    - code: 5
+      caption: Salinity and sodicity
+      colour: '#46f884'
+    - code: 6
+      caption: Calcium carbonate and gypsum toxicity
+      colour: '#a4fc3c'
+    - code: 7
+      caption: Soil workability
+      colour: '#e1dd37'
+    - code: 8
+      caption: Steep terrain slopes
+      colour: '#fea431'
+    - code: 9
+      caption: Permafrost glacier
+      colour: '#f05b12'
+    - code: 10
+      caption: Miscellaneous Unit no information
+      colour: '#c32503'
+    - code: 11
+      caption: Water
+      colour: '#7a0403'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.json
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    ordering: Ascending source code
+    endpoint_inclusivity: Source captions retained verbatim; no new thresholds inferred
+  SQX:
+    legend_id: SQX
+    title: Soil quality
+    type: categorical
+    unit: class
+    entries:
+    - code: 1
+      caption: 0.0 - 0.1
+      colour: '#30123b'
+    - code: 2
+      caption: 0.1 - 0.2
+      colour: '#434eba'
+    - code: 3
+      caption: 0.2 - 0.3
+      colour: '#4685fa'
+    - code: 4
+      caption: 0.3 - 0.4
+      colour: '#28bceb'
+    - code: 5
+      caption: 0.4 - 0.5
+      colour: '#1ae4b6'
+    - code: 6
+      caption: 0.5 - 0.6
+      colour: '#55fa76'
+    - code: 7
+      caption: 0.6 - 0.7
+      colour: '#a4fc3c'
+    - code: 8
+      caption: 0.7 - 0.8
+      colour: '#d9e436'
+    - code: 9
+      caption: 0.8 - 0.9
+      colour: '#faba39'
+    - code: 10
+      caption: 0.9 - 1.0
+      colour: '#fb7e21'
+    - code: 11
+      caption: Permafrost
+      colour: '#e4450a'
+    - code: 12
+      caption: Not evaluated
+      colour: '#b91e02'
+    - code: 13
+      caption: Water
+      colour: '#7a0403'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.json
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    ordering: Ascending source code
+    endpoint_inclusivity: Source captions retained verbatim; no new thresholds inferred
+  LR-IRR:
+    legend_id: LR-IRR
+    title: Share of irrigated land
+    type: binned
+    unit: '%'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.json
+    validation_status: SOURCE_UNITS_VERIFIED
+    palette_origin: Project Viridis
+    nodata: No data (transparent)
+    palette: Blues
+    breaks:
+    - 0
+    - 10
+    - 25
+    - 50
+    - 75
+    - 100
+    labels:
+    - '0'
+    - (0, 10]
+    - (10, 25]
+    - (25, 50]
+    - (50, 75]
+    - (75, 100]
+    colours:
+    - '#f7fbff'
+    - '#deebf7'
+    - '#9ecae1'
+    - '#6baed6'
+    - '#3182bd'
+    - '#08519c'
+    domain:
+    - 0
+    - 100
+  RES05-SIX:
+    legend_id: RES05-SIX
+    title: Crop suitability index class
+    type: categorical
+    unit: class
+    entries:
+    - code: 1
+      caption: 'SI > 85: Very high'
+      colour: '#1A9850'
+    - code: 2
+      caption: 'SI > 70: High'
+      colour: '#66BD63'
+    - code: 3
+      caption: 'SI > 55: Good'
+      colour: '#A6D96A'
+    - code: 4
+      caption: 'SI > 40: Medium'
+      colour: '#D9EF8B'
+    - code: 5
+      caption: 'SI > 25: Moderate'
+      colour: '#FEE08B'
+    - code: 6
+      caption: 'SI > 10: Marginal'
+      colour: '#FDAE61'
+    - code: 7
+      caption: 'SI > 0: Very marginal'
+      colour: '#F46D43'
+    - code: 8
+      caption: Not suitable
+      colour: '#D73027'
+    - code: 9
+      caption: Water
+      colour: '#2C7BB6'
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.json
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    ordering: Ascending source code
+    endpoint_inclusivity: Source captions retained verbatim; no new thresholds inferred
+  RES05-YXX:
+    legend_id: RES05-YXX
+    title: Average attainable yield of best occurring suitability class in grid cell
+    type: continuous
+    unit: Kg (DW)/ha
+    source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.json
+    validation_status: SOURCE_UNITS_VERIFIED
+    palette_origin: Project Viridis
+    nodata: No data (transparent)
+    palette: viridis
+  WorldCover:
+    legend_id: WorldCover
+    title: WorldCover 2021
+    type: categorical
+    unit: class
+    source_url: https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Official product palette
+    nodata: No data (transparent)
+    entries:
+    - code: 10
+      caption: Tree cover
+      colour: '#006400'
+    - code: 20
+      caption: Shrubland
+      colour: '#ffbb22'
+    - code: 30
+      caption: Grassland
+      colour: '#ffff4c'
+    - code: 40
+      caption: Cropland
+      colour: '#f096ff'
+    - code: 50
+      caption: Built-up
+      colour: '#fa0000'
+    - code: 60
+      caption: Bare / sparse vegetation
+      colour: '#b4b4b4'
+    - code: 70
+      caption: Snow and ice
+      colour: '#f0f0f0'
+    - code: 80
+      caption: Permanent water bodies
+      colour: '#0064c8'
+    - code: 90
+      caption: Herbaceous wetland
+      colour: '#0096a0'
+    - code: 95
+      caption: Mangroves
+      colour: '#00cf75'
+    - code: 100
+      caption: Moss and lichen
+      colour: '#fae6a0'
+  DynamicWorld:
+    legend_id: DynamicWorld
+    title: Dynamic World modal labels
+    type: categorical
+    unit: class
+    source_url: https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Official product palette
+    nodata: No data (transparent)
+    entries:
+    - code: 0
+      caption: Water
+      colour: '#419bdf'
+    - code: 1
+      caption: Trees
+      colour: '#397d49'
+    - code: 2
+      caption: Grass
+      colour: '#88b053'
+    - code: 3
+      caption: Flooded vegetation
+      colour: '#7a87c6'
+    - code: 4
+      caption: Crops
+      colour: '#e49635'
+    - code: 5
+      caption: Shrub and scrub
+      colour: '#dfc35a'
+    - code: 6
+      caption: Built
+      colour: '#c4281b'
+    - code: 7
+      caption: Bare
+      colour: '#a59b8f'
+    - code: 8
+      caption: Snow and ice
+      colour: '#b39fe1'
+  slope:
+    legend_id: slope
+    title: Slope
+    type: binned
+    unit: degrees
+    source_url: Project descriptive slope bins
+    validation_status: PROJECT_BINS
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    breaks:
+    - 2
+    - 5
+    - 10
+    - 20
+    - 30
+    - 90
+    labels:
+    - '[0, 2]'
+    - (2, 5]
+    - (5, 10]
+    - (10, 20]
+    - (20, 30]
+    - (30, 90]
+    colours:
+    - '#edf8e9'
+    - '#bae4b3'
+    - '#74c476'
+    - '#31a354'
+    - '#756bb1'
+    - '#54278f'
+    domain:
+    - 0
+    - 90
+  MODIS_IGBP:
+    legend_id: MODIS_IGBP
+    title: MODIS IGBP land cover
+    type: categorical
+    unit: class
+    source_url: https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MCD12Q1
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Official product palette
+    nodata: No data (transparent)
+    entries:
+    - code: 1
+      caption: Evergreen needleleaf forests
+      colour: '#05450a'
+    - code: 2
+      caption: Evergreen broadleaf forests
+      colour: '#086a10'
+    - code: 3
+      caption: Deciduous needleleaf forests
+      colour: '#54a708'
+    - code: 4
+      caption: Deciduous broadleaf forests
+      colour: '#78d203'
+    - code: 5
+      caption: Mixed forests
+      colour: '#009900'
+    - code: 6
+      caption: Closed shrublands
+      colour: '#c6b044'
+    - code: 7
+      caption: Open shrublands
+      colour: '#dcd159'
+    - code: 8
+      caption: Woody savannas
+      colour: '#dade48'
+    - code: 9
+      caption: Savannas
+      colour: '#fbff13'
+    - code: 10
+      caption: Grasslands
+      colour: '#b6ff05'
+    - code: 11
+      caption: Permanent wetlands
+      colour: '#27ff87'
+    - code: 12
+      caption: Croplands
+      colour: '#c24f44'
+    - code: 13
+      caption: Urban and built-up lands
+      colour: '#a5a5a5'
+    - code: 14
+      caption: Cropland/natural vegetation mosaics
+      colour: '#ff6d4c'
+    - code: 15
+      caption: Permanent snow and ice
+      colour: '#69fff8'
+    - code: 16
+      caption: Barren
+      colour: '#f9ffa4'
+    - code: 17
+      caption: Water bodies
+      colour: '#1c0dff'
+  CGLS:
+    legend_id: CGLS
+    title: Copernicus land cover 2019
+    type: categorical
+    unit: class
+    source_url: https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_Landcover_100m_Proba-V-C3_Global
+    validation_status: SOURCE_CAPTIONS_VERIFIED
+    palette_origin: Project display colours
+    nodata: No data (transparent)
+    entries:
+    - code: 0
+      caption: Unknown
+      colour: '#30123b'
+    - code: 20
+      caption: Shrubs
+      colour: '#3c3286'
+    - code: 30
+      caption: Herbaceous vegetation
+      colour: '#4454c3'
+    - code: 40
+      caption: Cultivated and managed vegetation / agriculture
+      colour: '#4771e9'
+    - code: 50
+      caption: Urban / built up
+      colour: '#448ffe'
+    - code: 60
+      caption: Bare / sparse vegetation
+      colour: '#33adf7'
+    - code: 70
+      caption: Snow and ice
+      colour: '#20c7df'
+    - code: 80
+      caption: Permanent water bodies
+      colour: '#18dec0'
+    - code: 90
+      caption: Herbaceous wetland
+      colour: '#2aefa1'
+    - code: 100
+      caption: Moss and lichen
+      colour: '#4ef97d'
+    - code: 111
+      caption: Closed forest, evergreen needle leaf
+      colour: '#7dff56'
+    - code: 112
+      caption: Closed forest, evergreen broad leaf
+      colour: '#a4fc3c'
+    - code: 113
+      caption: Closed forest, deciduous needle leaf
+      colour: '#c1f334'
+    - code: 114
+      caption: Closed forest, deciduous broad leaf
+      colour: '#dde037'
+    - code: 115
+      caption: Closed forest, mixed
+      colour: '#f1cb3a'
+    - code: 116
+      caption: Closed forest, other
+      colour: '#fcb136'
+    - code: 121
+      caption: Open forest, evergreen needle leaf
+      colour: '#fe9029'
+    - code: 122
+      caption: Open forest, evergreen broad leaf
+      colour: '#f76f1a'
+    - code: 123
+      caption: Open forest, deciduous needle leaf
+      colour: '#ea4e0d'
+    - code: 124
+      caption: Open forest, deciduous broad leaf
+      colour: '#d63506'
+    - code: 125
+      caption: Open forest, mixed
+      colour: '#be2102'
+    - code: 126
+      caption: Open forest, other
+      colour: '#9e1001'
+    - code: 200
+      caption: Oceans, seas
+      colour: '#7a0403'

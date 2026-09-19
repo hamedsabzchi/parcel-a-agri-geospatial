@@ -1,0 +1,20 @@
+{
+  "source_url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=22c4b002-ae80-41f7-9f36-463b546378a2",
+  "licence": "CC-BY-4.0",
+  "licence_title": "Creative Commons Attribution 4.0 International",
+  "metadata_modified": "2025-04-14T09:37:27.307507",
+  "legal_constraints": {
+    "legalConstraints": {
+      "otherConstraints": [
+        "Creative Commons Attribution 4.0 International (CC-BY-4.0)"
+      ],
+      "accessConstraints": [
+        "copyright"
+      ],
+      "useConstraints": [
+        "license"
+      ]
+    }
+  },
+  "title": "AEZ classification by climate, soil, terrain, land cover (Global - ~1 km - 57 classes) - GAEZ v5"
+}

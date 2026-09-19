@@ -1,0 +1,263 @@
+{
+  "workspaceCode" : "GAEZ-V5",
+  "mapCode" : "AEZ57",
+  "code" : "GAEZ-V5.AEZ57",
+  "caption" : "AEZ classification by climate, soil, terrain, land cover, 57 classes (Global - ~1 km)",
+  "description" : "The Agro-ecological Zones classification (57 classes) provides a characterization of bio-physical resources relevant to agricultural production systems. AEZ definitions and map classes follow a rigorous methodology and an explicit set of principles. The inventory combines spatial layers of thermal and moisture regimes with broad categories of soil/terrain qualities. It also indicates locations of areas with irrigated soils and shows land with severely limiting bio-physical constraints including very cold and very dry (desert) areas as well as areas with very steep terrain or very poor soil/terrain conditions.\n\n\nThe dataset is provided at approximately 1 km spatial resolution globally, using historical climate data from AgERA5 from the Copernicus program, covering the period 2001–2020.\n\n\nThe AEZ classification dataset is part of the GAEZ v5 Land and Water Resources theme and Agro-ecological Zones sub-theme.\n\n\nFor additional information, please refer to the GAEZ v5 Model Documentation (accessible at https://github.com/un-fao/gaezv5/wiki).\n",
+  "styleCode" : "AEZ57",
+  "downloadUrl" : "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.tif",
+  "gsutilUri" : "gs://fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.tif",
+  "measureCaption" : "AEZ classification, 57 classes",
+  "measureUnit" : "class",
+  "scale" : 1.0,
+  "offset" : 0.0,
+  "additionalInfo" : {
+    "DataLineage" : "All results are derived from the Agro-ecological Zones (AEZ) modeling framework, developed collaboratively by the Food and Agriculture Organization (FAO) and the International Institute for Applied Systems Analysis (IIASA). The complete methodology is detailed in the Global Agro-ecological Zones v5 – Model Documentation, available at https://github.com/un-fao/gaezv5/wiki",
+    "SupplementalInformation" : "\\n\\nTheme: Land and Water Resources \\n\\nSub-theme: Agro-ecological Zones \\n\\nVariable Name: AEZ Classification (57 classes)"
+  },
+  "tags" : [ "AEZ_CLASSES", "GAEZV5" ],
+  "width" : 43200,
+  "height" : 21600,
+  "affineTransform" : [ -180.0, 0.00833333333333333, 0.0, 90.00000000000009, 0.0, -0.00833333333333333 ],
+  "srs" : {
+    "proj4" : "+proj=longlat +datum=WGS84 +no_defs",
+    "epsg" : "4326"
+  },
+  "extent" : {
+    "srs" : [ -180.0, -89.99999999999983, 179.99999999999983, 90.00000000000009 ],
+    "wgs84" : [ -180.0, -89.99999999999983, 179.99999999999983, 90.00000000000009 ]
+  },
+  "dataType" : "Byte",
+  "noDataValue" : 255.0,
+  "flags" : null,
+  "classes" : {
+    "1" : {
+      "caption" : "Tropics lowland; semi-arid no soil/terrain limitations",
+      "description" : "Tropics lowland; semi-arid no soil/terrain limitations"
+    },
+    "2" : {
+      "caption" : "Tropics lowland; semi-arid with soil/terrain limitations",
+      "description" : "Tropics lowland; semi-arid with soil/terrain limitations"
+    },
+    "3" : {
+      "caption" : "Tropics lowland; sub-humid no soil/terrain limitations",
+      "description" : "Tropics lowland; sub-humid no soil/terrain limitations"
+    },
+    "4" : {
+      "caption" : "Tropics lowland; sub-humid with soil/terrain limitations",
+      "description" : "Tropics lowland; sub-humid with soil/terrain limitations"
+    },
+    "5" : {
+      "caption" : "Tropics lowland; humid no soil/terrain limitations",
+      "description" : "Tropics lowland; humid no soil/terrain limitations"
+    },
+    "6" : {
+      "caption" : "Tropics lowland; humid with soil/terrain limitations",
+      "description" : "Tropics lowland; humid with soil/terrain limitations"
+    },
+    "7" : {
+      "caption" : "Tropics highland; semi-arid no soil/terrain limitations",
+      "description" : "Tropics highland; semi-arid no soil/terrain limitations"
+    },
+    "8" : {
+      "caption" : "Tropics highland; semi-arid with soil/terrain limitations",
+      "description" : "Tropics highland; semi-arid with soil/terrain limitations"
+    },
+    "9" : {
+      "caption" : "Tropics highland; sub-humid no soil/terrain limitations",
+      "description" : "Tropics highland; sub-humid no soil/terrain limitations"
+    },
+    "10" : {
+      "caption" : "Tropics highland; sub-humid with soil/terrain limitations",
+      "description" : "Tropics highland; sub-humid with soil/terrain limitations"
+    },
+    "11" : {
+      "caption" : "Tropics highland; humid no soil/terrain limitations",
+      "description" : "Tropics highland; humid no soil/terrain limitations"
+    },
+    "12" : {
+      "caption" : "Tropics highland; humid with soil/terrain limitations",
+      "description" : "Tropics highland; humid with soil/terrain limitations"
+    },
+    "13" : {
+      "caption" : "Sub-tropics warm; semi-arid no soil/terrain limitations",
+      "description" : "Sub-tropics warm; semi-arid no soil/terrain limitations"
+    },
+    "14" : {
+      "caption" : "Sub-tropics warm; semi-arid with soil/terrain limitations",
+      "description" : "Sub-tropics warm; semi-arid with soil/terrain limitations"
+    },
+    "15" : {
+      "caption" : "Sub-tropics warm; sub-humid no soil/terrain limitations",
+      "description" : "Sub-tropics warm; sub-humid no soil/terrain limitations"
+    },
+    "16" : {
+      "caption" : "Sub-tropics warm; sub-humid with soil/terrain limitations",
+      "description" : "Sub-tropics warm; sub-humid with soil/terrain limitations"
+    },
+    "17" : {
+      "caption" : "Sub-tropics warm; humid no soil/terrain limitations",
+      "description" : "Sub-tropics warm; humid no soil/terrain limitations"
+    },
+    "18" : {
+      "caption" : "Sub-tropics warm; humid with soil/terrain limitations",
+      "description" : "Sub-tropics warm; humid with soil/terrain limitations"
+    },
+    "19" : {
+      "caption" : "Sub-tropics mod. cool; semi-arid no soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; semi-arid no soil/terrain limitations"
+    },
+    "20" : {
+      "caption" : "Sub-tropics mod. cool; semi-arid with soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; semi-arid with soil/terrain limitations"
+    },
+    "21" : {
+      "caption" : "Sub-tropics mod. cool; sub-humid no soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; sub-humid no soil/terrain limitations"
+    },
+    "22" : {
+      "caption" : "Sub-tropics mod. cool; sub-humid with soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; sub-humid with soil/terrain limitations"
+    },
+    "23" : {
+      "caption" : "Sub-tropics mod. cool; humid no soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; humid no soil/terrain limitations"
+    },
+    "24" : {
+      "caption" : "Sub-tropics mod. cool; humid with soil/terrain limitations",
+      "description" : "Sub-tropics mod. cool; humid with soil/terrain limitations"
+    },
+    "25" : {
+      "caption" : "Sub-tropics cool; semi-arid no soil/terrain limitations",
+      "description" : "Sub-tropics cool; semi-arid no soil/terrain limitations"
+    },
+    "26" : {
+      "caption" : "Sub-tropics cool; semi-arid with soil/terrain limitations",
+      "description" : "Sub-tropics cool; semi-arid with soil/terrain limitations"
+    },
+    "27" : {
+      "caption" : "Sub-tropics cool; sub-humid no soil/terrain limitations",
+      "description" : "Sub-tropics cool; sub-humid no soil/terrain limitations"
+    },
+    "28" : {
+      "caption" : "Sub-tropics cool; sub-humid with soil/terrain limitations",
+      "description" : "Sub-tropics cool; sub-humid with soil/terrain limitations"
+    },
+    "29" : {
+      "caption" : "Sub-tropics cool; humid no soil/terrain limitations",
+      "description" : "Sub-tropics cool; humid no soil/terrain limitations"
+    },
+    "30" : {
+      "caption" : "Sub-tropics cool; humid with soil/terrain limitations",
+      "description" : "Sub-tropics cool; humid with soil/terrain limitations"
+    },
+    "31" : {
+      "caption" : "Temperate moderate; dry no soil/terrain limitations",
+      "description" : "Temperate moderate; dry no soil/terrain limitations"
+    },
+    "32" : {
+      "caption" : "Temperate moderate; dry with soil/terrain limitations",
+      "description" : "Temperate moderate; dry with soil/terrain limitations"
+    },
+    "33" : {
+      "caption" : "Temperate moderate; moist no soil/terrain limitations",
+      "description" : "Temperate moderate; moist no soil/terrain limitations"
+    },
+    "34" : {
+      "caption" : "Temperate moderate; moist with soil/terrain limitations",
+      "description" : "Temperate moderate; moist with soil/terrain limitations"
+    },
+    "35" : {
+      "caption" : "Temperate moderate; wet no soil/terrain limitations",
+      "description" : "Temperate moderate; wet no soil/terrain limitations"
+    },
+    "36" : {
+      "caption" : "Temperate moderate; wet with soil/terrain limitations",
+      "description" : "Temperate moderate; wet with soil/terrain limitations"
+    },
+    "37" : {
+      "caption" : "Temperate cool; dry no soil/terrain limitations",
+      "description" : "Temperate cool; dry no soil/terrain limitations"
+    },
+    "38" : {
+      "caption" : "Temperate cool; dry with soil/terrain limitations",
+      "description" : "Temperate cool; dry with soil/terrain limitations"
+    },
+    "39" : {
+      "caption" : "Temperate cool; moist no soil/terrain limitations",
+      "description" : "Temperate cool; moist no soil/terrain limitations"
+    },
+    "40" : {
+      "caption" : "Temperate cool; moist with soil/terrain limitations",
+      "description" : "Temperate cool; moist with soil/terrain limitations"
+    },
+    "41" : {
+      "caption" : "Temperate cool; wet no soil/terrain limitations",
+      "description" : "Temperate cool; wet no soil/terrain limitations"
+    },
+    "42" : {
+      "caption" : "Temperate cool; wet with soil/terrain limitations",
+      "description" : "Temperate cool; wet with soil/terrain limitations"
+    },
+    "43" : {
+      "caption" : "Cold no permafrost; dry no soil/terrain limitations",
+      "description" : "Cold no permafrost; dry no soil/terrain limitations"
+    },
+    "44" : {
+      "caption" : "Cold no permafrost; dry with soil/terrain limitations",
+      "description" : "Cold no permafrost; dry with soil/terrain limitations"
+    },
+    "45" : {
+      "caption" : "Cold no permafrost; moist no soil/terrain limitations",
+      "description" : "Cold no permafrost; moist no soil/terrain limitations"
+    },
+    "46" : {
+      "caption" : "Cold no permafrost; moist with soil/terrain limitations",
+      "description" : "Cold no permafrost; moist with soil/terrain limitations"
+    },
+    "47" : {
+      "caption" : "Cold no permafrost; wet no soil/terrain limitations",
+      "description" : "Cold no permafrost; wet no soil/terrain limitations"
+    },
+    "48" : {
+      "caption" : "Cold no permafrost; wet with soil/terrain limitations",
+      "description" : "Cold no permafrost; wet with soil/terrain limitations"
+    },
+    "49" : {
+      "caption" : "Dominantly very steep terrain",
+      "description" : "Dominantly very steep terrain"
+    },
+    "50" : {
+      "caption" : "Land with severe soil/terrain limitations",
+      "description" : "Land with severe soil/terrain limitations"
+    },
+    "51" : {
+      "caption" : "Ample irrigated soils",
+      "description" : "Ample irrigated soils"
+    },
+    "52" : {
+      "caption" : "Dominantly hydromorphic soils",
+      "description" : "Dominantly hydromorphic soils"
+    },
+    "53" : {
+      "caption" : "Desert/Arid climate",
+      "description" : "Desert/Arid climate"
+    },
+    "54" : {
+      "caption" : "Boreal/Cold climate",
+      "description" : "Boreal/Cold climate"
+    },
+    "55" : {
+      "caption" : "Arctic/Very cold climate",
+      "description" : "Arctic/Very cold climate"
+    },
+    "56" : {
+      "caption" : "Dominantly built-up land",
+      "description" : "Dominantly built-up land"
+    },
+    "57" : {
+      "caption" : "Dominantly water",
+      "description" : "Dominantly water"
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "requestId": "ce497a0e-eaed-42da-bf51-6de892e69eaf",
+  "timestamp": 1789830091157,
+  "runtime": 5,
+  "status": 200,
+  "message": "OK",
+  "response": {
+    "workspaceCode": "WAPOR-3",
+    "code": "L2-AETI-D",
+    "caption": "Actual EvapoTranspiration and Interception (National - Dekadal - 100m)",
+    "description": "The actual EvapoTranspiration and Interception (ETIa) is the sum of the soil evaporation (E), canopy transpiration (T), and evaporation from rainfall intercepted by leaves (I). The value of each pixel represents the average daily ETIa in a given dekad. The data is provided in near real time from January 2018 to present.",
+    "dimensions": [
+      "SHARED:DEKAD"
+    ],
+    "defaultStyleCode": "AETI-D-INT16",
+    "extensions": [
+      ".tif"
+    ],
+    "measureCaption": "Actual EvapoTranspiration and Interception",
+    "measureUnit": "mm/day",
+    "scale": 0.1,
+    "offset": 0.0,
+    "flags": null,
+    "classes": null,
+    "dimensionMembers": {
+      "rules": [
+        {
+          "regex": "^WAPOR-3\\.L2-AETI-D\\.(\\d{4})-(\\d{2})-(D1|D2|D3)\\.tif$",
+          "members": {
+            "SHARED:DEKAD": "$1-$2-$3"
+          }
+        }
+      ],
+      "lookUp": {}
+    },
+    "styleRules": null,
+    "bigTiff": true,
+    "tilesSize": 512,
+    "overviewsResamplingAlgorithm": "AVERAGE",
+    "translate": [
+      {
+        "subDataset": null,
+        "band": null,
+        "format": "GTiff",
+        "dataType": null,
+        "noDataValue": null,
+        "scale": null,
+        "srs": null,
+        "extent": null,
+        "gridSubWindow": null,
+        "srsSubWindow": null,
+        "options": [
+          "COMPRESS=LZW",
+          "INTERLEAVE=BAND",
+          "BIGTIFF=YES",
+          "TILED=YES"
+        ]
+      }
+    ],
+    "additionalInfo": null,
+    "tags": [
+      "AETI",
+      "DEKADAL",
+      "M100",
+      "WAPOR",
+      "WATER"
+    ],
+    "links": [
+      {
+        "rel": "parent",
+        "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WAPOR-3/mapsets"
+      },
+      {
+        "rel": "self",
+        "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WAPOR-3/mapsets/L2-AETI-D"
+      },
+      {
+        "rel": "statistics",
+        "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WAPOR-3/mapsets/L2-AETI-D/stats"
+      },
+      {
+        "rel": "rasters",
+        "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WAPOR-3/mapsets/L2-AETI-D/rasters"
+      }
+    ]
+  }
+}

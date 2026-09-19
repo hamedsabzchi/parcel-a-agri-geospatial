@@ -1,0 +1,27 @@
+schema_version: '3.0'
+compatible_stage02_revision: 6911341a75c69fa7389579f22f2516bb133d7920
+input_path: null
+aoi_snapshot: data/aoi/parcel_a.geojson
+output_directory: outputs/stage03_runs
+earth_engine_project: practical-proxy-441422-n6
+area_crs: EPSG:6933
+area_tolerance_fraction: 0.0001
+minimum_required_spatial_coverage: 0.9
+max_concurrent_requests: 1
+request_timeout_seconds: 60
+retry_limit: 2
+max_download_bytes: 30000000
+max_input_bytes: 2000000000
+max_working_bytes: 512000000
+max_observations: 500
+temporal_chunk_images: 24
+max_vector_features: 50000
+max_dashboard_bytes: 30000000
+preview_max_dimension: 1000
+cache_directory: data/cache/stage03
+native_grid_rule: Never coarsen analytical rasters
+supplemental_files: []
+offline: true
+approved_scope: Current GAEZ maize, 16 verified assets; descriptive historical inventory
+future_climate: 'DEFERRED: explicit model/scenario/period plan required'
+other_crops: DEFERRED until maize prototype approval

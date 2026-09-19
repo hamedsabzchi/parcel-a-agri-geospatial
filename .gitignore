@@ -38,3 +38,11 @@ Thumbs.db
 outputs/stage02_runs/
 outputs/stage02_setup.log
 data/local/**
+
+# Isolated Stage 03 runtime, inputs and test results
+.stage03/
+outputs/stage03_runs/
+outputs/stage03_setup.log
+data/stage03_inputs/
+stage03-test-results/
+stage03_result.json

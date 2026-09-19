@@ -1,0 +1,20 @@
+{
+  "source_url": "https://data.apps.fao.org/catalog/api/3/action/package_show?id=c620319f-0f06-46c5-9795-0cd8bfc34357",
+  "licence": "CC-BY-4.0",
+  "licence_title": "Creative Commons Attribution 4.0 International",
+  "metadata_modified": "2026-02-25T13:39:45.471919",
+  "legal_constraints": {
+    "legalConstraints": {
+      "otherConstraints": [
+        "This work is made available under the [Creative Commons Attribution 4.0 International licence (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/)"
+      ],
+      "accessConstraints": [
+        "copyright"
+      ],
+      "useConstraints": [
+        "license"
+      ]
+    }
+  },
+  "title": "Most limiting soil quality (Global - ~1 km) - GAEZ v5"
+}

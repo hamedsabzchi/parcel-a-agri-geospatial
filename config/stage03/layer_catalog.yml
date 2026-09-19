@@ -1,0 +1,1604 @@
+schema_version: '3.0'
+layers:
+- layer_id: GAEZ_V5_AEZ57
+  asset_key: GAEZ_V5_AEZ57
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Agro-ecological zones · 2001-2020
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: AEZ57
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.AEZ57.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/22c4b002-ae80-41f7-9f36-463b546378a2
+  legend_id: AEZ57
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  crop: null
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 255
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=22c4b002-ae80-41f7-9f36-463b546378a2
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES01_LGP__HP0120
+  asset_key: GAEZ_V5_RES01_LGP__HP0120
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Growing-period classes · 2001-2020
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: RES01-LGP
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP0120.AGERA5.HIST.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP0120.AGERA5.HIST.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/6dfa26e1-2312-4f68-ada8-a105739395ce
+  legend_id: RES01-LGP
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  crop: null
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=6dfa26e1-2312-4f68-ada8-a105739395ce
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES01_LGP__HP8100
+  asset_key: GAEZ_V5_RES01_LGP__HP8100
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Growing-period classes · 1981-2000
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: RES01-LGP
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP8100.AGERA5.HIST.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES01-LGP/GAEZ-V5.RES01-LGP.HP8100.AGERA5.HIST.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/6dfa26e1-2312-4f68-ada8-a105739395ce
+  legend_id: RES01-LGP
+  period: 1981-2000
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  crop: null
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=6dfa26e1-2312-4f68-ada8-a105739395ce
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_SQX__HIM
+  asset_key: GAEZ_V5_SQX__HIM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Soil-quality rating classes · High input
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: SQX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.HIM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.HIM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/476ffbd9-4af5-4429-bf99-2df6a34b5733
+  legend_id: SQX
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: HIM
+  crop: maize
+  soil_source: HWSD v2.01
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=476ffbd9-4af5-4429-bf99-2df6a34b5733
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Official GAEZ mapset metadata encodes rating ranges and special
+    classes, not a continuous index. Do not average the codes.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_SQX__LIM
+  asset_key: GAEZ_V5_SQX__LIM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Soil-quality rating classes · Low input
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: SQX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.LIM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQX/GAEZ-V5.SQX.SQ0.LIM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/476ffbd9-4af5-4429-bf99-2df6a34b5733
+  legend_id: SQX
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: LIM
+  crop: maize
+  soil_source: HWSD v2.01
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=476ffbd9-4af5-4429-bf99-2df6a34b5733
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Official GAEZ mapset metadata encodes rating ranges and special
+    classes, not a continuous index. Do not average the codes.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_SQ_IDX__HIM
+  asset_key: GAEZ_V5_SQ_IDX__HIM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Limiting soil quality · High input
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: SQ-IDX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.HIM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.HIM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/c620319f-0f06-46c5-9795-0cd8bfc34357
+  legend_id: SQ-IDX
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: HIM
+  crop: maize
+  soil_source: HWSD v2.01
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=c620319f-0f06-46c5-9795-0cd8bfc34357
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_SQ_IDX__LIM
+  asset_key: GAEZ_V5_SQ_IDX__LIM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Limiting soil quality · Low input
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: SQ-IDX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.LIM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/SQ-IDX/GAEZ-V5.SQ-IDX.LIM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/c620319f-0f06-46c5-9795-0cd8bfc34357
+  legend_id: SQ-IDX
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: LIM
+  crop: maize
+  soil_source: HWSD v2.01
+  source_lineage_years: null
+  unit: class
+  source_unit: class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=c620319f-0f06-46c5-9795-0cd8bfc34357
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_LR_IRR
+  asset_key: GAEZ_V5_LR_IRR
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Irrigated share of cropland
+  provider: FAO / IIASA
+  theme: GAEZ context
+  variable: LR-IRR
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: continuous
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAP/GAEZ-V5.LR-IRR.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/5e11e7c5-9088-4f1a-80df-04ef026bd726
+  legend_id: LR-IRR
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  crop: null
+  soil_source: null
+  source_lineage_years:
+  - 2000
+  - 2005
+  - 2010
+  - 2015
+  unit: '%'
+  source_unit: '%'
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: null
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=5e11e7c5-9088-4f1a-80df-04ef026bd726
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Share of cropland within the source cell, not percentage or irrigated
+    hectares of Parcel A. Lineage years are not a time series.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100
+- layer_id: GAEZ_V5_RES05_SIX__HRLM
+  asset_key: GAEZ_V5_RES05_SIX__HRLM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize suitability · Rainfed high-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize suitability
+  variable: RES05-SIX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/00cffd62-2ebf-47ab-9777-332cd1071aa0
+  legend_id: RES05-SIX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: HRLM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: Class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-SIX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=00cffd62-2ebf-47ab-9777-332cd1071aa0
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES05_SIX__LRLM
+  asset_key: GAEZ_V5_RES05_SIX__LRLM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize suitability · Rainfed low-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize suitability
+  variable: RES05-SIX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/00cffd62-2ebf-47ab-9777-332cd1071aa0
+  legend_id: RES05-SIX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: LRLM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: Class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-SIX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=00cffd62-2ebf-47ab-9777-332cd1071aa0
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES05_SIX__HILM
+  asset_key: GAEZ_V5_RES05_SIX__HILM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize suitability · Irrigated high-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize suitability
+  variable: RES05-SIX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HILM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.HILM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/00cffd62-2ebf-47ab-9777-332cd1071aa0
+  legend_id: RES05-SIX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: HILM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: Class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-SIX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=00cffd62-2ebf-47ab-9777-332cd1071aa0
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES05_SIX__LILM
+  asset_key: GAEZ_V5_RES05_SIX__LILM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize suitability · Irrigated low-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize suitability
+  variable: RES05-SIX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: categorical
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LILM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SIX/GAEZ-V5.RES05-SIX.HP0120.AGERA5.HIST.MZE.LILM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/00cffd62-2ebf-47ab-9777-332cd1071aa0
+  legend_id: RES05-SIX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: LILM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: class
+  source_unit: Class
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: 0
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-SIX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=00cffd62-2ebf-47ab-9777-332cd1071aa0
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail.
+  download_eligible: true
+  valid_range: null
+- layer_id: GAEZ_V5_RES05_YXX__HRLM
+  asset_key: GAEZ_V5_RES05_YXX__HRLM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize attainable yield · Rainfed high-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize attainable yield
+  variable: RES05-YXX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: continuous
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HRLM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/2673f847-129f-4388-8bb0-0699e41c3e7c
+  legend_id: RES05-YXX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: HRLM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: Kg (DW)/ha
+  source_unit: Kg (DW)/ha
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: -9
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-YXX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=2673f847-129f-4388-8bb0-0699e41c3e7c
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Average of best occurring suitability class in each cell; not
+    measured parcel yield or total production.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100000000.0
+- layer_id: GAEZ_V5_RES05_YXX__LRLM
+  asset_key: GAEZ_V5_RES05_YXX__LRLM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize attainable yield · Rainfed low-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize attainable yield
+  variable: RES05-YXX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: continuous
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LRLM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/2673f847-129f-4388-8bb0-0699e41c3e7c
+  legend_id: RES05-YXX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: LRLM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: Kg (DW)/ha
+  source_unit: Kg (DW)/ha
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: -9
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-YXX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=2673f847-129f-4388-8bb0-0699e41c3e7c
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Average of best occurring suitability class in each cell; not
+    measured parcel yield or total production.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100000000.0
+- layer_id: GAEZ_V5_RES05_YXX__HILM
+  asset_key: GAEZ_V5_RES05_YXX__HILM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize attainable yield · Irrigated high-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize attainable yield
+  variable: RES05-YXX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: continuous
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HILM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.HILM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/2673f847-129f-4388-8bb0-0699e41c3e7c
+  legend_id: RES05-YXX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: HILM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: Kg (DW)/ha
+  source_unit: Kg (DW)/ha
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: -9
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-YXX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=2673f847-129f-4388-8bb0-0699e41c3e7c
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Average of best occurring suitability class in each cell; not
+    measured parcel yield or total production.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100000000.0
+- layer_id: GAEZ_V5_RES05_YXX__LILM
+  asset_key: GAEZ_V5_RES05_YXX__LILM
+  dataset_id: FAO_GAEZ_V5_CURRENT
+  display_name: Maize attainable yield · Irrigated low-input · 2001-2020
+  provider: FAO / IIASA
+  theme: Maize attainable yield
+  variable: RES05-YXX
+  adapter: stage02_clip
+  required: true
+  enabled: true
+  data_type: continuous
+  source_id: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LILM.tif
+  source_url: https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-YXX/GAEZ-V5.RES05-YXX.HP0120.AGERA5.HIST.MZE.LILM.tif
+  metadata_url: https://data.apps.fao.org/catalog/iso/2673f847-129f-4388-8bb0-0699e41c3e7c
+  legend_id: RES05-YXX
+  period: 2001-2020
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: HIST
+  management_code: LILM
+  crop: Maize
+  soil_source: null
+  source_lineage_years: null
+  unit: Kg (DW)/ha
+  source_unit: Kg (DW)/ha
+  scale: 1.0
+  offset: 0.0
+  scale_already_applied: false
+  nodata: -9
+  mask_rule: Stage 02 explicit internal validity mask plus documented source NoData
+  qa_rule: Native metadata, masks, class crosswalk/range, area closure
+  source_version: GAEZ v5
+  native_grid_rule: Retain the checksum-verified native clip grid
+  processing: Exact native-cell intersections; descriptive class areas or weighted
+    summaries
+  comparison_group: RES05-YXX
+  licence: CC-BY-4.0
+  licence_url: https://data.apps.fao.org/catalog/api/3/action/package_show?id=2673f847-129f-4388-8bb0-0699e41c3e7c
+  attribution: FAO and IIASA, GAEZ v5
+  limitation: Native grid context; not a field survey. Area weighting does not add
+    spatial detail. Average of best occurring suitability class in each cell; not
+    measured parcel yield or total production.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100000000.0
+- layer_id: worldcover_2021
+  dataset_id: LC_ESA_WORLDCOVER_2021
+  display_name: WorldCover land cover · 2021
+  provider: ESA
+  theme: Land-cover benchmark
+  variable: Map
+  adapter: ee_static
+  data_type: categorical
+  source_id: ESA/WorldCover/v200
+  source_url: https://esa-worldcover.org/en/data-access
+  metadata_url: https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: class
+  source_unit: class
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: ESA/WorldCover/v200
+  period: '2021'
+  period_start: '2021-01-01'
+  period_end: '2022-01-01'
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: CC BY 4.0
+  licence_url: https://esa-worldcover.org/en/data-access
+  attribution: ESA
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  legend_id: WorldCover
+- layer_id: dynamicworld_2024
+  dataset_id: LC_DYNAMIC_WORLD
+  display_name: Dynamic World modal confident labels · 2024
+  provider: Google and World Resources Institute
+  theme: Near-real-time land-cover probabilities
+  variable: label
+  adapter: ee_static
+  data_type: categorical
+  source_id: GOOGLE/DYNAMICWORLD/V1
+  source_url: https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1
+  metadata_url: https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: class
+  source_unit: class
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source cloud mask; maximum class probability >= 0.6; >= 3 scenes per cell;
+    lowest-code tie
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: GOOGLE/DYNAMICWORLD/V1
+  period: '2024'
+  period_start: '2024-01-01'
+  period_end: '2025-01-01'
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: CC BY 4.0
+  licence_url: https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1
+  attribution: Google and World Resources Institute
+  processing: dynamic_world_mode
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  legend_id: DynamicWorld
+  minimum_probability: 0.6
+  minimum_observations: 3
+- layer_id: glo30_elevation
+  dataset_id: DEM_COPERNICUS_GLO30
+  display_name: Copernicus surface elevation
+  provider: European Commission and ESA
+  theme: Elevation, slope and drainage
+  variable: DEM
+  adapter: ee_static
+  data_type: continuous
+  source_id: COPERNICUS/DEM/GLO30
+  source_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  metadata_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: m
+  source_unit: m
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: COPERNICUS/DEM/GLO30
+  period: Product acquisition period; see source metadata
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus DEM licence
+  licence_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  attribution: European Commission and ESA
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  buffer_metres: 120
+- layer_id: srtm_elevation
+  dataset_id: DEM_SRTM
+  display_name: SRTM elevation
+  provider: NASA and USGS
+  theme: Elevation benchmark
+  variable: elevation
+  adapter: ee_static
+  data_type: continuous
+  source_id: USGS/SRTMGL1_003
+  source_url: https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm
+  metadata_url: https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm
+  collection_kind: IMAGE
+  required: false
+  enabled: true
+  enable_later: false
+  unit: m
+  source_unit: m
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: USGS/SRTMGL1_003
+  period: Product acquisition period; see source metadata
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: USGS public-domain data
+  licence_url: https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm
+  attribution: NASA and USGS
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  buffer_metres: 0
+- layer_id: alos_elevation
+  dataset_id: DEM_ALOS_AW3D30
+  display_name: ALOS surface elevation
+  provider: JAXA
+  theme: Elevation benchmark
+  variable: DSM
+  adapter: ee_static
+  data_type: continuous
+  source_id: JAXA/ALOS/AW3D30/V3_2
+  source_url: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/
+  metadata_url: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: m
+  source_unit: m
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: JAXA/ALOS/AW3D30/V3_2
+  period: Product acquisition period; see source metadata
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: JAXA AW3D30 terms
+  licence_url: https://www.eorc.jaxa.jp/ALOS/en/aw3d30/
+  attribution: JAXA
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  buffer_metres: 0
+- layer_id: glo30_slope
+  dataset_id: DEM_COPERNICUS_GLO30
+  display_name: Derived slope from Copernicus DEM
+  provider: European Commission and ESA
+  theme: Elevation, slope and drainage
+  variable: DEM
+  adapter: derived_slope
+  data_type: continuous
+  source_id: COPERNICUS/DEM/GLO30
+  source_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  metadata_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: degrees
+  source_unit: m
+  scale: 1
+  offset: 0
+  scale_already_applied: true
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: COPERNICUS/DEM/GLO30
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus DEM licence
+  licence_url: https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+  attribution: European Commission and ESA
+  processing: Buffered metric-grid central differences
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  parent: glo30_elevation
+  legend_id: slope
+  valid_range:
+  - 0
+  - 90
+- layer_id: jrc_occurrence
+  dataset_id: HYDRO_JRC_SURFACE_WATER
+  display_name: Surface water occurrence
+  provider: European Commission Joint Research Centre
+  theme: Surface water and wetness constraints
+  variable: occurrence
+  adapter: ee_static
+  data_type: continuous
+  source_id: JRC/GSW1_4/GlobalSurfaceWater
+  source_url: https://global-surface-water.appspot.com/download
+  metadata_url: https://global-surface-water.appspot.com/download
+  collection_kind: IMAGE
+  required: false
+  enabled: true
+  enable_later: false
+  unit: percent
+  source_unit: percent
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: JRC/GSW1_4/GlobalSurfaceWater
+  period: 1984–2021 for occurrence; 2021 for seasonality
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus/JRC terms
+  licence_url: https://global-surface-water.appspot.com/download
+  attribution: European Commission Joint Research Centre
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 100
+- layer_id: jrc_seasonality
+  dataset_id: HYDRO_JRC_SURFACE_WATER
+  display_name: Surface water seasonality
+  provider: European Commission Joint Research Centre
+  theme: Surface water and wetness constraints
+  variable: seasonality
+  adapter: ee_static
+  data_type: continuous
+  source_id: JRC/GSW1_4/GlobalSurfaceWater
+  source_url: https://global-surface-water.appspot.com/download
+  metadata_url: https://global-surface-water.appspot.com/download
+  collection_kind: IMAGE
+  required: false
+  enabled: true
+  enable_later: false
+  unit: months
+  source_unit: months
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: JRC/GSW1_4/GlobalSurfaceWater
+  period: 1984–2021 for occurrence; 2021 for seasonality
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus/JRC terms
+  licence_url: https://global-surface-water.appspot.com/download
+  attribution: European Commission Joint Research Centre
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  valid_range:
+  - 0
+  - 12
+- layer_id: olm_soc_0cm
+  dataset_id: SOIL_OPENLANDMAP_SOC
+  display_name: OpenLandMap organic carbon · 0 cm
+  provider: OpenGeoHub Foundation
+  theme: Soil organic carbon benchmark
+  variable: b0
+  adapter: ee_static
+  data_type: continuous
+  source_id: OpenLandMap/SOL/SOL_ORGANIC-CARBON_USDA-6A1C_M/v02
+  source_url: https://openlandmap.org/
+  metadata_url: https://developers.google.com/earth-engine/datasets/catalog/OpenLandMap_SOL_SOL_ORGANIC-CARBON_USDA-6A1C_M_v02
+  collection_kind: IMAGE
+  required: false
+  enabled: true
+  enable_later: false
+  unit: g/kg
+  source_unit: g/kg
+  scale: 5
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: OpenLandMap/SOL/SOL_ORGANIC-CARBON_USDA-6A1C_M/v02
+  period: null
+  period_start: null
+  period_end: null
+  depth: 0 cm point depth, predicted mean
+  climate_scenario: null
+  management_code: null
+  licence: CC-BY-SA-4.0
+  licence_url: https://openlandmap.org/
+  attribution: OpenGeoHub Foundation
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+- layer_id: modis_landcover_2024
+  dataset_id: LC_MODIS_MCD12Q1
+  display_name: MODIS IGBP land cover · 2024
+  provider: NASA LP DAAC
+  theme: Long-term land-cover context
+  variable: LC_Type1
+  adapter: ee_static
+  data_type: categorical
+  source_id: MODIS/061/MCD12Q1
+  source_url: https://lpdaac.usgs.gov/products/mcd12q1v061/
+  metadata_url: https://lpdaac.usgs.gov/products/mcd12q1v061/
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: class
+  source_unit: class
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: MODIS/061/MCD12Q1
+  period: '2024'
+  period_start: '2024-01-01'
+  period_end: '2025-01-01'
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: NASA data policy
+  licence_url: https://lpdaac.usgs.gov/products/mcd12q1v061/
+  attribution: NASA LP DAAC
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  legend_id: MODIS_IGBP
+- layer_id: copernicus_landcover_2019
+  dataset_id: LC_COPERNICUS_GLOBAL
+  display_name: Copernicus land cover · 2019
+  provider: European Commission Joint Research Centre
+  theme: Land-cover benchmark
+  variable: discrete_classification
+  adapter: ee_static
+  data_type: categorical
+  source_id: COPERNICUS/Landcover/100m/Proba-V-C3/Global
+  source_url: https://land.copernicus.eu/global/products/lc
+  metadata_url: https://land.copernicus.eu/global/products/lc
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: class
+  source_unit: class
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: COPERNICUS/Landcover/100m/Proba-V-C3/Global
+  period: '2019'
+  period_start: '2019-01-01'
+  period_end: '2020-01-01'
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus data policy
+  licence_url: https://land.copernicus.eu/global/products/lc
+  attribution: European Commission Joint Research Centre
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  legend_id: CGLS
+- layer_id: chirps_precipitation
+  dataset_id: CLIMATE_CHIRPS_DAILY
+  display_name: CHIRPS precipitation
+  provider: Climate Hazards Center UC Santa Barbara
+  theme: Rainfall history and drought
+  variable: precipitation
+  adapter: ee_series
+  data_type: timeseries
+  source_id: UCSB-CHG/CHIRPS/DAILY
+  source_url: https://www.chc.ucsb.edu/data/chirps
+  metadata_url: https://www.chc.ucsb.edu/data/chirps
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: mm/month
+  source_unit: mm
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: UCSB-CHG/CHIRPS/DAILY
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: CHIRPS data policy
+  licence_url: https://www.chc.ucsb.edu/data/chirps
+  attribution: Climate Hazards Center UC Santa Barbara
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: daily
+  aggregation: sum_amount
+  nonnegative: true
+- layer_id: era5_temperature
+  dataset_id: CLIMATE_ERA5_LAND
+  display_name: ERA5-Land temperature
+  provider: Copernicus Climate Change Service and ECMWF
+  theme: Historical weather and land-surface climate
+  variable: temperature_2m
+  adapter: ee_series
+  data_type: timeseries
+  source_id: ECMWF/ERA5_LAND/DAILY_AGGR
+  source_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  metadata_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: °C
+  source_unit: K
+  scale: 1
+  offset: -273.15
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: ECMWF/ERA5_LAND/DAILY_AGGR
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus C3S licence
+  licence_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  attribution: Copernicus Climate Change Service and ECMWF
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: daily
+  aggregation: duration_mean
+  nonnegative: false
+- layer_id: era5_precipitation
+  dataset_id: CLIMATE_ERA5_LAND
+  display_name: ERA5-Land precipitation
+  provider: Copernicus Climate Change Service and ECMWF
+  theme: Historical weather and land-surface climate
+  variable: total_precipitation_sum
+  adapter: ee_series
+  data_type: timeseries
+  source_id: ECMWF/ERA5_LAND/DAILY_AGGR
+  source_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  metadata_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: mm/month
+  source_unit: m
+  scale: 1000
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: ECMWF/ERA5_LAND/DAILY_AGGR
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: Copernicus C3S licence
+  licence_url: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land
+  attribution: Copernicus Climate Change Service and ECMWF
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: daily
+  aggregation: sum_amount
+  nonnegative: true
+- layer_id: wapor_l1_aeti
+  dataset_id: FAO_WAPOR_V3_L1
+  display_name: WaPOR L1 evapotranspiration and interception
+  provider: FAO
+  theme: Evapotranspiration and water productivity
+  variable: L1-AETI-D
+  adapter: ee_series
+  data_type: timeseries
+  source_id: FAO/WAPOR/3/L1_AETI_D
+  source_url: https://www.fao.org/in-action/remote-sensing-for-water-productivity/en
+  metadata_url: https://www.fao.org/in-action/remote-sensing-for-water-productivity/en
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: mm/month
+  source_unit: mm/day × 10
+  scale: 0.1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: FAO/WAPOR/3/L1_AETI_D
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: FAO open-data terms
+  licence_url: https://www.fao.org/in-action/remote-sensing-for-water-productivity/en
+  attribution: FAO
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: dekadal
+  aggregation: integrate_rate
+  nonnegative: true
+- layer_id: modis_ndvi
+  dataset_id: EO_MODIS_NDVI
+  display_name: MODIS NDVI
+  provider: NASA LP DAAC
+  theme: Long-term vegetation condition
+  variable: NDVI
+  adapter: ee_series
+  data_type: timeseries
+  source_id: MODIS/061/MOD13Q1
+  source_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  metadata_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: unitless index
+  source_unit: index × 10000
+  scale: 0.0001
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: SummaryQA 0 or 1; source mask; scale 0.0001
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: MODIS/061/MOD13Q1
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: NASA data policy
+  licence_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  attribution: NASA LP DAAC
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: 16day
+  aggregation: duration_mean
+  nonnegative: false
+  qa_band: SummaryQA
+  qa_max: 1
+- layer_id: modis_evi
+  dataset_id: EO_MODIS_NDVI
+  display_name: MODIS EVI
+  provider: NASA LP DAAC
+  theme: Long-term vegetation condition
+  variable: EVI
+  adapter: ee_series
+  data_type: timeseries
+  source_id: MODIS/061/MOD13Q1
+  source_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  metadata_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: unitless index
+  source_unit: index × 10000
+  scale: 0.0001
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: SummaryQA 0 or 1; source mask; scale 0.0001
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: MODIS/061/MOD13Q1
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: NASA data policy
+  licence_url: https://lpdaac.usgs.gov/products/mod13q1v061/
+  attribution: NASA LP DAAC
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: 16day
+  aggregation: duration_mean
+  nonnegative: false
+  qa_band: SummaryQA
+  qa_max: 1
+- layer_id: terraclimate_precipitation
+  dataset_id: CLIMATE_TERRACLIMATE
+  display_name: TerraClimate precipitation
+  provider: University of Idaho
+  theme: Climate and water-balance context
+  variable: pr
+  adapter: ee_series
+  data_type: timeseries
+  source_id: IDAHO_EPSCOR/TERRACLIMATE
+  source_url: https://www.climatologylab.org/terraclimate.html
+  metadata_url: https://www.climatologylab.org/terraclimate.html
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: mm/month
+  source_unit: mm
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: IDAHO_EPSCOR/TERRACLIMATE
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: TerraClimate data terms
+  licence_url: https://www.climatologylab.org/terraclimate.html
+  attribution: University of Idaho
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: monthly
+  aggregation: sum_amount
+  nonnegative: true
+- layer_id: terraclimate_tmax
+  dataset_id: CLIMATE_TERRACLIMATE
+  display_name: TerraClimate maximum temperature
+  provider: University of Idaho
+  theme: Climate and water-balance context
+  variable: tmmx
+  adapter: ee_series
+  data_type: timeseries
+  source_id: IDAHO_EPSCOR/TERRACLIMATE
+  source_url: https://www.climatologylab.org/terraclimate.html
+  metadata_url: https://www.climatologylab.org/terraclimate.html
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: °C
+  source_unit: °C × 10
+  scale: 0.1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: IDAHO_EPSCOR/TERRACLIMATE
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: TerraClimate data terms
+  licence_url: https://www.climatologylab.org/terraclimate.html
+  attribution: University of Idaho
+  processing: Per-cell temporal aggregation followed by AOI area weighting
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  cadence: monthly
+  aggregation: duration_mean
+  nonnegative: false
+- layer_id: wapor_l2_aeti
+  dataset_id: FAO_WAPOR_V3_L2
+  display_name: WaPOR L2 evapotranspiration and interception
+  provider: FAO
+  theme: Higher-resolution evapotranspiration and productivity
+  variable: L2-AETI-D
+  adapter: ee_series
+  data_type: timeseries
+  source_id: projects/UNFAO/wapor/v3/L2-AETI-D
+  source_url: https://data.apps.fao.org/wapor/
+  metadata_url: https://data.apps.fao.org/wapor/
+  collection_kind: IMAGE_COLLECTION
+  required: false
+  enabled: true
+  enable_later: false
+  unit: mm/month
+  source_unit: mm/day × 10
+  scale: 0.1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: UNKNOWN
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: FAO open-data terms
+  licence_url: https://data.apps.fao.org/wapor/
+  attribution: FAO
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded product; native support and uncertainty are retained. Not field
+    validation.
+  download_eligible: true
+  resolve_from_evidence: true
+  cadence: dekadal
+  aggregation: integrate_rate
+  nonnegative: true
+- layer_id: power_temperature
+  dataset_id: CLIMATE_NASA_POWER
+  display_name: NASA POWER temperature at AOI centroid
+  provider: NASA
+  theme: Weather cross-check
+  variable: T2M
+  adapter: power
+  data_type: timeseries
+  source_id: https://power.larc.nasa.gov/api/temporal/daily/point
+  source_url: https://power.larc.nasa.gov/docs/services/api/
+  metadata_url: https://power.larc.nasa.gov/docs/services/api/
+  collection_kind: UNKNOWN
+  required: false
+  enabled: true
+  enable_later: false
+  unit: °C
+  source_unit: °C
+  scale: 1
+  offset: 0
+  scale_already_applied: false
+  nodata: null
+  mask_rule: Source mask and documented QA
+  qa_rule: Source mask
+  native_grid_rule: Exact first-source native grid, aligned AOI window; no analytical
+    coarsening
+  source_version: UNKNOWN
+  period: null
+  period_start: null
+  period_end: null
+  depth: null
+  climate_scenario: null
+  management_code: null
+  licence: NASA open-data policy
+  licence_url: https://power.larc.nasa.gov/docs/services/api/
+  attribution: NASA
+  processing: Native-grid AOI extraction and area-weighted descriptive summary
+  limitation: Gridded point query at the AOI centroid; not an in-situ observation
+    or an AOI area average.
+  download_eligible: true
+  cadence: daily
+  aggregation: duration_mean
+  accepted_source_units:
+  - C
+  - °C

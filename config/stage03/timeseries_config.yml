@@ -1,0 +1,9 @@
+defaults:
+  start: '2024-01-01'
+  end: '2025-01-01'
+  minimum_spatial_coverage: 0.9
+  minimum_temporal_coverage: 0.9
+  display_interval: monthly
+  threshold_note: 90% is a configurable project choice; partial totals remain labelled
+    partial
+overrides: {}
