@@ -20,6 +20,25 @@ REQUIRED = [
     "stage02b/gaez/gaez_verification_report.csv", "stage02b/gaez/gaez_verification_report.json",
     "stage02b/gaez/gaez_v5_source_manifest_verified.yml",
 ]
+MAX_MEMBER_BYTES = 500_000_000
+
+
+def read_csv(path):
+    """Read complete evidence cells within the existing input member budget."""
+    path = Path(path)
+    size = path.stat().st_size
+    if size > MAX_MEMBER_BYTES:
+        raise ValueError("Stage 02 CSV exceeds the input member budget")
+    previous = csv.field_size_limit()
+    try:
+        # CSV's default 128 Ki-character limit is smaller than valid Stage 02
+        # metadata fields. A UTF-8 field cannot contain more characters than the
+        # file has bytes; this bound retains the full evidence without truncation.
+        csv.field_size_limit(max(previous, size))
+        with path.open(newline="", encoding="utf-8-sig") as stream:
+            return list(csv.DictReader(stream))
+    finally:
+        csv.field_size_limit(previous)
 
 
 def gaez_assets(manifest):
@@ -54,7 +73,7 @@ def unpack(source, destination, max_bytes=2_000_000_000):
             names.add(i.filename)
             if i.is_dir():
                 continue
-            if i.file_size > 500_000_000 or (i.file_size > 10_000_000 and i.file_size / max(1, i.compress_size) > 2000):
+            if i.file_size > MAX_MEMBER_BYTES or (i.file_size > 10_000_000 and i.file_size / max(1, i.compress_size) > 2000):
                 raise ValueError("Unsafe archive expansion")
             target = destination.joinpath(*p.parts)
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -96,8 +115,7 @@ def validate(root, project):
     if len(expected) != 48:
         raise ValueError("Unsupported source registry")
     unique(sources, "dataset_id", expected)
-    with (root / REQUIRED[0]).open(newline="") as f:
-        csv_rows = list(csv.DictReader(f))
+    csv_rows = read_csv(root / REQUIRED[0])
     unique(csv_rows, "dataset_id", expected)
     csv_rows = {r["dataset_id"]: r for r in csv_rows}
     for r in sources:
@@ -117,8 +135,7 @@ def validate(root, project):
     report = json.loads((root / REQUIRED[7]).read_text())
     unique(verified, "asset_key", approved)
     unique(report, "asset_key", approved)
-    with (root / REQUIRED[6]).open(newline="") as f:
-        csv_gaez = list(csv.DictReader(f))
+    csv_gaez = read_csv(root / REQUIRED[6])
     unique(csv_gaez, "asset_key", approved)
     csv_gaez = {r["asset_key"]: r for r in csv_gaez}
     final_gaez = next(r for r in sources if r["dataset_id"] == "FAO_GAEZ_V5_CURRENT")

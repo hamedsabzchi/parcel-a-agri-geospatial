@@ -32,7 +32,7 @@ class NotebookStartupTests(unittest.TestCase):
         cls.notebook,cls.tree=notebook_namespace()
 
     def prepared(self,base):
-        _,archive=fixture(base/'fixtures')
+        _,archive=fixture(base/'fixtures',large_evidence=True)
         notebook=self.notebook
         root=notebook['materialize'](notebook['STAGE03_BUNDLE'],notebook['STAGE03_SHA256'],base)
         result_path=root/'stage03_result.json'

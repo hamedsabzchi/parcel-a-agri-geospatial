@@ -13,7 +13,7 @@ from parcel_a_stage03.inputs import gaez_assets
 ROOT=Path(__file__).resolve().parents[2]
 
 
-def fixture(directory,optional=False):
+def fixture(directory,optional=False,large_evidence=False):
     directory=Path(directory);root=directory/"synthetic_stage02";root.mkdir(parents=True)
     original=yaml.safe_load((ROOT/"config/sources/gaez_v5_source_manifest.yml").read_text())
     verified=copy.deepcopy(original)
@@ -40,6 +40,9 @@ def fixture(directory,optional=False):
             verification_status="VERIFIED_INSIDE_AOI",local_clip="clips/"+path.name,raster_crs="EPSG:4326",
             raster_resolution=[resolution,resolution],raster_width=round(360/resolution),raster_height=round(180/resolution),
             raster_nodata=None,aoi_overlap=True,value_rule_passed=True,synthetic_test_fixture=True))
+    # Live source checks can serialize extensive evidence into a single CSV cell.
+    evidence=('SYNTHETIC TEST ONLY: "quoted", multi-line evidence — vérifié\n'*5000) if large_evidence else None
+    if evidence:reports[0]["verification_details"]=evidence
     write_json(root/"stage02b/gaez/gaez_verification_report.json",reports)
     write_csv(root/"stage02b/gaez/gaez_verification_report.csv",reports)
     (root/"stage02b/gaez/gaez_v5_source_manifest_verified.yml").write_text(yaml.safe_dump(verified))
@@ -50,6 +53,9 @@ def fixture(directory,optional=False):
         if r["dataset_id"]=="FAO_GAEZ_V5_CURRENT" or (optional and r["dataset_id"]=="LC_ESA_WORLDCOVER_2021"):
             row.update(FINAL_STATUS="VERIFIED_INSIDE_AOI",FINAL_ACTION="USE_NEXT")
         rows.append(row)
+    if evidence:
+        rows[0]["FINAL_EVIDENCE"]=evidence
+        rows[0]["Stage_02B_evidence_json"]=json.dumps({"synthetic_test_details":evidence},ensure_ascii=False)
     write_json(root/"final/metadata/final_data_inventory.json",rows)
     write_csv(root/"final/tables/final_data_inventory.csv",rows)
     write_json(root/"final/metadata/final_summary.json",dict(aoi_sha256=sha256(ROOT/"data/aoi/parcel_a.geojson"),gaez_assets_verified=16,generated_at_utc="SYNTHETIC_TEST_RUN"))

@@ -1,4 +1,5 @@
 import copy
+import csv
 import json
 import tempfile
 import unittest
@@ -22,6 +23,27 @@ class InputTests(unittest.TestCase):
         self.assertEqual(sum(l["extraction_status"]=="PENDING" for l in layers),16)
         self.assertEqual(len(inputs["gaez"]),16)
         self.assertEqual(next(s for s in sources if s["dataset_id"]=="FAO_GAEZ_V5_FUTURE")["stage03_disposition"],"DEFERRED")
+
+    def test_long_csv_evidence_is_preserved_and_checked(self):
+        root,archive=fixture(Path(self.temp.name)/"long-evidence",large_evidence=True)
+        root=unpack(archive,Path(self.temp.name)/"unpacked-long-evidence")
+        inventory_path=root/"final/metadata/final_data_inventory.json"
+        expected=json.loads(inventory_path.read_text())
+        self.assertGreater(len(expected[0]["FINAL_EVIDENCE"]),131072)
+        previous=csv.field_size_limit(131072)
+        try:
+            inputs=validate(root,ROOT)
+            self.assertEqual(inputs["sources"],expected)
+            self.assertEqual(csv.field_size_limit(),131072)
+            report=json.loads((root/"stage02b/gaez/gaez_verification_report.json").read_text())
+            self.assertEqual(inputs["gaez"][0]["verification_details"],report[0]["verification_details"])
+            # A mismatch after the original field limit must still be rejected.
+            expected[0]["FINAL_EVIDENCE"]+="changed tail"
+            inventory_path.write_text(json.dumps(expected));rehash(root)
+            with self.assertRaisesRegex(ValueError,"CSV/JSON disagreement"):
+                validate(root,ROOT)
+            self.assertEqual(csv.field_size_limit(),131072)
+        finally:csv.field_size_limit(previous)
 
     def test_archive_paths_and_missing_hash(self):
         with ZipFile(Path(self.temp.name)/"bad.zip","w") as z:z.writestr("../escape.txt","bad")
