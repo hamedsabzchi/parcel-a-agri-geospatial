@@ -7,7 +7,7 @@ charset-normalizer==3.5.1
 click==8.5.0
 click-plugins==1.1.1.2
 cligj==0.7.2
-contourpy==1.4.0
+contourpy==1.3.3
 cryptography==50.0.1
 cycler==0.12.1
 earthengine-api==1.7.43

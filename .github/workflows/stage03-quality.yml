@@ -16,6 +16,7 @@ jobs:
   validate-stage03:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python: ['3.11', '3.12']
     env:
