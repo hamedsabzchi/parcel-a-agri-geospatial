@@ -133,7 +133,7 @@ class MaizePackageTests(unittest.TestCase):
             page.goto(Path(self.built['dashboard']).as_uri());page.wait_for_function('window.stage03Ready===true')
             self.assertTrue(page.locator('#maize-overview').is_visible());page.locator('#maize-start').click()
             for key,value in [('map_code','RES05-YXX'),('period_code','FP8100'),('ssp_code','SSP585'),('management_code','HRLM'),('climate_model_code','FIVE_MODELS'),('view','model_mean')]:page.locator('#maize-'+key).select_option(value)
-            self.assertEqual(page.locator('#active-layer option').count(),1);self.assertIn('Project-derived',page.locator('#active-layer').inner_text())
+            self.assertEqual(page.locator('#layer-list .layer-check:visible').count(),1);self.assertEqual(page.locator('#comparison-group').input_value(),'RES05-YXX');self.assertEqual(page.locator('#active-layer option').count(),1);self.assertIn('Project-derived',page.locator('#active-layer').inner_text())
             page.locator('#layer-downloads button').filter(has_text='Related table').click();self.assertIn('records',page.locator('#page-info').inner_text());self.assertNotIn('0 records',page.locator('#page-info').inner_text())
             page.locator('[data-tab="maps"]').click();page.get_by_role('button',name='Clear filters',exact=True).click()
             page.locator('#comparison-group').select_option('SIX_AND_SXX')
