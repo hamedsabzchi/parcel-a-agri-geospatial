@@ -1,0 +1,61 @@
+{
+  "uuid" : "10089ef8-8444-4ee4-857d-5f4aa48dc8a3",
+  "code" : "SIX",
+  "caption" : "SIX",
+  "description" : "",
+  "colorMap" : {
+    "type" : "VALUES",
+    "items" : [ {
+      "color" : "#ffffff",
+      "quantity" : 0.0,
+      "opacity" : 0.0,
+      "label" : "no data"
+    }, {
+      "color" : "#007000",
+      "quantity" : 1.0,
+      "opacity" : 1.0,
+      "label" : "SI >85 : Very high"
+    }, {
+      "color" : "#15ae11",
+      "quantity" : 2.0,
+      "opacity" : 1.0,
+      "label" : "SI >70 : High"
+    }, {
+      "color" : "#ace15e",
+      "quantity" : 3.0,
+      "opacity" : 1.0,
+      "label" : "SI >55 : Good"
+    }, {
+      "color" : "#fed801",
+      "quantity" : 4.0,
+      "opacity" : 1.0,
+      "label" : "SI >40 : Medium"
+    }, {
+      "color" : "#ce9d53",
+      "quantity" : 5.0,
+      "opacity" : 1.0,
+      "label" : "SI >25 : Moderate"
+    }, {
+      "color" : "#cd6c01",
+      "quantity" : 6.0,
+      "opacity" : 1.0,
+      "label" : "SI >10 : Marginal"
+    }, {
+      "color" : "#808080",
+      "quantity" : 7.0,
+      "opacity" : 1.0,
+      "label" : "SI >0 : Very marginal"
+    }, {
+      "color" : "#cfcfcf",
+      "quantity" : 8.0,
+      "opacity" : 1.0,
+      "label" : "Not suitable"
+    }, {
+      "color" : "#aad3df",
+      "quantity" : 9.0,
+      "opacity" : 1.0,
+      "label" : "Water"
+    } ]
+  },
+  "workspaceCode" : "GAEZ-V5"
+}

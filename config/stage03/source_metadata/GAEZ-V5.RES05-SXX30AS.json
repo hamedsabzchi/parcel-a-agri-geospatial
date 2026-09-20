@@ -1,0 +1,52 @@
+{
+  "workspaceCode" : "GAEZ-V5",
+  "code" : "RES05-SXX30AS",
+  "caption" : "Crop suitability, continuous index (Global - 20 years average - ~1 km) - GAEZ v5",
+  "description" : "Crop suitability results are presented as a continuous index, calculated for all land area, with values stretching over the interval of 0 to 10000, with a spatial resolution of approximately 1 km. They account for both rain-fed and irrigated conditions, as well as two different levels of input management (high and low). These results are provided for 52 major crops and cover all soil groups identified by the Harmonized World Soil Database (HWSD v2) (FAO & IIASA, 2023). Crop suitability index is estimated using different climate data sources for both historical and future periods.\n\nHistorical climate data is sourced from AgERA5 from the Copernicus program, covering the periods 1981–2000 and 2001–2020.\n\nFor future projections, climate model outputs from the latest CMIP6 IPCC AR6 are used, based on three Shared Socioeconomic Pathways (SSPs) and spanning four time periods: 2021–2040, 2041–2060, 2061–2080, and 2081–2100.\n\nThis dataset is part of the GAEZ v5 Suitability and Attainable Yield theme and Suitability Index sub-theme.\n\nFor additional information, please refer to the GAEZ v5 Model Documentation (accessible at https://github.com/un-fao/gaezv5/wiki).",
+  "dimensions" : [ {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "PERIOD",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "CLIM",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "SSP",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "CROP-RES05",
+    "type" : "WHAT"
+  }, {
+    "workspaceCode" : "GAEZ-V5",
+    "code" : "WSIM-RES05",
+    "type" : "WHAT"
+  } ],
+  "defaultStyleCode" : "SXX",
+  "measureCaption" : "Crop suitability index",
+  "measureUnit" : "Index",
+  "scale" : 1.0,
+  "offset" : 0.0,
+  "additionalInfo" : {
+    "DataLineage" : "All results are derived from the Agro-ecological Zones (AEZ) modeling framework, developed collaboratively by the Food and Agriculture Organization (FAO) and the International Institute for Applied Systems Analysis (IIASA). The complete methodology is detailed in the Global Agro-ecological Zones v5 – Model Documentation, available at https://github.com/un-fao/gaezv5/wiki",
+    "SupplementalInformation" : "\\n\\nTheme: Suitability and Attainable Yield\\n\\nSub-theme: Suitability Index\\n\\nVariable Name: Suitability index  range (0 – 10000); all land in grid cell"
+  },
+  "tags" : [ "CROP_SUITABILITY", "GAEZV5" ],
+  "width" : 43200,
+  "height" : 21600,
+  "affineTransform" : [ -180.0, 0.008333333333333333, 0.0, 90.0, 0.0, -0.008333333333333333 ],
+  "srs" : {
+    "proj4" : "+proj=longlat +datum=WGS84 +no_defs",
+    "epsg" : "4326"
+  },
+  "extent" : {
+    "srs" : [ -180.0, -90.0, 180.0, 90.0 ],
+    "wgs84" : [ -180.0, -90.0, 180.0, 90.0 ]
+  },
+  "dataType" : "Int16",
+  "noDataValue" : -9.0,
+  "flags" : null,
+  "classes" : null
+}

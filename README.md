@@ -50,8 +50,12 @@ Stage 02 checks metadata and small samples. Agricultural analyses and full data 
 
 [![Open Stage 03 In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/03_data_inventory_visualization.ipynb)
 
-Run the single cell. Supply your completed Stage 02 ZIP if asked, then approve Google access.
+Run the single cell. Supply your completed Stage 02 **or Stage 03 ZIP**. Approve Google access if asked.
 
-You receive the 16 GAEZ maps, eligible additional maps and historical series, descriptive tables and graphs, and one downloadable ZIP. Extract it and open the dashboard HTML. The thematic dashboard works offline.
+You receive all existing maps and historical series, plus maize suitability and yield across four future periods, three climate scenarios and five models. Use the dashboard filters to explore maps, comparisons, tables and graphs. Everything is delivered in one ZIP; the thematic dashboard works offline.
+
+A completed Stage 03 ZIP reuses your existing results. The extension checks 254 additional source rasters and downloads only AOI windows. Future 1 km continuous suitability stays visibly blocked until verified source files exist.
+
+[Maize extension methods](docs/stage03_maize_methodology.md) · [Coverage of all 23 guideline addenda](docs/stage03_maize_traceability.md)
 
 [Stage 03 methods, source definitions and maintenance](docs/stage03_methodology.md)

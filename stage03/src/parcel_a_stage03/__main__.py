@@ -9,6 +9,7 @@ def main():
     p=argparse.ArgumentParser(description="Build Stage 03 from one verified Stage 02 run")
     p.add_argument("--root",required=True);p.add_argument("--input",required=True)
     p.add_argument("--output-base",required=True);p.add_argument("--result-path",required=True)
+    p.add_argument("--core-only",action="store_true",help="Advanced: build only the original Stage 03 core")
     p.add_argument("--cache");p.add_argument("--ee-project");p.add_argument("--preflight",action="store_true")
     args=p.parse_args()
     phase="loading Stage 03 dependencies"
@@ -17,13 +18,17 @@ def main():
         # must still produce a readable result for the notebook's parent process.
         from .common import write_json
         from .pipeline import prepare, run
+        from . import maize_workflow
+        if not args.core_only:run=maize_workflow.run
         if args.preflight:
-            phase="checking the Stage 02 package"
+            phase="checking the Stage 02 or Stage 03 package"
             import tempfile
             with tempfile.TemporaryDirectory(prefix="stage03-preflight-",dir=Path(args.result_path).parent) as work:
-                cfg,inputs,layers,rows,_=prepare(args.root,args.input,work)
-                result=dict(needs_earth_engine=any(l["extraction_status"]=="PENDING" and l["adapter"].startswith("ee_") for l in layers),
-                    selected_layers=sum(l["extraction_status"]=="PENDING" for l in layers),aoi_sha256=inputs["aoi_sha256"])
+                if not args.core_only:result=maize_workflow.preflight(args.root,args.input,work)
+                else:
+                    cfg,inputs,layers,rows,_=prepare(args.root,args.input,work)
+                    result=dict(needs_earth_engine=any(l["extraction_status"]=="PENDING" and l["adapter"].startswith("ee_") for l in layers),
+                        selected_layers=sum(l["extraction_status"]=="PENDING" for l in layers),aoi_sha256=inputs["aoi_sha256"])
         else:
             phase="building Stage 03 results"
             result=run(args.root,args.input,args.output_base,args.cache,args.ee_project,progress=lambda _:None)

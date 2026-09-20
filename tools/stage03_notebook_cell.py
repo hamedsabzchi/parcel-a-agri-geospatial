@@ -38,10 +38,10 @@ def materialize(encoded,digest,base):
 
 
 def choose_input(base):
-    configured=os.getenv("STAGE02_INPUT")
+    configured=os.getenv("STAGE03_INPUT") or os.getenv("STAGE02_INPUT")
     if configured:
         path=Path(configured)
-        if not path.exists():raise ValueError("The configured Stage 02 input does not exist.")
+        if not path.exists():raise ValueError("The configured input package does not exist.")
         return path.resolve()
     runs=base/"outputs/stage02_runs"
     candidates=sorted(runs.glob("*/stage02_all_in_one_results.zip")) if runs.exists() else []
@@ -51,15 +51,15 @@ def choose_input(base):
     except ImportError:
         if candidates:
             for i,path in enumerate(candidates,1):print(f"{i}: {path.parent.name}")
-        response=input("Select the Stage 02 run number or enter the full ZIP/run path: ").strip()
+        response=input("Select a run number or enter the full Stage 02 / Stage 03 ZIP path: ").strip()
         return candidates[int(response)-1] if response.isdigit() and candidates else Path(response).expanduser().resolve()
-    print("Choose the completed Stage 02 results ZIP.")
+    print("Choose your completed Stage 02 or Stage 03 results ZIP.")
     uploaded=files.upload()
-    if len(uploaded)!=1:raise ValueError("Select exactly one Stage 02 ZIP.")
+    if len(uploaded)!=1:raise ValueError("Select exactly one completed results ZIP.")
     name,data=next(iter(uploaded.items()))
-    if not name.lower().endswith(".zip"):raise ValueError("Select the complete Stage 02 ZIP.")
+    if not name.lower().endswith(".zip"):raise ValueError("Select a complete Stage 02 or Stage 03 ZIP.")
     folder=base/"data/stage03_inputs"/hashlib.sha256(data).hexdigest()[:16];folder.mkdir(parents=True,exist_ok=True)
-    target=folder/"stage02_all_in_one_results.zip";target.write_bytes(data)
+    target=folder/Path(name).name;target.write_bytes(data)
     return target
 
 
@@ -159,7 +159,9 @@ def run_notebook():
         if output["outcome"]=="INCOMPLETE":
             print("Stage 03 needs attention. See the gaps in the dashboard; diagnostics are available below.")
         else:
-            print(f"Stage 03 complete: {summary['extracted_layer_count']} layers from {summary['extracted_source_count']} sources.")
+            if summary.get('maize_extension'):
+                print(f"Stage 03 complete: original results retained + {summary['maize_extension']['available_layers']} maize source maps.")
+            else:print(f"Stage 03 complete: {summary['extracted_layer_count']} layers from {summary['extracted_source_count']} sources.")
             if summary["gaps"]:print(f"{len(summary['gaps'])} optional layers need attention; details are in the dashboard.")
         download_file(output["archive"])
         return output["outcome"]!="INCOMPLETE"

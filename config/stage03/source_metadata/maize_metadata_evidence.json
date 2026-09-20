@@ -1,0 +1,201 @@
+[
+  {
+    "file": "GAEZ-V5.RES05-SXX30AS.json",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/MAPSET/RES05-SXX30AS/GAEZ-V5.RES05-SXX30AS.json",
+    "retrieved_at_utc": "2026-09-20T21:43:21.160353+00:00",
+    "sha256": "e2d4e6eadc426cb8466ffd1e05c521fc0c3fcb75d896741347c0896570dcf0a9",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET"
+  },
+  {
+    "file": "GAEZ-V5.SXX.json",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.SXX.json",
+    "retrieved_at_utc": "2026-09-20T21:43:21.160446+00:00",
+    "sha256": "b0c032e1a55f97080a240a7c6005dc6ad6163897c142314a8dd7009e807de486",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET"
+  },
+  {
+    "file": "GAEZ-V5.SXX.sld",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.SXX.sld",
+    "retrieved_at_utc": "2026-09-20T21:43:21.160476+00:00",
+    "sha256": "764ebb5bf6e7dc79ff496ce98767df9ee6ec3cff4f986b44ad49aad2295517bf",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET",
+    "parsed_colour_entries": [
+      {
+        "color": "#d2d2d2",
+        "opacity": "0.0",
+        "quantity": "-9.0",
+        "label": "no data"
+      },
+      {
+        "color": "#ffffff",
+        "opacity": "1.0",
+        "quantity": "0.0",
+        "label": "0"
+      },
+      {
+        "color": "#ab8964",
+        "opacity": "1.0",
+        "quantity": "1000.0",
+        "label": "1,000"
+      },
+      {
+        "color": "#f18f3c",
+        "opacity": "1.0",
+        "quantity": "2500.0",
+        "label": "2,500"
+      },
+      {
+        "color": "#f7d909",
+        "opacity": "1.0",
+        "quantity": "5000.0",
+        "label": "5,000"
+      },
+      {
+        "color": "#67ca3b",
+        "opacity": "1.0",
+        "quantity": "7500.0",
+        "label": "7,500"
+      },
+      {
+        "color": "#0e8407",
+        "opacity": "1.0",
+        "quantity": "10000.0",
+        "label": "10,000"
+      }
+    ]
+  },
+  {
+    "file": "GAEZ-V5.SIX.json",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.SIX.json",
+    "retrieved_at_utc": "2026-09-20T21:43:21.160931+00:00",
+    "sha256": "aa154e6eaf0dfd188df8861cc6a21e82251eb7ea21ce895dac79eae889772167",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET"
+  },
+  {
+    "file": "GAEZ-V5.SIX.sld",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.SIX.sld",
+    "retrieved_at_utc": "2026-09-20T21:43:21.160967+00:00",
+    "sha256": "4bda0fe69c5596ae1ec28d3a5c317ae840387e353b0c8354e681033ea298b606",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET",
+    "parsed_colour_entries": [
+      {
+        "color": "#ffffff",
+        "opacity": "0.0",
+        "quantity": "0.0",
+        "label": "no data"
+      },
+      {
+        "color": "#007000",
+        "opacity": "1.0",
+        "quantity": "1.0",
+        "label": "SI >85 : Very high"
+      },
+      {
+        "color": "#15ae11",
+        "opacity": "1.0",
+        "quantity": "2.0",
+        "label": "SI >70 : High"
+      },
+      {
+        "color": "#ace15e",
+        "opacity": "1.0",
+        "quantity": "3.0",
+        "label": "SI >55 : Good"
+      },
+      {
+        "color": "#fed801",
+        "opacity": "1.0",
+        "quantity": "4.0",
+        "label": "SI >40 : Medium"
+      },
+      {
+        "color": "#ce9d53",
+        "opacity": "1.0",
+        "quantity": "5.0",
+        "label": "SI >25 : Moderate"
+      },
+      {
+        "color": "#cd6c01",
+        "opacity": "1.0",
+        "quantity": "6.0",
+        "label": "SI >10 : Marginal"
+      },
+      {
+        "color": "#808080",
+        "opacity": "1.0",
+        "quantity": "7.0",
+        "label": "SI >0 : Very marginal"
+      },
+      {
+        "color": "#cfcfcf",
+        "opacity": "1.0",
+        "quantity": "8.0",
+        "label": "Not suitable"
+      },
+      {
+        "color": "#aad3df",
+        "opacity": "1.0",
+        "quantity": "9.0",
+        "label": "Water"
+      }
+    ]
+  },
+  {
+    "file": "GAEZ-V5.YLD.json",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.YLD.json",
+    "retrieved_at_utc": "2026-09-20T21:43:21.161085+00:00",
+    "sha256": "fb0c057b5abf9339a682c710f91612c93814badcf5bfd48a9e0da4c2b0d987d0",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET"
+  },
+  {
+    "file": "GAEZ-V5.YLD.sld",
+    "url": "https://storage.googleapis.com/fao-gismgr-gaez-v5-data/DATA/GAEZ-V5/STYLE/GAEZ-V5.YLD.sld",
+    "retrieved_at_utc": "2026-09-20T21:43:21.161112+00:00",
+    "sha256": "000ee0710ee514a74c50fa364adeb016395738d7a73af3b6f2fd4b06677eb22d",
+    "status": "RETRIEVED_FROM_OFFICIAL_PUBLIC_BUCKET",
+    "parsed_colour_entries": [
+      {
+        "color": "#ffffff",
+        "opacity": "0.0",
+        "quantity": "-9.0",
+        "label": "No Data"
+      },
+      {
+        "color": "#ffffff",
+        "opacity": "1.0",
+        "quantity": "0.0",
+        "label": "0"
+      },
+      {
+        "color": "#ab8964",
+        "opacity": "1.0",
+        "quantity": "1000.0",
+        "label": "1,000"
+      },
+      {
+        "color": "#f18f3c",
+        "opacity": "1.0",
+        "quantity": "2500.0",
+        "label": "2,500"
+      },
+      {
+        "color": "#f7d909",
+        "opacity": "1.0",
+        "quantity": "5000.0",
+        "label": "5,000"
+      },
+      {
+        "color": "#67ca3b",
+        "opacity": "1.0",
+        "quantity": "7500.0",
+        "label": "7,500"
+      },
+      {
+        "color": "#0e8407",
+        "opacity": "1.0",
+        "quantity": "10000.0",
+        "label": "10,000"
+      }
+    ]
+  }
+]

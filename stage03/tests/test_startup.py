@@ -37,6 +37,7 @@ class NotebookStartupTests(unittest.TestCase):
         root=notebook['materialize'](notebook['STAGE03_BUNDLE'],notebook['STAGE03_SHA256'],base)
         result_path=root/'stage03_result.json'
         command=notebook['worker_command'](sys.executable,root,archive,base,result_path)
+        command.append('--core-only')  # Retain the original offline startup regression; extension has separate tests.
         log=base/'stage03_setup.log';log.write_text('SYNTHETIC TEST ONLY\n')
         env=dict(os.environ,MPLBACKEND='Agg',MPLCONFIGDIR=str(base/'mpl'))
         return root,result_path,command,log,env

@@ -7,7 +7,9 @@ on:
       - 'config/stage03/**'
       - 'tools/*stage03*'
       - 'notebooks/03_data_inventory_visualization.ipynb'
-      - 'docs/stage03_methodology.md'
+      - 'docs/stage03*.md'
+      - 'docs/source_guides/stage03*'
+      - 'tools/build_maize_manifest.py'
       - '.github/workflows/stage03-quality.yml'
   pull_request:
   workflow_dispatch:
@@ -38,7 +40,9 @@ jobs:
           python -m playwright install --with-deps chromium
           python -m pip check
       - name: Validate the self-contained notebook
-        run: python tools/build_stage03.py --check
+        run: |
+          python tools/build_maize_manifest.py --check
+          python tools/build_stage03.py --check
       - name: Verify science, input integrity, package and offline browser
         run: python -m unittest discover -s stage03/tests -v
       - name: Keep clearly labelled test evidence

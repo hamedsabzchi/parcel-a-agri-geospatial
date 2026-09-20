@@ -1,0 +1,22 @@
+schema_version: '3.23'
+enabled: true
+manifest: config/stage03/maize_sources.json
+original_required_gaez_count: 16
+original_source_count: 48
+request_timeout_seconds: 45
+retry_limit: 2
+maximum_json_bytes: 2000000
+maximum_window_cells: 2000000
+maximum_window_bytes: 16000000
+area_crs: EPSG:6933
+area_tolerance_fraction: 0.0001
+preview_max_dimension: 600
+max_dashboard_bytes: 90000000
+max_working_bytes: 1500000000
+common_support_method: exact_native_cell_geometry_overlay
+five_model_set: [GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, UKESM1-0-LL]
+categorical_strong_agreement_minimum: 4
+coefficient_of_variation_rule: population_standard_deviation / positive_mean; otherwise unavailable
+historical_continuous_domain: [0, 10000]
+yield_domain_rule: pooled valid min/max for each management, including matching historical and future source layers
+future_continuous_suitability: BLOCKED_BY_PUBLIC_SOURCE_AVAILABILITY
