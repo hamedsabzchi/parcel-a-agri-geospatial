@@ -4,6 +4,20 @@ This clarification accompanies the [complete original supplied guideline](source
 
 ## User workflow
 
+### Practical presentation (version 4.1)
+
+The default tab now follows four agricultural questions: suitability and agreement, modelled attainable yield, future periods, and rainfed versus irrigated conditions. Four headline cards show findings rather than inventory counts. Every main map and graph has a caption underneath describing the selected values, their interpretation, and the relevant coverage or decision limit.
+
+The final panel turns those findings into checks needed before a local decision. These checks depend on the selected evidence: missing products, partial coverage, model disagreement, valid zero-yield areas and the selected farming system. They are follow-up study questions, not crop rankings or automatic planting or investment recommendations.
+
+All calculations, individual-model values, source legends and exports are retained. Full statistics, alternate map diagnostics, methodology, quality records, provenance and the complete scenario table remain accessible through expandable sections. The main view keeps coverage, native resolution and the need for local field evidence visible.
+
+The agreement graphic uses four non-overlapping shares: all five models agree, exactly four agree (strong minus full), exactly three agree, and split/tied classes. The original strong-agreement statistic still includes full agreement in tables and detailed statistics. The positive/zero chart retains the original five-model-mean criterion and yield common-valid-area denominator. The management bars share a zero origin and show the existing area-weighted yield means; each case retains its own coverage.
+
+Captions describe actual verified values. They distinguish an AOI class-area tie from a tie among models within a cell, retain valid zeros and missing evidence separately, and avoid attributing differences to climate or irrigation when spatial support can differ. Additional tests cover these distinctions and the collapsed default layout.
+
+### Run the notebook
+
 1. Open [Stage 04 in Colab](https://colab.research.google.com/github/hamedsabzchi/parcel-a-agri-geospatial/blob/main/notebooks/04_future_scenario_summary.ipynb).
 2. Run its single cell and upload the original completed Stage 03 ZIP.
 3. View the new scenario tab and download `stage04_future_scenario_summary.zip`.

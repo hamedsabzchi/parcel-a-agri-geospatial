@@ -51,7 +51,7 @@ def additions(html,data):
     css='<style id="stage04-style">'+(ASSETS/'stage04.css').read_text()+'</style>'
     section=(ASSETS/'stage04.html').read_text()
     payload=json.dumps(data,ensure_ascii=False,separators=(',',':'),allow_nan=False).replace('<','\\u003c').replace('\u2028','\\u2028').replace('\u2029','\\u2029')
-    script='<script id="stage04-data" type="application/json">'+payload+'</script><script id="stage04-script">'+(ASSETS/'stage04.js').read_text()+'</script>'
+    script='<script id="stage04-data" type="application/json">'+payload+'</script><script id="stage04-script">'+(ASSETS/'stage04_narrative.js').read_text()+'\n'+(ASSETS/'stage04.js').read_text()+'</script>'
     inserts=[(button,'</nav>'),(css+section,'</main>'),(script,'</body>')]
     changed=html
     for text,anchor in inserts:changed=changed.replace(anchor,text+anchor,1)
@@ -113,7 +113,7 @@ def run(source,output_base,*,browser_check=inspect,testing=False):
     dump(payload/'metadata/stage04_baseline_inventory.json',baseline)
     dump(payload/'qa/stage04_baseline_browser.json',baseline_browser)
     dump(payload/'dashboard/assets/stage04_future_scenarios_data.json',data)
-    for source_name,target_name in [('stage04.css','stage04_future_scenarios.css'),('stage04.js','stage04_future_scenarios.js')]:shutil.copyfile(ASSETS/source_name,payload/'dashboard/assets'/target_name)
+    for source_name,target_name in [('stage04.css','stage04_future_scenarios.css'),('stage04.js','stage04_future_scenarios.js'),('stage04_narrative.js','stage04_future_scenarios_narrative.js')]:shutil.copyfile(ASSETS/source_name,payload/'dashboard/assets'/target_name)
     changed_html,insertion_evidence=additions(original_html,data);(payload/ENTRY).write_bytes(changed_html.encode('utf-8'))
     change=[dict(path=ENTRY,before_sha256=next(x['sha256'] for x in baseline if x['path']==ENTRY),after_sha256=sha(payload/ENTRY),
         reason='Insert one tab, scoped CSS, one section, embedded Stage 04 data and namespaced JavaScript; original content retained exactly',**insertion_evidence)]

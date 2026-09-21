@@ -4,12 +4,16 @@
 
 Run the cell and upload your completed **Stage 03 ZIP**.
 
-The new **Stage 04: Future Scenarios Summary** tab shows:
+The **Stage 04: Future Scenarios Summary** tab answers four questions:
 
-- Suitability consensus and model agreement on native-unit maps.
-- Attainable yield, positive-yield area, valid zero-yield area and model spread.
-- Comparisons across scenario periods, SSP pathways and management regimes.
-- A filterable scenario table and downloadable evidence.
+- How suitable does the area look, and do the five models agree?
+- What modelled yield is indicated, including valid zero-yield areas?
+- How do the results differ across future periods?
+- How do rainfed and irrigated cases compare?
+
+Read the four headline findings, then the captions below each map and graph. Captions update with your selections. The final section identifies what to check next: local crop conditions, model disagreement, uncovered areas, zero-yield cells or water requirements, as relevant to the evidence.
+
+Full statistics, alternative map views, the complete scenario table, model values and downloads remain in expandable sections. Calculations and source data are unchanged. To use this revised layout, reopen the notebook from GitHub and rerun it with the original Stage 03 ZIP.
 
 Download `stage04_future_scenario_summary.zip`, extract it, and open `dashboard/parcel_a_data_inventory.html`. All existing Stage 03 tabs remain available. The extracted dashboard works offline.
 

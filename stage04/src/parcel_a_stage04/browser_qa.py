@@ -37,6 +37,8 @@ def inspect(path,stage04=False):
         if stage04:
             page.locator('#stage04-tab').click();page.wait_for_function('window.ParcelAStage04?.ready===true')
             checks['one_stage04_tab']=page.locator('#stage04-tab').count()==1
+            checks['details_collapsed_by_default']=page.evaluate("!document.getElementById('s4-technical').open&&!document.getElementById('s4-table-panel').open&&!document.getElementById('s4-evidence').open")
+            for ident in ['s4-suit-options','s4-yield-options']:page.locator('#'+ident+' > summary').click()
             keys=page.evaluate('ParcelAStage04.data.scenarios.map(r=>r.key)')
             for key in keys:
                 page.evaluate('(key)=>ParcelAStage04.selectKey(key)',key)
@@ -45,6 +47,10 @@ def inspect(path,stage04=False):
                     for value in page.locator('#'+ident+' option').evaluate_all('xs=>xs.filter(x=>!x.disabled).map(x=>x.value)'):
                         page.locator('#'+ident).select_option(value)
             checks['all_verified_selections_and_diagnostics']=not errors and page.evaluate('ParcelAStage04.state.errors.length===0')
+            caption_ids=['s4-suit-caption','s4-yield-caption','s4-agreement-caption','s4-yield-area-caption','s4-trend-note','s4-management-caption']
+            checks['descriptive_captions_below_every_graph']=all(len(page.locator('#'+ident).inner_text())>80 for ident in caption_ids) if keys else True
+            checks['practical_next_checks_visible']=page.locator('#s4-decisions h4').count()>=3
+            page.locator('#s4-table-panel > summary').click()
             if keys:
                 page.locator('#s4-current-only').check()
                 checks['selected_table_filter']=page.locator('#s4-scenarios tbody tr').count()==1
@@ -73,6 +79,11 @@ def inspect(path,stage04=False):
                 checks['mobile_map_'+str(width)]=page.locator('#s4-map-suit').bounding_box()['width']>100
             page.locator('[data-tab="overview"]').click();page.locator('#stage04-tab').click()
             checks['repeat_activation']=page.locator('#s4-map-suit .leaflet-map-pane').count()<=1
+            if keys:
+                page.locator('#s4-suit-diagnostic').select_option('modal_class');page.locator('#s4-yield-diagnostic').select_option('model_mean')
+                checks['caption_follows_map_selection']='The five models give an average' in page.locator('#s4-yield-caption').inner_text()
+                page.locator('#s4-trend-metric').select_option('whole')
+            for ident in ['s4-suit-options','s4-yield-options','s4-table-panel']:page.locator('#'+ident+' > summary').click()
             if os.getenv('STAGE04_SCREENSHOTS'):
                 folder=Path(os.environ['STAGE04_SCREENSHOTS']);folder.mkdir(parents=True,exist_ok=True)
                 page.set_viewport_size({'width':375,'height':844});page.wait_for_timeout(150)
@@ -89,6 +100,7 @@ def inspect(path,stage04=False):
                 mobile.locator('#s4-map-suit .leaflet-control-zoom-in').tap();mobile.wait_for_timeout(300)
                 checks['touch_map_zoom']=mobile.evaluate('ParcelAStage04.state.maps.suitability.getZoom()')>before
                 mobile.locator('#s4-reset-suit').tap()
+                mobile.locator('#s4-technical > summary').tap()
                 mobile.locator('#s4-product').tap();mobile.locator('#s4-product').select_option(index=0)
                 checks['touch_controls']=mobile.evaluate('ParcelAStage04.state.errors.length===0')
             touch.close()
