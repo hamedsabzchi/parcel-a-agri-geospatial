@@ -1,0 +1,57 @@
+name: stage04-quality
+
+on:
+  push:
+    paths:
+      - 'stage04/**'
+      - 'tools/*stage04*'
+      - 'notebooks/04_future_scenario_summary.ipynb'
+      - 'docs/stage04*.md'
+      - 'docs/source_guides/stage04*'
+      - '.github/workflows/stage04-quality.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-stage04:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    env:
+      PYTHONPATH: stage03/src:stage03/tests:stage04/src
+      MPLBACKEND: Agg
+      STAGE03_BROWSER_TESTS: '1'
+      STAGE03_TEST_ARTIFACTS: stage04-test-results/input
+      STAGE04_BROWSER_TESTS: '1'
+      STAGE04_TEST_ARTIFACTS: stage04-test-results/output
+      STAGE04_SCREENSHOTS: stage04-test-results/screenshots
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: |
+            stage03/requirements-lock.txt
+            stage04/requirements-lock.txt
+      - name: Install locked test environment
+        run: |
+          python -m pip install -q -r stage03/requirements-lock.txt -r stage04/requirements-lock.txt
+          python -m playwright install --with-deps chromium
+          python -m pip check
+      - name: Check the separate notebook bundle
+        run: |
+          python tools/build_stage04.py --check
+          node --check stage04/src/parcel_a_stage04/assets/stage04.js
+      - name: Run unchanged Stage 03 regression tests
+        run: python -m unittest discover -s stage03/tests -v
+      - name: Verify Stage 04 science, preservation, packaging and offline browser
+        run: python -m unittest discover -s stage04/tests -v
+      - name: Retain clearly labelled synthetic test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage04-synthetic-test-evidence-${{ matrix.python }}
+          path: stage04-test-results/

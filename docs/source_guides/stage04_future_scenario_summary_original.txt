@@ -1,0 +1,1100 @@
+STAGE 04 IMPLEMENTATION GUIDE
+Decision-Oriented Future Scenario Summary
+================================================================================
+
+DOCUMENT PURPOSE
+----------------
+This document instructs a coding agent to implement Stage 04 by adding one carefully integrated tab to the accepted Stage 03 Parcel A dashboard. Stage 04 is an additive decision-support synthesis layer. It does not replace Stage 03 source data, analytical outputs, maps, tables, methods, verification evidence, or dashboard functionality.
+
+Stage 04 must allow non-specialist decision-makers to compare verified future crop suitability, attainable yield, model agreement, and inter-model spread without manually reviewing hundreds of individual scenario maps. The tab must remain evidence-oriented and neutral. It must not generate crop recommendations, investment decisions, rankings, field-level forecasts, or unsupported conclusions.
+
+TASK
+----
+Implement Stage 04: Decision-Oriented Future Scenario Summary.
+
+INPUT
+-----
+Use the original accepted Stage 03 ZIP package as the only input package.
+
+Do not use a previously modified Stage 04 ZIP as input.
+Do not use an extracted directory whose provenance cannot be tied to the original Stage 03 ZIP.
+Do not silently supplement the package with external, synthetic, manually typed, or previously cached analytical values.
+
+The Stage 03 ZIP is expected to contain, at minimum:
+- dashboard/parcel_a_data_inventory.html
+- dashboard/assets/
+- tables/
+- clipped_data/
+- metadata/
+- Stage 03 logs, manifests, QA records, provenance records, and verification records
+
+If a required source is absent, record the gap and disable the affected Stage 04 element. Do not fabricate values or show a misleading empty chart.
+
+OUTPUT
+------
+Return one new ZIP package named exactly:
+stage04_future_scenario_summary.zip
+
+The output ZIP must contain the complete original Stage 03 package plus the additive Stage 04 implementation.
+
+The main dashboard entry point must remain exactly:
+dashboard/parcel_a_data_inventory.html
+
+The new dashboard tab must be named exactly:
+Stage 04: Future Scenarios Summary
+
+Do not create a second dashboard entry point.
+Do not rename the main HTML file.
+Do not package the source Stage 03 ZIP inside the output ZIP unless the Stage 03 package already contained it.
+
+NON-NEGOTIABLE PRESERVATION RULE
+--------------------------------
+Do not rebuild, replace, simplify, redesign, or reformat the Stage 03 dashboard.
+Do not remove, rename, reorganize, overwrite, or silently modify any existing:
+- dashboard tab;
+- dashboard section;
+- map;
+- chart;
+- table;
+- downloadable file;
+- data layer;
+- metadata file;
+- manifest;
+- verification record;
+- QA record;
+- provenance record;
+- folder;
+- asset;
+- method description;
+- legend;
+- title;
+- note;
+- disclaimer;
+- JavaScript feature;
+- CSS behaviour;
+- file path;
+- internal identifier;
+- offline capability.
+
+Only add:
+1. the Stage 04 tab;
+2. Stage 04-derived tables and metadata;
+3. the minimum supporting CSS and JavaScript required by the new tab;
+4. additive Stage 04 QA, provenance, processing-history, and output-manifest records.
+
+The existing Stage 03 dashboard must continue to work exactly as before.
+
+BASELINE INTEGRITY CHECK
+------------------------
+Before making any change:
+1. Extract the original Stage 03 ZIP to a clean working directory.
+2. Record the input ZIP filename, byte size, and SHA-256.
+3. Record a recursive inventory of all files with relative path, byte size, and SHA-256.
+4. Open dashboard/parcel_a_data_inventory.html locally.
+5. Verify all existing tabs, maps, controls, charts, tables, downloads, and offline thematic assets.
+6. Save the baseline verification result.
+
+After implementation:
+- every original relative path must still exist;
+- every original file not intentionally and minimally extended for Stage 04 must retain its original checksum;
+- the main HTML must retain all existing content and behaviour;
+- any changed original file must be listed in a Stage 04 change manifest with the reason for change;
+- no original analytical result may change.
+
+SOURCE-OF-TRUTH RULE
+--------------------
+Use only data contained in the input Stage 03 ZIP.
+
+Do not:
+- invent, estimate, simulate, interpolate, extrapolate, or manually type analytical values when the values can be derived from package sources;
+- replace missing values with zero;
+- treat NoData as zero;
+- infer values from filenames alone;
+- use map colours or screenshots as analytical data;
+- reinterpret categorical classes without the source-defined class crosswalk;
+- treat rendered or resampled display pixels as native analytical units;
+- substitute an ENSEMBLE product for an individual climate model;
+- treat the source ENSEMBLE product as a sixth climate model;
+- infer an aggregation method for ENSEMBLE unless the Stage 03 metadata explicitly defines it;
+- combine values with different support without documenting and resolving the denominator.
+
+Read the underlying authoritative tables, GeoJSON properties, raster-derived cell records, metadata, manifests, QA records, and verification outputs.
+
+SOURCE DISCOVERY AND CONTRACT RESOLUTION
+----------------------------------------
+Before building the tab, recursively inspect the complete ZIP and identify the authoritative source files for:
+1. future suitability classes;
+2. the source-defined suitability class crosswalk and colours;
+3. future attainable yield;
+4. five-model suitability agreement diagnostics;
+5. yield inter-model uncertainty diagnostics;
+6. source-cell intersection areas;
+7. AOI area;
+8. common valid area by scenario and management;
+9. scenario periods;
+10. SSP pathways;
+11. management regimes;
+12. model identifiers;
+13. crop identifiers;
+14. quality flags;
+15. limitations;
+16. data units, scale factors, NoData values, and masks;
+17. local layer paths and download links;
+18. provenance and verification status.
+
+Create an additive source-resolution record containing:
+- requested Stage 04 field;
+- selected authoritative source file;
+- selected field or property name;
+- unit;
+- denominator where applicable;
+- join keys;
+- validation rule;
+- fallback behaviour;
+- status;
+- warning or limitation.
+
+Recommended outputs:
+- metadata/stage04_source_contract.json
+- tables/stage04_source_contract.csv
+
+If multiple candidate sources disagree:
+- do not silently choose one;
+- prefer the Stage 03 verified analytical table or manifest explicitly designated as authoritative;
+- record the conflict;
+- disable the affected metric until the conflict is resolved;
+- show an honest visible limitation in the Stage 04 tab.
+
+VERIFIED SCENARIO DIMENSIONS
+----------------------------
+If present and verified in the Stage 03 package, support:
+
+Periods:
+- FP2140: 2021-2040
+- FP4160: 2041-2060
+- FP6180: 2061-2080
+- FP8100: 2081-2100
+
+Climate pathways:
+- SSP126: SSP1-2.6
+- SSP370: SSP3-7.0
+- SSP585: SSP5-8.5
+
+Management regimes:
+- HILM: Irrigated, high input
+- HRLM: Rainfed, high input
+
+Individual climate models:
+- GFDL-ESM4
+- IPSL-CM6A-LR
+- MPI-ESM1-2-HR
+- MRI-ESM2-0
+- UKESM1-0-LL
+
+Do not assume that any combination exists because its dimensions are listed above. Confirm combinations from the Stage 03 manifests and verified analytical outputs. Display only combinations that pass the applicable Stage 03 verification and Stage 04 source-contract checks.
+
+A verified scenario combination means one unique:
+crop + period + SSP + management regime
+
+A model-specific record additionally includes:
+climate model
+
+Never count HILM and HRLM together unless the label explicitly says management-specific combinations are being counted.
+
+STAGE 04 TAB OBJECTIVE
+----------------------
+The Stage 04 tab must provide:
+- an executive summary;
+- interactive scenario selection;
+- a suitability-consensus map;
+- an attainable-yield evidence map;
+- model-agreement indicators;
+- yield uncertainty indicators;
+- trends across available future periods;
+- an irrigated-versus-rainfed comparison;
+- an all-scenario comparison table;
+- interpretation notes;
+- explicit limitations;
+- traceable links to source evidence and downloads;
+- a clear distinction between analytical evidence and decisions.
+
+TAB HEADER
+----------
+Title:
+Stage 04: Future Scenarios Summary
+
+Subtitle:
+Decision-oriented synthesis of future crop suitability, attainable yield, model agreement and uncertainty.
+
+Introductory statement:
+This tab summarizes the verified future-scenario evidence contained in Stage 03. It is designed for strategic screening and comparison. It does not provide crop recommendations, forecasts, field-level validation or investment decisions.
+
+Add a compact visible status line showing:
+- selected crop;
+- selected period;
+- selected SSP;
+- selected management regime;
+- verified model count;
+- common-valid-area status;
+- quality flag.
+
+EXECUTIVE SUMMARY
+-----------------
+Generate the executive summary dynamically from verified Stage 03 data and the current filter selection.
+
+The summary should answer, neutrally:
+- what combination is selected;
+- what suitability class is most frequently assigned among the five included models;
+- how much of the common valid area is represented by that class;
+- how strongly the models agree;
+- the whole-AOI attainable-yield evidence with valid zeros retained;
+- the positive-yield-area share;
+- the inter-model spread;
+- whether evidence is limited by few native cells, incomplete common support, masking, or other QA flags.
+
+Use concise evidence statements. Do not use recommended, preferred, optimal, safe, certain, bankable, invest, or best option.
+
+SUMMARY CARDS
+-------------
+Create cards dynamically from the input package. Include, where supported:
+- verified scenario combinations;
+- future periods;
+- SSP pathways;
+- individual climate models included in the selected diagnostic;
+- management regimes;
+- AOI area in hectares;
+- common valid area in hectares;
+- common valid percentage;
+- intersecting native-cell or analytical-unit count;
+- selected quality flag.
+
+Rules:
+- do not hard-code counts, cell numbers, percentages, or AOI area;
+- derive counts from verified unique keys, not row counts that may contain duplicates;
+- if a metric varies by product, period, SSP, management, or diagnostic, display the selected value or a labelled range rather than one universal value;
+- always show the denominator for percentages in the card tooltip or note;
+- if AOI area and common valid area differ, show both;
+- if a metric is unavailable, show Not available with the recorded reason, not zero.
+
+FILTERS
+-------
+Provide responsive interactive selectors for:
+- crop, if multiple verified crops exist;
+- period;
+- SSP pathway;
+- management regime;
+- product: suitability or attainable yield;
+- suitability agreement diagnostic;
+- yield diagnostic.
+
+Filter behaviour:
+- populate options only from verified package combinations;
+- cascade options so invalid combinations cannot be selected;
+- preserve a valid selection when another filter changes;
+- if the selection becomes invalid, move to the first verified compatible option and announce the change accessibly;
+- update maps, cards, summaries, graphs, notes, table highlights, provenance, and download links together;
+- support mouse, keyboard, touch, and screen readers;
+- use full-width controls on narrow screens;
+- do not require hover for essential information;
+- retain the Stage 03 dashboard's existing visual conventions where possible.
+
+Recommended default selection:
+- the earliest verified future period;
+- SSP126;
+- HRLM;
+- suitability modal class;
+- yield five-model mean.
+
+Use this default only if the exact combination is verified. Otherwise use the first complete verified combination from the source contract.
+
+SUITABILITY CONSENSUS MAP
+-------------------------
+Display the project-derived five-model suitability consensus for the selected crop, period, SSP, and management regime.
+
+Preferred default view:
+- unique modal suitability class;
+- source-defined class labels;
+- source-defined class colours.
+
+Offer diagnostic views when available:
+- modal class;
+- modal agreement count;
+- full agreement, 5 of 5;
+- strong agreement, at least 4 of 5;
+- majority agreement, exactly 3 of 5 with a unique mode;
+- number of unique classes;
+- tie flag;
+- tied or dispersed outcome.
+
+Rules:
+- derive the diagnostic from the five verified individual-GCM values on common valid support;
+- do not use ENSEMBLE as a model input;
+- do not average suitability class codes;
+- do not compute numeric standard deviation or range from class codes;
+- retain tie status rather than forcing a modal class;
+- retain the AOI boundary;
+- preserve native analytical support;
+- use display interpolation only for display and never for area calculations;
+- show NoData transparently;
+- show excluded non-common support as a distinct neutral hatch or transparent status only if the existing map library supports it without breaking offline use.
+
+Required wording:
+Agreement among the five included climate models.
+
+Prohibited wording:
+Confidence is 100%.
+
+SELECTED SUITABILITY SUMMARY
+----------------------------
+For the selected combination, report where supported:
+- dominant unique modal suitability class;
+- source-defined class name;
+- dominant-class area in hectares;
+- dominant-class percentage of common valid area;
+- unanimous-agreement area and percentage;
+- strong-agreement area and percentage;
+- majority-agreement area and percentage;
+- tied or dispersed area and percentage;
+- number of common-support analytical units;
+- excluded non-common area;
+- quality flag.
+
+All percentages must use the declared denominator:
+common valid area
+
+Do not silently use total AOI area.
+If common valid area is zero, percentages are not applicable.
+If no unique dominant modal class exists, report:
+No unique dominant modal suitability class.
+
+ATTAINABLE-YIELD EVIDENCE MAP
+-----------------------------
+Display a project-derived yield diagnostic for the selected crop, period, SSP, and management regime.
+
+Offer, when available:
+- five-model mean;
+- five-model median;
+- five-model minimum;
+- five-model maximum;
+- five-model range;
+- interquartile range;
+- population standard deviation;
+- coefficient of variation.
+
+Use the exact source-documented unit. For GAEZ maize attainable yield display:
+kg dry weight/ha
+
+Do not convert dry weight to fresh weight unless the input package provides an authoritative conversion factor, exact source, method, and Stage 03 approval.
+
+Use one documented colour-domain rule for comparable panels. Show true selected-scenario minima and maxima in metadata. Do not allow the colour scale to imply that values are field measurements.
+
+CRITICAL YIELD-SUMMARY RULE
+---------------------------
+Do not display a single value labelled only Mean yield.
+
+For every selected scenario, show separately:
+1. Whole-AOI area-weighted five-model mean, including valid zeros.
+2. Area with positive modelled yield, in hectares.
+3. Percentage of common valid area with positive modelled yield.
+4. Area-weighted mean within positive-yield areas only.
+5. Area with valid zero yield.
+6. Percentage of common valid area with valid zero yield.
+7. Inter-model coefficient of variation.
+8. Five-model minimum and maximum, where supported.
+
+Use these exact labels:
+- Whole-AOI mean, valid zeros retained
+- Positive-yield area
+- Mean within positive-yield area
+- Valid zero-yield area
+- Inter-model CV
+
+Do not call the whole-AOI mean expected yield.
+Do not call the positive-area mean parcel yield.
+Do not multiply a yield-density value by Parcel A area.
+Do not calculate production.
+
+VALID ZERO VERSUS NODATA
+------------------------
+Treat separately:
+- valid value greater than zero;
+- valid value equal to zero;
+- NoData or masked;
+- outside source footprint;
+- outside AOI.
+
+A valid zero must remain zero in whole-AOI calculations.
+A NoData value must be excluded from valid-area denominators.
+Do not infer that valid zero means physical impossibility.
+
+Use this interpretation:
+Valid zero-yield value in the source model output.
+
+REQUIRED YIELD CALCULATIONS
+---------------------------
+Use fractional source-cell intersection areas in hectares and the existing Stage 03 area method.
+
+For model m and analytical unit i:
+- y_mi = valid modelled yield value;
+- a_i = AOI intersection area;
+- V = exact common valid set across the five included models;
+- P = units in V satisfying the defined positive-yield criterion;
+- Z = units in V satisfying the defined valid-zero criterion.
+
+Per-unit five-model mean:
+mean_i = sum(y_mi for the five included models) / 5
+
+Per-unit five-model median:
+median_i = median(y_mi for the five included models)
+
+Whole-AOI mean, valid zeros retained:
+sum(mean_i × a_i for i in V) /
+sum(a_i for i in V)
+
+Positive-yield area:
+sum(a_i for i in P)
+
+Positive-yield percentage:
+100 × positive_yield_area /
+common_valid_area
+
+Mean within positive-yield area:
+sum(mean_i × a_i for i in P) /
+positive_yield_area
+
+Valid zero-yield area:
+sum(a_i for i in Z)
+
+Valid zero-yield percentage:
+100 × valid_zero_yield_area /
+common_valid_area
+
+Important positivity rule:
+The source package must define whether a positive-yield unit means:
+A. the selected five-model summary diagnostic is greater than zero; or
+B. all five model values are greater than zero; or
+C. another explicitly verified rule.
+
+Use the Stage 03-defined rule if available. If Stage 03 does not define it, use option A for the selected five-model mean diagnostic, label the rule explicitly, and record it in Stage 04 methodology. Do not silently mix definitions across cards, maps, trends, and tables.
+
+If positive-yield area equals zero, report:
+Not applicable: no positive-yield area.
+
+VALID-ZERO CLASSIFICATION RULE
+------------------------------
+For whole-AOI summaries, every valid model zero remains included.
+
+For the five-model summary map, define a valid zero-yield analytical unit as a unit where the selected summary diagnostic equals zero. Record the number of zero values among the five models separately if the Stage 03 package supports it.
+
+Do not call a unit zero yield when it is masked in one or more models and therefore excluded from exact five-model common support.
+
+MODEL CV RULE
+-------------
+For each common-support analytical unit with five valid model values:
+- calculate the population standard deviation across the five model values;
+- calculate CV = population standard deviation / five-model mean only when the five-model mean is greater than zero;
+- set CV to not applicable where the mean is zero;
+- never replace undefined CV with zero.
+
+For the selected-scenario summary card, use the area-weighted mean of valid per-unit CV values unless Stage 03 already defines another verified aggregate. Declare the aggregation method.
+
+Display CV as either:
+- ratio, with at least two decimal places; or
+- percentage, explicitly multiplied by 100 and labelled with %.
+
+Do not display a ratio such as 0.07 as 0 because of integer rounding.
+
+Required tooltip:
+CV describes spread among the five climate-model values relative to their mean. It does not measure all sources of uncertainty.
+
+TREND GRAPH
+-----------
+For the selected crop, SSP, and management regime, compare all available verified 20-year future periods.
+
+Label:
+Comparison of 20-year scenario periods
+
+Do not label:
+Annual yield forecast
+
+At minimum, make available:
+- whole-AOI mean, valid zeros retained;
+- positive-yield-area percentage;
+- mean within positive-yield area;
+- dominant suitability class;
+- unanimous- or strong-agreement percentage;
+- inter-model CV.
+
+Design requirements:
+- provide a metric selector or small coordinated panels;
+- use discrete period labels, not annual interpolation;
+- do not connect a missing period as though data exist;
+- insert a visible gap for missing periods;
+- keep units and denominators visible;
+- show quality flags in the tooltip or accompanying table;
+- represent suitability classes using source-defined ordered labels, not arithmetic class-code distances;
+- if mapping classes to vertical positions for display, label the axis with class names and state that spacing is ordinal, not numeric.
+
+IRRIGATED VERSUS RAINFED COMPARISON
+-----------------------------------
+Where both HILM and HRLM are verified for the same crop, period, and SSP, provide a side-by-side comparison.
+
+Include:
+- dominant suitability class;
+- dominant-class percentage of management-specific common valid area;
+- full- and strong-agreement percentages;
+- whole-AOI mean, valid zeros retained;
+- positive-yield area and percentage;
+- mean within positive-yield area;
+- valid zero-yield area and percentage;
+- inter-model CV;
+- common valid area;
+- source-cell or analytical-unit count;
+- quality flag.
+
+Rules:
+- keep HILM and HRLM denominators separate;
+- do not subtract or divide values unless supports are comparable and the operation is explicitly labelled;
+- do not call the difference an irrigation benefit, response, gain, impact, or recommendation;
+- use neutral wording such as difference between source-defined management regimes;
+- disclose source limitations affecting irrigated layers, including any Stage 03 cropland-mask limitation;
+- do not infer irrigation feasibility, water availability, infrastructure feasibility, salinity suitability, drainage adequacy, or economic viability.
+
+MODEL-AGREEMENT PANEL
+---------------------
+Provide compact indicators for selected suitability evidence:
+- full agreement percentage, 5 of 5;
+- strong agreement percentage, at least 4 of 5;
+- majority agreement percentage, exactly 3 of 5 with a unique mode;
+- tied or dispersed percentage;
+- average or distribution of unique-class counts, if already supported;
+- common-valid-area denominator.
+
+Do not convert agreement counts into confidence probabilities.
+Do not use traffic-light labels such as safe or unsafe.
+Use descriptive labels and source-linked tooltips.
+
+YIELD-UNCERTAINTY PANEL
+-----------------------
+Provide selected-scenario indicators, where supported:
+- area-weighted inter-model CV;
+- area-weighted population standard deviation;
+- area-weighted interquartile range;
+- area-weighted five-model range;
+- minimum and maximum model values;
+- common valid area;
+- excluded non-common area;
+- count of common-support analytical units.
+
+Clearly state:
+These diagnostics describe spread among the five included climate-model outputs. They do not represent all uncertainty sources, forecast probabilities, field variability, management performance, or economic risk.
+
+ALL-SCENARIO COMPARISON TABLE
+-----------------------------
+Create a filterable, sortable, mobile-friendly table with one row per verified:
+crop + period + SSP + management
+
+Recommended columns:
+- Crop
+- Period code
+- Period label
+- SSP code
+- SSP label
+- Management code
+- Management label
+- Verified model count
+- AOI area, ha
+- Common valid area, ha
+- Common valid area, %
+- Analytical-unit count
+- Dominant modal suitability class
+- Dominant class label
+- Dominant class area, ha
+- Dominant class percentage
+- Full agreement, %
+- Strong agreement, %
+- Majority agreement, %
+- Tied or dispersed, %
+- Whole-AOI mean, valid zeros retained
+- Positive-yield area, ha
+- Positive-yield area, %
+- Mean within positive-yield area
+- Valid zero-yield area, ha
+- Valid zero-yield area, %
+- Inter-model CV
+- Five-model minimum
+- Five-model maximum
+- Quality flag
+- Limitation summary
+- Evidence/download link
+
+Rules:
+- retain full precision in the downloadable CSV and use sensible display rounding only in HTML;
+- use explicit units in headings;
+- keep codes and captions together;
+- do not sort categorical suitability by raw code unless the source order is explicitly implemented;
+- do not rank scenarios by yield, suitability, agreement, or CV by default;
+- if user-initiated sorting is allowed, label it as table sorting, not scenario ranking;
+- include only verified combinations;
+- show Not available rather than zero for unavailable fields.
+
+Recommended output:
+tables/stage04_future_scenario_summary.csv
+
+Also create:
+metadata/stage04_future_scenario_summary.json
+
+INTERPRETATION NOTES
+--------------------
+Display concise visible notes explaining:
+- suitability consensus is a project-derived comparison among five verified individual GCMs;
+- modal agreement is not certainty or probability;
+- attainable yield is the GAEZ source-defined agro-ecological attainable-yield metric;
+- yield values are model outputs in kg dry weight/ha, not observed parcel yields;
+- 20-year periods are compared as scenario periods, not annual forecasts;
+- common valid area is the denominator for agreement and comparable multi-model percentages;
+- valid zero and NoData are different;
+- approximately 10 km native data are contextual and do not provide field-scale validation;
+- the tab supports strategic screening, not recommendations or decisions.
+
+LIMITATIONS PANEL
+-----------------
+Show limitations relevant to the selected combination and retain a link to the complete Stage 03 limitations evidence.
+
+At minimum include, where applicable:
+- native spatial resolution;
+- few native cells or analytical units;
+- incomplete or differing valid footprints;
+- common-support exclusions;
+- model spread captures only included GCM variation;
+- SSPs are pathways, not forecasts;
+- no annual interpolation between 20-year periods;
+- no field validation;
+- source-defined management assumptions;
+- irrigated-layer cropland-mask limitation;
+- no water-resource feasibility assessment;
+- no actual harvested-area or production evidence;
+- no observed farm yield;
+- no conversion from dry weight to fresh weight;
+- no yield-gap, revenue, investment, or recommendation analysis;
+- future approximately 1 km continuous suitability remains unavailable where Stage 03 records the source block.
+
+EVIDENCE VERSUS DECISION BOUNDARY
+---------------------------------
+Add a distinct visible box:
+
+Analytical evidence
+- verified model outputs;
+- spatial support and coverage;
+- suitability classes;
+- attainable-yield diagnostics;
+- model agreement;
+- inter-model spread;
+- quality flags and limitations.
+
+Not provided by this tab
+- crop recommendation;
+- investment decision;
+- field-level suitability confirmation;
+- irrigation feasibility;
+- production forecast;
+- economic return;
+- implementation priority;
+- risk acceptance decision.
+
+MAP POPUPS AND DETAILS
+----------------------
+For a selected analytical unit, display where available:
+- stable unit or source-cell identifier;
+- intersection area, ha;
+- five individual model values or class labels;
+- project-derived modal class and agreement count;
+- tie status;
+- selected yield diagnostic;
+- valid-zero status;
+- common-support status;
+- quality flag;
+- source table reference.
+
+Do not expose raw NoData codes as valid values.
+Do not show a model value when the cell is invalid for that model.
+
+DOWNLOADS AND TRACEABILITY
+--------------------------
+Provide links to existing Stage 03 source evidence and additive Stage 04 summaries without breaking offline operation.
+
+Recommended Stage 04 downloads:
+- stage04_future_scenario_summary.csv
+- stage04_future_scenario_summary.json
+- stage04_source_contract.csv
+- stage04_source_contract.json
+- stage04_qa_report.csv
+- stage04_qa_report.json
+- stage04_change_manifest.csv
+- stage04_processing_history.csv
+- stage04_output_manifest.csv
+
+Do not duplicate large source rasters solely for Stage 04.
+Do not include global source TIFFs.
+Do not link to credentials, billing pages, console pageState URLs, or expiring URLs.
+
+OFFLINE AND MOBILE REQUIREMENTS
+-------------------------------
+The packaged dashboard must work from file:// with network access disabled for all packaged thematic content required by Stage 04.
+
+Requirements:
+- no CDN dependency for Stage 04 code, fonts, icons, map logic, or charts unless the identical dependency is already safely embedded in Stage 03;
+- use only package-relative asset paths;
+- support current desktop and mobile browsers;
+- support narrow screens without horizontal page overflow;
+- allow the all-scenario table to scroll within its container;
+- stack maps, charts, and cards vertically on small screens;
+- keep tap targets usable;
+- avoid hover-only controls;
+- resize maps and charts when the tab becomes visible and when orientation changes;
+- avoid memory-heavy loading of all scenario geometries at once;
+- load or activate only the selected scenario where practical;
+- preserve existing Stage 03 responsive behaviour.
+
+ACCESSIBILITY REQUIREMENTS
+--------------------------
+- keyboard-operable tabs and filters;
+- correct ARIA roles and selected states;
+- visible focus indicators;
+- associated labels for controls;
+- meaningful text alternatives for charts and maps;
+- colour palettes with adequate contrast;
+- do not communicate agreement or uncertainty by colour alone;
+- include patterns, labels, icons, or text where needed;
+- announce filter-driven updates using an unobtrusive live region;
+- use semantic headings and table markup;
+- preserve zoom capability and readable font sizes.
+
+VISUAL DESIGN
+-------------
+Match the existing Stage 03 dashboard style. Do not redesign the dashboard.
+
+Recommended Stage 04 layout:
+1. Header and explanatory statement.
+2. Responsive filter bar.
+3. Executive summary and cards.
+4. Suitability consensus panel.
+5. Attainable-yield evidence panel.
+6. Agreement and spread indicators.
+7. Period comparison graph.
+8. HILM versus HRLM comparison.
+9. All-scenario comparison table.
+10. Interpretation, limitations, and evidence-versus-decision notes.
+11. Source evidence and downloads.
+
+Charts and maps must have:
+- clear title;
+- selected dimensions;
+- unit;
+- denominator where relevant;
+- legend;
+- source note;
+- quality flag;
+- accessible text summary.
+
+DATA PROCESSING AND JOIN RULES
+------------------------------
+Use stable keys. Recommended canonical key:
+crop_code__period_code__ssp_code__management_code
+
+Recommended model key:
+crop_code__period_code__ssp_code__management_code__model_code
+
+Before joining:
+- trim whitespace;
+- normalize only documented code variants;
+- preserve original values in provenance;
+- check key uniqueness;
+- block duplicate conflicting rows;
+- confirm units and scale factors;
+- confirm area units;
+- confirm percentages are not already fractions;
+- verify model count is exactly five for five-model diagnostics;
+- verify that the five expected models are distinct;
+- exclude ENSEMBLE from model count;
+- verify common-support membership.
+
+Do not silently aggregate duplicate rows.
+Do not round before calculations.
+Round only for display.
+
+PRECISION AND DISPLAY RULES
+---------------------------
+Suggested display precision, unless Stage 03 already defines a project standard:
+- area in hectares: two decimals;
+- percentages: one decimal, with additional precision when values would otherwise round misleadingly to zero;
+- yield: one or two decimals consistent with source precision;
+- CV ratio: at least two decimals;
+- model count: integer;
+- cell count: integer.
+
+Retain full computational precision in Stage 04 CSV/JSON outputs.
+Display <0.1% when a positive percentage would otherwise round to 0.0%.
+Do not show more precision than the underlying evidence supports.
+
+MISSING AND INAPPLICABLE VALUES
+-------------------------------
+Use explicit statuses:
+- Not available: source not present
+- Not verified: source present but verification incomplete
+- Not applicable: calculation not defined
+- No common valid area
+- No positive-yield area
+- Blocked by Stage 03 quality flag
+
+Do not use:
+- blank cell without explanation;
+- zero as a missing-value placeholder;
+- NaN or Infinity in the user interface;
+- a connected line through a missing period.
+
+QUALITY FLAGS
+-------------
+Reuse Stage 03 quality flags exactly where available. Do not rename or reinterpret them.
+
+Stage 04 may add display-level composite flags only if clearly defined and traceable, for example:
+- COMPLETE_VERIFIED
+- FEW_NATIVE_CELLS
+- PARTIAL_COMMON_SUPPORT
+- ZERO_COMMON_VALID_AREA
+- MISSING_REQUIRED_METRIC
+- SOURCE_CONFLICT
+- BLOCKED_BY_STAGE03_QA
+
+Do not replace detailed Stage 03 flags with one composite flag. Preserve both.
+
+PROVENANCE AND PROCESSING HISTORY
+---------------------------------
+Record:
+- input Stage 03 ZIP name, size, and SHA-256;
+- extraction timestamp in UTC;
+- recursive baseline inventory;
+- selected source files and fields;
+- join keys;
+- class crosswalk source;
+- denominators;
+- valid-zero rule;
+- NoData rule;
+- positive-yield rule;
+- common-support rule;
+- CV aggregation rule;
+- calculation formulas;
+- display-rounding rules;
+- changed original files;
+- added files;
+- software environment;
+- warnings and limitations;
+- output ZIP size and SHA-256.
+
+Recommended outputs:
+- metadata/stage04_methodology.json
+- metadata/stage04_processing_history.json
+- tables/stage04_change_manifest.csv
+- qa/stage04_qa_report.csv
+- qa/stage04_qa_report.json
+
+JAVASCRIPT IMPLEMENTATION RULES
+-------------------------------
+- namespace all new Stage 04 functions and state;
+- do not overwrite existing global variables or event handlers;
+- attach listeners without removing Stage 03 listeners;
+- initialize Stage 04 only after its required DOM and data are available;
+- guard against repeated tab activation and duplicate initialization;
+- resize map and chart objects when the Stage 04 tab opens;
+- handle empty selections and missing records without exceptions;
+- escape text inserted into HTML;
+- do not use eval or unsafe dynamic code execution;
+- preserve offline operation;
+- log diagnostic errors to the Stage 04 QA/debug record without exposing sensitive paths.
+
+CSS IMPLEMENTATION RULES
+------------------------
+- scope new styles to the Stage 04 container;
+- do not change generic Stage 03 element selectors unless unavoidable;
+- do not override existing tab, map, chart, or table rules globally;
+- use existing CSS variables and design tokens where available;
+- support mobile breakpoints;
+- preserve print and accessibility behaviour where present.
+
+RECOMMENDED ADDITIVE FILES
+--------------------------
+Use existing Stage 03 conventions where available. Suggested additions:
+- dashboard/assets/stage04_future_scenarios.js
+- dashboard/assets/stage04_future_scenarios.css
+- dashboard/assets/stage04_future_scenarios_data.json
+- tables/stage04_future_scenario_summary.csv
+- tables/stage04_source_contract.csv
+- metadata/stage04_future_scenario_summary.json
+- metadata/stage04_source_contract.json
+- metadata/stage04_methodology.json
+- metadata/stage04_processing_history.json
+- qa/stage04_qa_report.csv
+- qa/stage04_qa_report.json
+- tables/stage04_change_manifest.csv
+- tables/stage04_output_manifest.csv
+
+If the Stage 03 dashboard embeds all data in one HTML file, follow the established embedding convention rather than introducing a network fetch that breaks file:// operation.
+
+QA REQUIREMENTS
+---------------
+Run all existing Stage 03 tests and add Stage 04 tests.
+
+Preservation QA:
+- original file inventory is retained;
+- original non-modified files retain checksums;
+- every pre-existing tab opens;
+- every pre-existing map, chart, table, control, download, and metadata panel still works;
+- dashboard remains available at dashboard/parcel_a_data_inventory.html;
+- no original analytical result changes.
+
+Source-contract QA:
+- all required fields map to identified authoritative sources;
+- no Stage 04 value comes from filenames alone;
+- only verified combinations are included;
+- categorical crosswalk and colours match Stage 03;
+- ENSEMBLE is excluded from the five-model count;
+- five-model diagnostics use five distinct expected models;
+- units, scale, NoData, masks, and area units pass validation.
+
+Calculation QA:
+- valid zero is retained;
+- NoData is excluded;
+- common valid area is the declared denominator;
+- area closure passes the Stage 03 tolerance;
+- positive-yield and zero-yield areas do not overlap;
+- positive area + zero area equals common valid area within tolerance when every common-support unit is either positive or zero;
+- undefined positive-area mean is not calculated;
+- undefined CV is not set to zero;
+- CV ratio and percentage formats are not confused;
+- categorical codes are never averaged;
+- tie cases remain ties;
+- percentage values are within 0-100, allowing only configured floating-point tolerance;
+- all period, SSP, management, and crop joins are exact.
+
+Interface QA:
+- filters cascade correctly;
+- all panels update together;
+- maps resize after tab activation;
+- legends match selected diagnostics;
+- tooltips show units and denominators;
+- table filters and downloads work;
+- keyboard and touch operation pass;
+- mobile layout has no page-level horizontal overflow;
+- missing periods are not connected;
+- no NaN, Infinity, undefined, or broken path is displayed.
+
+Offline QA:
+- open dashboard using file://;
+- disable network access;
+- navigate every original tab;
+- open Stage 04;
+- change all filters;
+- use both maps;
+- use trend and management comparisons;
+- open the all-scenario table;
+- test downloads;
+- reload the page;
+- confirm no required Stage 04 content disappears.
+
+Packaging QA:
+- output ZIP name is exact;
+- ZIP extracts without error;
+- no absolute paths;
+- no nested duplicate package root;
+- main dashboard path is exact;
+- all relative links resolve;
+- no credentials, account details, billing notices, console pageState URLs, temporary files, caches, global TIFFs, or previous output ZIP are included;
+- output manifest and SHA-256 are recorded.
+
+ACCEPTANCE CRITERIA
+-------------------
+Stage 04 status is COMPLETE only if:
+- the source contract resolves all required implemented metrics;
+- every displayed combination is verified;
+- Stage 04 calculations pass QA;
+- all original Stage 03 functionality passes regression QA;
+- the Stage 04 tab works on desktop and mobile;
+- packaged thematic content works offline;
+- maps, charts, cards, table, notes, limitations, evidence links, and downloads are internally consistent;
+- output package name and structure are correct.
+
+Stage 04 status is COMPLETE_WITH_DOCUMENTED_GAPS if:
+- the original Stage 03 dashboard remains fully functional;
+- verified scenario combinations are correctly summarized;
+- one or more optional Stage 04 metrics are unavailable because the Stage 03 package lacks authoritative values;
+- unavailable elements are disabled or omitted without fabrication;
+- every gap is disclosed in the tab, source contract, QA report, and run summary.
+
+Stage 04 status is INCOMPLETE if:
+- any existing Stage 03 function is lost or altered;
+- unverified or synthetic analytical values are shown;
+- NoData is treated as zero;
+- a categorical class code is averaged;
+- ENSEMBLE is counted as a sixth model;
+- yield units or denominators are incorrect;
+- required QA fails;
+- the dashboard does not work offline;
+- the output package structure or name is incorrect.
+
+OUTPUT PACKAGE CONTENT
+----------------------
+The final ZIP must contain:
+- the complete original Stage 03 package;
+- minimally updated dashboard/parcel_a_data_inventory.html;
+- additive Stage 04 CSS, JavaScript, and embedded or local data assets;
+- Stage 04 summary CSV and JSON;
+- Stage 04 source contract;
+- Stage 04 methodology;
+- Stage 04 processing history;
+- Stage 04 change manifest;
+- Stage 04 QA report;
+- updated additive output manifest;
+- any additional small assets strictly required by the Stage 04 tab.
+
+Do not include:
+- the input ZIP;
+- another Stage 04 ZIP;
+- global source rasters;
+- temporary files;
+- notebooks or caches not already required by Stage 03;
+- credentials;
+- cloud-console account information;
+- VAT or billing notices;
+- pageState URLs;
+- unsupported analytical products.
+
+FINAL RUN SUMMARY
+-----------------
+Create a concise run summary recording:
+- Stage 04 status;
+- input ZIP SHA-256;
+- output ZIP SHA-256;
+- original file count;
+- final file count;
+- original files changed;
+- new files added;
+- verified scenario combinations included;
+- excluded combinations and reasons;
+- source conflicts;
+- optional missing metrics;
+- regression QA result;
+- mobile QA result;
+- offline QA result;
+- packaging QA result;
+- limitations.
+
+FINAL INSTRUCTION TO THE CODING AGENT
+-------------------------------------
+Start from the original accepted Stage 03 ZIP. Preserve the complete Stage 03 package and dashboard. Inspect the entire package before coding, resolve authoritative source contracts, and use only verified contained evidence. Add exactly one new tab named Stage 04: Future Scenarios Summary to dashboard/parcel_a_data_inventory.html. Build dynamic scenario filters, evidence-based summary cards, a five-model suitability-consensus map, an attainable-yield diagnostic map, agreement and uncertainty indicators, 20-year period comparisons, HILM-versus-HRLM comparisons, a complete all-scenario table, visible interpretation notes, limitations, evidence links, provenance, and QA.
+
+Keep valid zero separate from NoData. Use common valid area as the declared denominator for multi-model comparable percentages. Keep kg dry weight/ha unchanged. Do not average categorical codes. Do not treat ENSEMBLE as a sixth model. Do not call agreement confidence. Do not call attainable yield expected yield or parcel yield. Do not calculate production, yield gap, revenue, investment return, recommendations, priorities, or rankings.
+
+Run all Stage 03 regression tests and all new Stage 04 tests. Verify desktop, mobile, accessibility, offline file:// operation, and package integrity. Return exactly one new non-overwriting package named stage04_future_scenario_summary.zip.
+
+END OF STAGE 04 IMPLEMENTATION GUIDE
+================================================================================
