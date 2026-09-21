@@ -56,6 +56,8 @@ def inspect(path,stage04=False):
                 checks['table_sort']=page.locator('#s4-scenarios th').nth(1).get_attribute('aria-sort')=='ascending'
                 page.locator('[data-s4-sort="1"]').click()
                 checks['table_reverse_sort']=page.locator('#s4-scenarios th').nth(1).get_attribute('aria-sort')=='descending'
+                checks['readable_table_columns']=page.evaluate("document.querySelector('#s4-scenarios tbody td').getBoundingClientRect().width>=130")
+                checks['bounded_table_height']=page.locator('#s4-scenarios').locator('..').bounding_box()['height']<=581
                 checks['only_selected_geometry_active']=page.evaluate('Object.values(ParcelAStage04.state.layers).filter(Boolean).length<=2')
             for value in page.locator('#s4-trend-metric option').evaluate_all('xs=>xs.map(x=>x.value)'):page.locator('#s4-trend-metric').select_option(value)
             with page.expect_download() as download:page.locator('#s4-export').click()
@@ -73,6 +75,7 @@ def inspect(path,stage04=False):
             checks['repeat_activation']=page.locator('#s4-map-suit .leaflet-map-pane').count()<=1
             if os.getenv('STAGE04_SCREENSHOTS'):
                 folder=Path(os.environ['STAGE04_SCREENSHOTS']);folder.mkdir(parents=True,exist_ok=True)
+                page.set_viewport_size({'width':375,'height':844});page.wait_for_timeout(150)
                 page.screenshot(path=str(folder/('stage04-mobile.png')),full_page=True)
                 page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path=str(folder/'stage04-desktop.png'),full_page=True)
             page.reload();page.wait_for_function('window.stage03Ready===true');page.locator('#stage04-tab').click()
