@@ -147,6 +147,7 @@ def run(source,output_base,*,browser_check=inspect,testing=False):
     summary=dict(status=status,input=input_info,original_file_count=len(baseline),original_files_changed=[ENTRY],
         new_files_added=sorted(added+['metadata/stage04_run_summary.json','tables/stage04_output_manifest.csv','metadata/stage04_package_checksums.json']),
         verified_scenario_combinations=len(rows),excluded_combinations=data['conflicts'],optional_missing_metrics=data['gaps'],
+        source_conflicts=data['conflicts'],limitations=list(dict.fromkeys([methodology['limitations'],*(limit for r in data['scenarios'] for p in r['products'].values() for limit in p['summary']['source_limits'])])),
         regression_qa=regression['status'],offline_qa=regression['checks'].get('offline_reload',False),
         mobile_qa=all(v for k,v in regression['checks'].items() if k.startswith('mobile_')),packaging_qa=all(checks.values()),
         output_zip_checksum='Recorded after ZIP creation in the adjacent stage04_run_receipt.json to avoid circular self-hashing',synthetic_test_only=bool(testing))

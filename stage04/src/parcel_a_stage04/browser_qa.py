@@ -77,6 +77,18 @@ def inspect(path,stage04=False):
                 page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path=str(folder/'stage04-desktop.png'),full_page=True)
             page.reload();page.wait_for_function('window.stage03Ready===true');page.locator('#stage04-tab').click()
             checks['offline_reload']=page.locator('#stage04').is_visible()
+            touch=browser.new_context(offline=True,has_touch=True,is_mobile=True,viewport={'width':390,'height':844})
+            mobile=touch.new_page();mobile.on('pageerror',lambda e:errors.append(str(e)))
+            mobile.goto(Path(path).resolve().as_uri(),timeout=90000);mobile.wait_for_function('window.stage03Ready===true',timeout=90000)
+            mobile.locator('#stage04-tab').tap();checks['touch_tab_activation']=mobile.locator('#stage04').is_visible()
+            if keys:
+                before=mobile.evaluate('ParcelAStage04.state.maps.suitability.getZoom()')
+                mobile.locator('#s4-map-suit .leaflet-control-zoom-in').tap();mobile.wait_for_timeout(300)
+                checks['touch_map_zoom']=mobile.evaluate('ParcelAStage04.state.maps.suitability.getZoom()')>before
+                mobile.locator('#s4-reset-suit').tap()
+                mobile.locator('#s4-product').tap();mobile.locator('#s4-product').select_option(index=0)
+                checks['touch_controls']=mobile.evaluate('ParcelAStage04.state.errors.length===0')
+            touch.close()
         checks['no_browser_exceptions']=not errors
         checks['no_required_network_requests']=not any(u.startswith(('http:','https:')) for u in requests)
         browser.close()

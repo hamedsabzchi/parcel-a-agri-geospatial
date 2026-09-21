@@ -64,6 +64,12 @@ def resolve(root):
             if not passed and k not in {'required_supplemental_sources_verified','all_supplemental_checks_successful'}:critical.append(k)
     if critical:gaps.append(dict(field='stage03_qa',reason='Blocked by Stage 03 quality flag: '+', '.join(critical)))
     if not qa:gaps.append(dict(field='stage03_qa',reason='Not verified: source present but verification incomplete'))
+    qa_groups,dup_qa_groups=index_evidence((qa or {}).get('group_status',[]),lambda r:r['group_id'])
+    for group_status in qa_groups.values():
+        if group_status.get('status') not in {'COMPLETE_ON_COMMON_SUPPORT','NO_COMMON_VALID_SUPPORT'}:
+            gaps.append(dict(field='stage03_group_status',group_id=group_status['group_id'],reason='Not verified: '+str(group_status.get('status')),source=FILES['qa'],missing_models=group_status.get('missing_models',[])))
+    for flag in ['required_supplemental_sources_verified','all_supplemental_checks_successful']:
+        if qa and qa.get('checks',{}).get(flag) is False:gaps.append(dict(field='stage03_qa',reason='Some Stage 03 sources were not verified: '+flag,source=FILES['qa']))
     layers,dup_layers=index_evidence(loaded['layers'] or [],lambda x:x['layer_id'])
     verification,dup_verification=index_evidence(loaded['verification'] or [],lambda x:x['layer_id'])
     supports,dup_supports=index_evidence(loaded['support'] or [],lambda x:x['group_id'])
@@ -84,6 +90,9 @@ def resolve(root):
             seen.add(gid)
             if gid in dup_supports or any(g==gid for g,u in dup_embedded):raise ValueError('Duplicate support or embedded analytical key')
             if critical or not qa:raise ValueError('Blocked by Stage 03 quality flag')
+            if gid in dup_qa_groups:raise ValueError('Duplicate Stage 03 group verification key')
+            group_status=qa_groups.get(gid,{})
+            if group_status.get('status') not in {'COMPLETE_ON_COMMON_SUPPORT','NO_COMMON_VALID_SUPPORT'} or group_status.get('verified_model_count')!=5:raise ValueError('Stage 03 group verification incomplete or conflicting')
             if group.get('model_count')!=5 or set(group.get('model_set',[]))!=set(MODELS):raise ValueError('Five distinct expected models not verified')
             source=[layers[x] for x in group['layer_ids']]
             if len(source)!=5 or [l['climate_model_code'] for l in source]!=list(MODELS):raise ValueError('Model order or membership conflicts with common-support records')
